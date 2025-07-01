@@ -239,7 +239,8 @@ If you are using `cs2-gsi-z` for your tools, streams, or projects, feel free to 
 
 ## 🙏 Acknowledgments
 
-• Valve Corporation for the CS2 Game State Integration API
+• Valve Corporation for the CS Game State Integration API
+
 • CS community for inspiration and feedback
 
 ---
