@@ -1,0 +1,47 @@
+{
+  "name": "cs2-gsi-z",
+  "version": "1.0.0",
+  "description": "A modular, event-driven Game State Integration (GSI) handler for Counter-Strike 2 built with Node.js.",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "lint": "eslint ./src --ext .js",
+    "format": "prettier --write ./src"
+  },
+  "keywords": [
+    "cs2",
+    "counter-strike",
+    "counter-strike-2",
+    "gsi",
+    "game state integration",
+    "hud",
+    "event-driven",
+    "socket",
+    "gamedev",
+    "game telemetry",
+    "gaming hud",
+    "Dashboard cs2"
+  ],
+  "author": {
+    "name": "Ale Z.",
+    "url": "https://github.com/alebcj"
+     },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alebcj/cs2-gsi-z.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^9.25.1",
+    "prettier": "^3.5.3",
+    "vitest": "^3.1.2",
+    "ws": "^8.18.1"
+  },
+  "dependencies": {    
+    "chalk": "^5.4.1"
+  }
+}
