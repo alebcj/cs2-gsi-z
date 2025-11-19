@@ -1,5 +1,6 @@
-import { WebSocketServer } from 'ws';
+import ws from 'ws';
 import { EventEmitter } from 'events';
+const { WebSocketServer } = ws;
 
 /**
  * WebSocket server for broadcasting CS2 game state updates to connected clients.
