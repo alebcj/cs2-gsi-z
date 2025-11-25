@@ -1,13 +1,19 @@
-import { Weapon } from './Weapon.js';
+import { Weapon, type WeaponInput } from './Weapon.js';
 import { ModelBase } from './ModelBase.js';
+
+export type WeaponsCollectionInput = Record<string, WeaponInput>;
 
 /**
  * Player weapons collection. */
 export class WeaponsCollection extends ModelBase {
-  constructor(data = {}) {
-    super(data);
+  public list: Weapon[];
+
+  constructor(data: WeaponsCollectionInput = {}) {
+    super();
+
     if (typeof data !== 'object' || data === null) {
       console.warn('⚠️ WeaponsCollection received invalid data, defaulting to empty object.');
+
       data = {};
     }
 
@@ -34,11 +40,11 @@ export class WeaponsCollection extends ModelBase {
     return this.list;
   }
 
-  find(predicate) {
+  find(predicate: (value: Weapon, index: number, obj: Weapon[]) => boolean) {
     return this.list.find(predicate);
   }
 
-  some(predicate) {
+  some(predicate: (value: Weapon, index: number, array: Weapon[]) => unknown) {
     return this.list.some(predicate);
   }
 }
