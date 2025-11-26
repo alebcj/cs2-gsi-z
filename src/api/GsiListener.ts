@@ -1,18 +1,27 @@
 import http from 'http';
 import { EventEmitter } from 'events';
+import type { Logger } from '../utils/Logger';
+
+export interface GsiListenerOptions {
+  logger?: Logger | null;
+  port?: number;
+}
 
 export class GsiListener extends EventEmitter {
-  constructor({ logger = null } = {}) {
+  private logger: Logger | Console;
+  private port: number;
+  private server: http.Server<typeof http.IncomingMessage, typeof http.ServerResponse> | null = null;
+
+  constructor({ logger = null, port = 3000 }: GsiListenerOptions = {}) {
     super();
     this.logger = logger?.child ? logger.child('GsiListener') : console;
-    this.port = null;
-    this.server = null;
+    this.port = port;
     this.logger.log('GsiListener instantiated correctly.');
   }
 
   start(port = 3000) {
     this.port = port;
-    this.logger.log(`Starting GsiListener en puerto ${port}...`);
+    this.logger.log(`Starting GsiListener on port ${port}...`);
 
     this.server = http.createServer(this.handleHttp.bind(this));
 
