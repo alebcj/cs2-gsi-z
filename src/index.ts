@@ -2,7 +2,7 @@
 export { EVENTS } from './constants/events.js';
 
 // 🛠️ Utilities
-export { Logger } from './utils/Logger.js';
+export { Logger, LEVELS } from './utils/Logger.js';
 export { applyDelta } from './utils/applyDelta.js';
 export { GSIConfigWriter } from './utils/GSIConfigWriter.js';
 

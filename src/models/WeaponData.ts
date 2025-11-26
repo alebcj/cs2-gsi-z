@@ -75,5 +75,5 @@ export const WeaponData = {
     weapon_hegrenade: { type: 'Grenade', displayName: 'HE Grenade' },
     weapon_molotov: { type: 'Grenade', displayName: 'Molotov' },
     weapon_incgrenade: { type: 'Grenade', displayName: 'Incendiary (CT Molotov)' }
-  };
+  } as const;
   

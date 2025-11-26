@@ -1,18 +1,19 @@
-import { EventEmitter } from 'events';
 import { ModelBase } from "../../models/ModelBase";
+import { Logger } from "../../utils/Logger";
 import { GameState } from '../gamestate/GameState';
 
 export interface EmitterContext {
   emit: (eventName: string, ...args: any[]) => any
 }
 export interface DiffOptions {
-  previously?: ModelBase;
-  added?: ModelBase;
+  previously?: GameState;
+  added?: GameState;
 }
 
 export abstract class DifferBase<T extends ModelBase> {
   protected previously: GameState | null;
   protected added: GameState | null;
+  protected abstract logger: Logger | Console;
 
   constructor(previously?: GameState, added?: GameState) {
     this.previously = previously ?? null;

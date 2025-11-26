@@ -96,4 +96,4 @@ export const EVENTS = /* * @type {GsiEvents} */ ({
     bombPlanted: 'round:bombPlanted',
     bombPlantFake: 'round:bombPlantFake',
   }
-});
+}) as const;

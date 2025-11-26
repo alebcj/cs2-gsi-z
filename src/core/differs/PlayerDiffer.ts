@@ -9,7 +9,7 @@ export interface PlayerDifferOptions  {
 }
 
 export class PlayerDiffer extends DifferBase<Player> {
-  private logger: Logger | Console;
+  protected logger: Logger | Console;
 
   constructor({ logger = null }: PlayerDifferOptions = {}) {
     super();

@@ -41,7 +41,8 @@ export class GsiService extends EventEmitter {
 
     // Register default differs
     default_differs.forEach(DifferClass => {
-      const differInstance = this.createWithLogger(DifferClass, DifferClass.name);
+      // @ts-expect-error Easier than trying to figure this out i think
+      let differInstance = this.createWithLogger(DifferClass, DifferClass.name);
       this.differManager.register(differInstance);
     });
 

@@ -19,7 +19,7 @@
     "dev-bun": "bun build ./src/index.ts --outdir ./dist/esm --target bun --packages external --watch",
     "build:declaration": "tsc ./src/index.ts --emitDeclarationOnly --declaration --outFile ./dist/ts/index.js",
     "dev:declaration": "tsc ./src/index.ts --emitDeclarationOnly --declaration --outFile ./dist/ts/index.js --watch",
-    "demo": "concurrently \"bun run dev-browser\" \"bun ./demo/index.ts\""
+    "demo": "concurrently \"bun run dev-bun\" \"bun ./demo/index.ts\""
   },
   "keywords": [
     "cs2",

@@ -9,7 +9,7 @@ export interface MapDifferOptions {
 }
 
 export class MapDiffer extends DifferBase<Map> {
-  private logger: Logger | Console;
+  protected logger: Logger | Console;
 
   constructor({ logger = null }: MapDifferOptions = {}) {
     super();

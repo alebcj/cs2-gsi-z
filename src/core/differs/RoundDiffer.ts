@@ -1,10 +1,20 @@
 import { EVENTS } from '../../constants/events.js';
-import { DifferBase } from './DifferBase.js';
+import { Round } from '../../models/Round.js';
+import { Logger } from '../../utils/Logger.js';
+import { GameState } from '../gamestate/GameState.js';
+import { DifferBase, DiffOptions, EmitterContext } from './DifferBase.js';
 
-export class RoundDiffer extends DifferBase {
-  constructor({ logger = null } = {}) {
+export interface RoundDifferOptions {
+  logger?: Logger | null;
+}
+
+export class RoundDiffer extends DifferBase<Round> {
+  protected logger: Logger | Console;
+
+  constructor({ logger = null }: RoundDifferOptions = {}) {
     super();
-    this.logger = (logger ?? { child: () => console }).child('RoundDiffer');
+
+    this.logger = (logger ?? { child: (_: string) => console }).child('RoundDiffer');
     this.logger.log('⚙️ instantiated correctly.');
   }
 
@@ -15,7 +25,7 @@ export class RoundDiffer extends DifferBase {
    * @param {GameState} curr Current game state
    * @param {Object} emitter Event emission context
    * @param {Object} [options] Optional. Object with { previously, added } */
-  diff(prev, curr, emitter, options = {}) {
+  diff(prev: GameState, curr: GameState, emitter: EmitterContext, options: DiffOptions = {}) {
     if (!prev?.round && !curr?.round) return;
 
     const prevPhase = this.getFieldSafe('round.phase', prev, this.previously);
@@ -48,6 +58,8 @@ export class RoundDiffer extends DifferBase {
       this.emitWithContext(emitter, EVENTS.map.roundChanged, { previously: prevRoundNumber, current: currRoundNumber }, 'map');
     }
 
+    console.log(1, options.added)
+    // @ts-expect-error
     if (options.added?.round?.bomb === true) {
       this.logger.log('💣 Bomb planting started.');
       this.emitWithContext(emitter, EVENTS.round.bombPlantingStarted, {}, 'round');
