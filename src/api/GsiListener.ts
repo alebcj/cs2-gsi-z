@@ -1,6 +1,6 @@
 import http from 'http';
 import { EventEmitter } from 'events';
-import type { Logger } from '../utils/Logger';
+import { Logger } from '../utils/Logger';
 
 export interface GsiListenerOptions {
   logger?: Logger | null;
@@ -14,6 +14,7 @@ export class GsiListener extends EventEmitter {
 
   constructor({ logger = null, port = 3000 }: GsiListenerOptions = {}) {
     super();
+
     this.logger = logger?.child ? logger.child('GsiListener') : console;
     this.port = port;
     this.logger.log('GsiListener instantiated correctly.');
@@ -36,7 +37,7 @@ export class GsiListener extends EventEmitter {
     });
   }
 
-  handleHttp(req, res) {
+  handleHttp(req: http.IncomingMessage, res: http.ServerResponse) {
     if (req.method === 'POST') {
       let body = '';
       
@@ -51,21 +52,23 @@ export class GsiListener extends EventEmitter {
             throw new Error('Invalid GSI payload structure');
           }
           
-          this.logger.verbose('📥 Valid GSI payload received');
-          this.logger.verbose(JSON.stringify(json, null, 2));
+          if (this.logger instanceof Logger) {
+            this.logger.verbose('📥 Valid GSI payload received');
+            this.logger.verbose(JSON.stringify(json, null, 2));
+          }
           
           this.emit('gsiUpdate', json);
           
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ status: 'OK' }));
           
-        } catch (err) {
+        } catch (err: any) {
           this.logger.error('Error parsing GSI payload:', err);
           this.emit('error', err);
           
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ 
-            error: 'Invalid JSON payload', 
+            error: 'Invalid JSON payload',
             message: err.message 
           }));
         }

@@ -1,10 +1,20 @@
 import { EVENTS } from '../../constants/events.js';
-import { DifferBase } from './DifferBase.js';
+import { Map } from '../../models/Map.js';
+import { Logger } from '../../utils/Logger.js';
+import { GameState } from '../gamestate/GameState.js';
+import { DifferBase, DiffOptions, EmitterContext } from './DifferBase.js';
 
-export class MapDiffer extends DifferBase {
-  constructor({ logger = null } = {}) {
+export interface MapDifferOptions {
+  logger?: Logger | null;
+}
+
+export class MapDiffer extends DifferBase<Map> {
+  private logger: Logger | Console;
+
+  constructor({ logger = null }: MapDifferOptions = {}) {
     super();
-    this.logger = (logger ?? { child: () => console }).child('MapDiffer');
+
+    this.logger = (logger ?? { child: (_: string) => console }).child('MapDiffer');
     this.logger.log('⚙️ instantiated correctly.');
   }
 
@@ -15,7 +25,7 @@ export class MapDiffer extends DifferBase {
    * @param {GameState} curr Current game state
    * @param {Object} emitter Event emission context
    * @param {Object} [options] Optional. Object with { previously, added } */
-  diff(prev, curr, emitter, options = {}) {
+  diff(prev: GameState, curr: GameState, emitter: EmitterContext, options: DiffOptions = {}) {
     if (!prev?.map && !curr?.map) return;
 
     const fields = [

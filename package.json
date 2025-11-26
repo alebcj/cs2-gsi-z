@@ -48,11 +48,12 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/ws": "^8.18.1",
+    "concurrently": "^9.2.1",
     "eslint": "^9.25.1",
     "prettier": "^3.5.3",
     "vitest": "^3.1.2",
-    "ws": "^8.18.1",
-    "concurrently": "^9.2.1"
+    "ws": "^8.18.1"
   },
   "dependencies": {
     "chalk": "^5.4.1"

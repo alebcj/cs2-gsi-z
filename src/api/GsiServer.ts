@@ -1,18 +1,29 @@
-import { WebSocketServer } from 'ws';
+import WebSocket, { WebSocketServer } from 'ws';
 import { EventEmitter } from 'events';
+import { Logger } from '../utils/Logger';
+
+export interface GsiServerOptions {
+  port?: number;
+  logger?: Logger | null;
+}
 
 /**
  * WebSocket server for broadcasting CS2 game state updates to connected clients.
  * Manages client connections and provides real-time game data streaming.
  */
 export class GsiServer extends EventEmitter {
+  private port: number;
+  private clients: Set<WebSocket>;
+  private logger: Logger | Console;
+  private wss: WebSocketServer | null = null;
+
   /**
    * Creates a new GsiServer instance.
    * @param {Object} options - Configuration options
    * @param {number} [options.port=4000] - WebSocket server port
    * @param {Logger} [options.logger] - Logger instance
    */
-  constructor({ port = 4000, logger = null } = {}) {
+  constructor({ port = 4000, logger = null }: GsiServerOptions = {}) {
     super();
     this.port = port;
     this.clients = new Set();
@@ -52,10 +63,12 @@ export class GsiServer extends EventEmitter {
    * @param {string} type - Message type identifier
    * @param {Object} payload - Message payload data
    */
-  broadcast(type, payload) {
+  broadcast(type: string, payload: any) {
     const message = JSON.stringify({ type, payload });
 
-    this.logger.verbose?.(`📡 Broadcasting message type: ${type}`);
+    if (this.logger instanceof Logger) {
+      this.logger.verbose?.(`📡 Broadcasting message type: ${type}`);
+    }
 
     for (const client of this.clients) {
       if (client.readyState === 1) { // WebSocket.OPEN
@@ -83,7 +96,7 @@ export class GsiServer extends EventEmitter {
 
   /**
    * Returns the number of currently connected clients.
-   * @returns {number} Number of connected clients
+   * @returns Number of connected clients
    */
   getClientCount() {
     return this.clients.size;
@@ -91,9 +104,9 @@ export class GsiServer extends EventEmitter {
 
   /**
    * Checks if the server is currently running.
-   * @returns {boolean} True if server is running
+   * @returns True if server is running
    */
   isRunning() {
-    return this.wss && this.wss.listening;
+    return !!this.wss;
   }
 }

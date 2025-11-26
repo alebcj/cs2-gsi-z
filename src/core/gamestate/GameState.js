@@ -24,16 +24,4 @@ export class GameState extends ModelBase {
     this.provider = typeof provider === 'object' && provider !== null ? provider : {};
     this.previously = typeof previously === 'object' && previously !== null ? previously : {};
   }
-
-  /**
-   * Exports a clean snapshot of the current state. */
-  toJSON() {
-    return {
-      player: this.player,
-      round: this.round,
-      map: this.map,
-      provider: this.provider,
-      previously: this.previously,
-    };
-  }
 }

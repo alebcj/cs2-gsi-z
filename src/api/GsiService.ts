@@ -4,32 +4,44 @@ import { GameStateManager } from '../core/gamestate/GameStateManager.js';
 import { GsiUpdateHandler } from '../core/handlers/GsiUpdateHandler.js';
 import { default_differs } from '../core/differs/default_differs.js';
 import { DifferManager } from '../core/differs/DifferManager.js';
-import { Logger } from '../utils/Logger.js';
+import { LEVELS, Logger } from '../utils/Logger.js';
+
+export interface GsiServiceOptions {
+  httpPort?: number;
+  logger?: Logger | null;
+}
 
 /**
  * Main GSI service that coordinates all components for CS2 Game State Integration.
  * Handles HTTP listening, state management, and event emission.
  */
 export class GsiService extends EventEmitter {
+  private logger: Logger | Console;
+  private httpPort: number;
+  private listener: GsiListener;
+  private stateManager: GameStateManager;
+  private differManager: DifferManager;
+  private updateHandler: GsiUpdateHandler;
+
   /**
    * Creates a new GsiService instance.
    * @param {Object} options - Configuration options
    * @param {number} [options.httpPort=3000] - Port for HTTP GSI listener
    * @param {Logger} [options.logger] - Custom logger instance
    */
-  constructor({ httpPort = 3000, logger = null } = {}) {
+  constructor({ httpPort = 3000, logger = null }: GsiServiceOptions = {}) {
     super();
-    this.logger = (logger ?? new Logger({ level: 'info', showTimestamps: true })).child('GsiService');
+    this.logger = (logger ?? new Logger({ level: LEVELS.INFO, showTimestamps: true })).child('GsiService');
     this.httpPort = httpPort;
     
     // Initialize components
-    this.listener = this._createWithLogger(GsiListener, 'GsiListener');
+    this.listener = this.createWithLogger(GsiListener, 'GsiListener');
     this.stateManager = new GameStateManager();
     this.differManager = new DifferManager();
 
     // Register default differs
     default_differs.forEach(DifferClass => {
-      const differInstance = this._createWithLogger(DifferClass, DifferClass.name);
+      const differInstance = this.createWithLogger(DifferClass, DifferClass.name);
       this.differManager.register(differInstance);
     });
 
@@ -82,17 +94,17 @@ export class GsiService extends EventEmitter {
    * Useful for debugging or logging all events.
    * @param {Function} callback - Callback function that receives (eventName, ...args)
    */
-  onAny(callback) {
+  onAny(callback: (eventName: string | symbol, ...args: any[]) => any) {
     const originalEmit = this.emit;
     this.emit = function(eventName, ...args) {
       callback(eventName, ...args);
-      return originalEmit.apply(this, arguments);
+      return originalEmit.apply(this, [eventName, ...args]);
     };
   }
 
   /**
    * Returns the current game state snapshot.
-   * @returns {Object} Current game state containing player, map, and round data
+   * @returns Current game state containing player, map, and round data
    */
   getSnapshot() {
     return this.stateManager.getFullState();
@@ -103,9 +115,9 @@ export class GsiService extends EventEmitter {
    * @private
    * @param {Function} ClassRef - Class constructor to instantiate
    * @param {string} tag - Logger tag for the instance
-   * @returns {Object} New instance with logger
+   * @returns New instance with logger
    */
-  _createWithLogger(ClassRef, tag) {
-    return new ClassRef({ logger: this.logger.child(tag) });
+  private createWithLogger<T>(ClassRef: (new (...args: any) => T), tag: string) {
+    return new ClassRef({ logger: this.logger instanceof Logger ? this.logger.child(tag) : undefined });
   }
 }

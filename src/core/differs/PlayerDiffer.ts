@@ -1,10 +1,20 @@
 import { EVENTS } from '../../constants/events.js';
-import { DifferBase } from './DifferBase.js';
+import { Player } from '../../models/Player.js';
+import { Logger } from '../../utils/Logger.js';
+import { GameState } from '../gamestate/GameState.js';
+import { DifferBase, DiffOptions, EmitterContext } from './DifferBase.js';
 
-export class PlayerDiffer extends DifferBase {
-  constructor({ logger = null } = {}) {
+export interface PlayerDifferOptions  {
+  logger?: Logger | null;
+}
+
+export class PlayerDiffer extends DifferBase<Player> {
+  private logger: Logger | Console;
+
+  constructor({ logger = null }: PlayerDifferOptions = {}) {
     super();
-    this.logger = (logger ?? { child: () => console }).child('PlayerDiffer');
+
+    this.logger = (logger ?? { child: (_: string) => console }).child('PlayerDiffer');
     this.logger.log('⚙️ instantiated correctly.');
   }
 
@@ -15,7 +25,7 @@ export class PlayerDiffer extends DifferBase {
    * @param {GameState} curr Current game state
    * @param {Object} emitter Event emission context
    * @param {Object} [options] Optional. Object with { previously, added } */
-  diff(prev, curr, emitter, options = {}) {
+  diff(prev: GameState, curr: GameState, emitter: EmitterContext, options: DiffOptions = {}) {
     if (!prev?.player && !curr?.player) return;
 
     const fields = [

@@ -1,12 +1,14 @@
+import { ModelBase } from "../../models/ModelBase";
+import { GameState } from "../gamestate/GameState";
+import { DifferBase, DiffOptions, EmitterContext } from "./DifferBase";
+
 export class DifferManager {
-  constructor() {
-    this.differs = [];
-  }
+  public differs: DifferBase<ModelBase>[] = [];
 
   /**
    * Registers a differ to be used later.
    * @param {DifferBase} differ */
-  register(differ) {
+  register(differ: DifferBase<ModelBase>) {
     this.differs.push(differ);
   }
 
@@ -16,7 +18,7 @@ export class DifferManager {
    * @param {GameState} currentState 
    * @param {Object} emitterContext 
    * @param {Object} [options] Optional: { previously, added } */
-  diff(previousState, currentState, emitterContext, options = {}) {
+  diff(previousState: GameState, currentState: GameState, emitterContext: EmitterContext, options: DiffOptions) {
     for (const differ of this.differs) {
       differ.diff(previousState, currentState, emitterContext, options);
     }
