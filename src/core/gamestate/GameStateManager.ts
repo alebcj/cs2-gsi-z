@@ -23,6 +23,7 @@ export class GameStateManager {
    * @param {GameState} gameState */
   setFullState(gameState: GameState) {
     if (!gameState) return;
+
     this.player = gameState.player ?? new Player();
     this.map = gameState.map ?? new Map();
     this.round = gameState.round ?? new Round();

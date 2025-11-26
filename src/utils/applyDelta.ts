@@ -26,13 +26,13 @@ export function applyDelta<T extends ModelBase>(currentState: T, previously: T) 
  * 
  * @param target - The object to apply the changes to.
  * @param source - The "previously" block changes. */
-function deepMerge<T extends ModelBase>(target: T, source: T) {
+function deepMerge<T extends ModelBase>(target: T, source: Record<string, any>) {
   for (const key of Object.keys(source)) {
     const sourceValue = source[key as keyof ModelBase];
     const targetValue = target[key as keyof ModelBase];
 
     if (
-      sourceValue instanceof ModelBase &&
+      typeof sourceValue === 'object' &&
       targetValue instanceof ModelBase
     ) {
       deepMerge(targetValue, sourceValue);

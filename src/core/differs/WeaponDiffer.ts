@@ -40,13 +40,13 @@ export class WeaponDiffer extends DifferBase<Weapon> {
       this.logger.verbose('🔍 currWeapon:', currWeapon);
     }
 
-    if (!currWeapon || currWeapon.ammoClip === undefined) {
+    if (!currWeapon || currWeapon.ammo_clip === undefined) {
       this.logger.warn('⚠️ Current active weapon incomplete or missing ammo_clip.');
 
       return;
     }
 
-    if (!prevWeapon || prevWeapon.ammoClip === undefined) {
+    if (!prevWeapon || prevWeapon.ammo_clip === undefined) {
       if (this.logger instanceof Logger) {
         this.logger.verbose('ℹ️ No prevWeapon or ammoClip in prev. Waiting for next diff.');
       }
@@ -54,21 +54,21 @@ export class WeaponDiffer extends DifferBase<Weapon> {
       return;
     }
 
-    if (prevWeapon.ammoClip !== currWeapon.ammoClip) {
-      this.logger.log(`🚀 ammoClip change: ${prevWeapon.ammoClip} → ${currWeapon.ammoClip}`);
+    if (prevWeapon.ammo_clip !== currWeapon.ammo_clip) {
+      this.logger.log(`🚀 ammoClip change: ${prevWeapon.ammo_clip} → ${currWeapon.ammo_clip}`);
 
       emitter.emit(EVENTS.player.ammoClipChanged, {
-        previously: prevWeapon.ammoClip,
-        current: currWeapon.ammoClip,
+        previously: prevWeapon.ammo_clip,
+        current: currWeapon.ammo_clip,
       });
     }
 
-    if (prevWeapon.ammoReserve !== currWeapon.ammoReserve) {
-      this.logger.log(`🚀 ammoReserve change: ${prevWeapon.ammoReserve} → ${currWeapon.ammoReserve}`);
+    if (prevWeapon.ammo_reserve !== currWeapon.ammo_reserve) {
+      this.logger.log(`🚀 ammoReserve change: ${prevWeapon.ammo_reserve} → ${currWeapon.ammo_reserve}`);
       
       emitter.emit(EVENTS.player.ammoReserveChanged, {
-        previously: prevWeapon.ammoReserve,
-        current: currWeapon.ammoReserve,
+        previously: prevWeapon.ammo_reserve,
+        current: currWeapon.ammo_reserve,
       });
     }
 

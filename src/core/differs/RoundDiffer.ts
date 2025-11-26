@@ -57,8 +57,7 @@ export class RoundDiffer extends DifferBase<Round> {
       this.logger.log(`🔢 Change of round number: ${prevRoundNumber} → ${currRoundNumber}`);
       this.emitWithContext(emitter, EVENTS.map.roundChanged, { previously: prevRoundNumber, current: currRoundNumber }, 'map');
     }
-
-    console.log(1, options.added)
+    
     // @ts-expect-error
     if (options.added?.round?.bomb === true) {
       this.logger.log('💣 Bomb planting started.');

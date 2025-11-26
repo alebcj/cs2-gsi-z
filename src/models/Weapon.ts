@@ -18,9 +18,9 @@ export class Weapon extends ModelBase {
 
   public name: string;
   public state: string;
-  public ammoClip: number | null;
-  public ammoClipMax: number | null;
-  public ammoReserve: number | null;
+  public ammo_clip: number | null;
+  public ammo_clip_max: number | null;
+  public ammo_reserve: number | null;
 
   constructor(data: WeaponInput) {
     super();
@@ -33,9 +33,9 @@ export class Weapon extends ModelBase {
 
     this.name = this.validateString(data.name);
     this.state = this.validateString(data.state, 'holstered');
-    this.ammoClip = this.validateNumberOrNull(data.ammo_clip);
-    this.ammoClipMax = this.validateNumberOrNull(data.ammo_clip_max);
-    this.ammoReserve = this.validateNumberOrNull(data.ammo_reserve);
+    this.ammo_clip = this.validateNumberOrNull(data.ammo_clip);
+    this.ammo_clip_max = this.validateNumberOrNull(data.ammo_clip_max);
+    this.ammo_reserve = this.validateNumberOrNull(data.ammo_reserve);
 
     const metadata = WeaponData[this.name] ?? {};
     this.type = data.type ?? metadata.type ?? 'Unknown';

@@ -97,3 +97,34 @@ export const EVENTS = /* * @type {GsiEvents} */ ({
     bombPlantFake: 'round:bombPlantFake',
   }
 }) as const;
+
+type TeamName = 'CT' | 'T';
+type ActivityName = 'menu' | 'playing';
+
+type eventDataString<T> = [{ previously: T | null | 'unknown', current: T | null | 'unknown' }];
+type eventDataNumber<T> = [{ previously: T | null | 0, current: T | null | 0 }];
+
+export type EventMap = {
+  'player:teamChanged': eventDataString<TeamName>;
+  'player:activityChanged': eventDataString<ActivityName>;
+  'player:observerSlotChanged': eventDataNumber<number>;
+
+  'player:hpChanged': eventDataNumber<number>;
+  'player:armorChanged': eventDataNumber<number>;
+  'player:helmetChanged': eventDataNumber<boolean>;
+  'player:flashedChanged': eventDataNumber<number>;
+  'player:smokedChanged': eventDataNumber<number>;
+  'player:burningChanged': eventDataNumber<number>;
+  'player:moneyChanged': eventDataNumber<number>;
+  'player:moneyEarned': eventDataNumber<number>;
+  'player:equipValueChanged': eventDataNumber<number>;
+
+  'player:weaponChanged': eventDataString<string>;
+  'player:ammoClipChanged': eventDataNumber<number>;
+  'player:ammoReserveChanged': eventDataNumber<number>;
+
+  'player:killsChanged': eventDataNumber<number>;
+  'player:deathsChanged': eventDataNumber<number>;
+  'player:assistsChanged': eventDataNumber<number>;
+  'player:scoreChanged': eventDataNumber<number>;
+}

@@ -1,13 +1,21 @@
-import { Map } from '../../models/Map.js';
-import { ModelBase } from '../../models/ModelBase.js';
-import { Player } from '../../models/Player.js';
-import { Round } from '../../models/Round.js';
+import { Map } from "../../models/Map.js";
+import { ModelBase } from "../../models/ModelBase.js";
+import { Player } from "../../models/Player.js";
+import { Round } from "../../models/Round.js";
 
-interface GameStateInput {
+export interface Provider {
+  name: string;
+  appid: number;
+  version: number;
+  steamid: string;
+  timestamp: number;
+}
+
+export interface GameStateInput {
   player?: Player;
   round?: Round;
   map?: Map;
-  provider?: any;
+  provider?: Provider;
   previously?: GameState;
 }
 
@@ -17,32 +25,41 @@ export class GameState extends ModelBase {
   public player: Player;
   public round: Round;
   public map: Map;
-  public provider: any;
-  public previously: GameState;
+  public provider: Provider | null;
+  public previously: GameState | null;
 
-  constructor({ player, round, map, provider, previously }: GameStateInput = {}) {
+  constructor({
+    player,
+    round,
+    map,
+    provider,
+    previously,
+  }: GameStateInput) {
     super();
 
-    if (typeof player !== 'object' || player === null) {
-      console.warn('⚠️ GameState: invalid player, assigning empty object.');
+    if (typeof player !== "object" || player === null) {
+      // console.warn('⚠️ GameState: invalid player, assigning empty object.');
 
       player = new Player();
     }
-    if (typeof round !== 'object' || round === null) {
-      console.warn('⚠️ GameState: invalid round, assigning empty object.');
+    if (typeof round !== "object" || round === null) {
+      // console.warn('⚠️ GameState: invalid round, assigning empty object.');
 
       round = new Round();
     }
-    if (typeof map !== 'object' || map === null) {
-      console.warn('⚠️ GameState: invalid map, assigning empty object.');
+    if (typeof map !== "object" || map === null) {
+      // console.warn('⚠️ GameState: invalid map, assigning empty object.');
 
       map = new Map();
     }
 
-    this.player = player;       // It is assumed these are already instances of Player, Round, and Map.
+    this.player = player; // It is assumed these are already instances of Player, Round, and Map.
     this.round = round;
     this.map = map;
-    this.provider = typeof provider === 'object' && provider !== null ? provider : {};
-    this.previously = typeof previously === 'object' && previously !== null ? previously : new GameState();
+    this.provider = provider ?? null;
+    this.previously =
+      typeof previously === "object" && previously !== null
+        ? previously
+        : null;
   }
 }

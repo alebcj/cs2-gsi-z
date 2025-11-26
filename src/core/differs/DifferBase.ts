@@ -22,7 +22,7 @@ export abstract class DifferBase<T extends ModelBase> {
 
   emitWithContext(emitter: EmitterContext, eventName: string, data: any, entity: string | null = null) {
     emitter.emit(eventName, {
-      ...data.toSerializableObject(),
+      ...(data instanceof ModelBase ? data.toSerializableObject() : data),
       previouslyBlock: entity ? (this.previously?.[entity as keyof GameState] ?? {}) : this.previously,
       addedBlock: entity ? (this.added?.[entity as keyof GameState] ?? {}) : this.added,
     });
