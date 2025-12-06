@@ -1,6 +1,6 @@
 import WebSocket, { WebSocketServer } from 'ws';
 import { EventEmitter } from 'events';
-import { Logger } from '../utils/Logger';
+import { Logger } from '../utils/Logger.js';
 
 export interface GsiServerOptions {
   port?: number;
@@ -63,11 +63,11 @@ export class GsiServer extends EventEmitter {
    * @param {string} type - Message type identifier
    * @param {Object} payload - Message payload data
    */
-  broadcast(type: string, payload: any) {
+  broadcast(type: string | symbol, payload: any) {
     const message = JSON.stringify({ type, payload });
 
     if (this.logger instanceof Logger) {
-      this.logger.verbose?.(`📡 Broadcasting message type: ${type}`);
+      this.logger.verbose?.(`📡 Broadcasting message type: ${String(type)}`);
     }
 
     for (const client of this.clients) {

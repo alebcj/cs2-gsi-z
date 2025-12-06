@@ -1,6 +1,6 @@
-import http from 'http';
+import http from 'node:http';
 import { EventEmitter } from 'events';
-import { Logger } from '../utils/Logger';
+import { Logger } from '../utils/Logger.js';
 
 export interface GsiListenerOptions {
   logger?: Logger | null;

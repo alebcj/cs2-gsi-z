@@ -1,6 +1,6 @@
 // src/utils/applyDelta.js
 
-import { ModelBase } from "../models/ModelBase";
+import { ModelBase } from "../models/ModelBase.js";
 
 /**
  * Applies the "previously" block to the current game state,

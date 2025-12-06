@@ -1,5 +1,5 @@
 // 📦 Constants
-export { EVENTS } from './constants/events.js';
+export { EVENTS, type EventMap } from './constants/events.js';
 
 // 🛠️ Utilities
 export { Logger, LEVELS } from './utils/Logger.js';

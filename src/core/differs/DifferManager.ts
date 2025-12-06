@@ -1,6 +1,6 @@
-import { ModelBase } from "../../models/ModelBase";
-import { GameState } from "../gamestate/GameState";
-import { DifferBase, DiffOptions, EmitterContext } from "./DifferBase";
+import { ModelBase } from "../../models/ModelBase.js";
+import { GameState } from "../gamestate/GameState.js";
+import { DifferBase, DiffOptions, EmitterContext } from "./DifferBase.js";
 
 export class DifferManager {
   public differs: DifferBase<ModelBase>[] = [];

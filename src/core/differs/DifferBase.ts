@@ -1,6 +1,6 @@
-import { ModelBase } from "../../models/ModelBase";
-import { Logger } from "../../utils/Logger";
-import { GameState } from '../gamestate/GameState';
+import { ModelBase } from "../../models/ModelBase.js";
+import { Logger } from "../../utils/Logger.js";
+import { GameState } from '../gamestate/GameState.js';
 
 export interface EmitterContext {
   emit: (eventName: string, ...args: any[]) => any

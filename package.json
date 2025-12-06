@@ -1,6 +1,6 @@
 {
-  "name": "cs2-gsi-z",
-  "version": "1.0.0",
+  "name": "osby-gaming-cs2-gsi",
+  "version": "0.2.0",
   "description": "A modular, event-driven Game State Integration (GSI) handler for Counter-Strike 2 built with Node.js.",
   "exports": {
     "types": "./src/index.ts",
@@ -17,8 +17,8 @@
     "dev-browser": "bun build ./src/index.ts --outdir ./dist/browser --target browser --watch",
     "dev-node": "bun build ./src/index.ts --outdir ./dist/cjs --target node --packages external --format cjs --watch",
     "dev-bun": "bun build ./src/index.ts --outdir ./dist/esm --target bun --packages external --watch",
-    "build:declaration": "tsc ./src/index.ts --emitDeclarationOnly --declaration --outFile ./dist/ts/index.js",
-    "dev:declaration": "tsc ./src/index.ts --emitDeclarationOnly --declaration --outFile ./dist/ts/index.js --watch",
+    "build:declaration": "tsc ./src/index.ts --emitDeclarationOnly --declaration --esModuleInterop --target es2022 --moduleResolution nodenext --module NodeNext --outFile ./dist/ts/index.js",
+    "dev:declaration": "tsc ./src/index.ts --emitDeclarationOnly --declaration --esModuleInterop --target es2022 --moduleResolution nodenext --module NodeNext --outFile ./dist/ts/index.js --watch",
     "demo": "bun ./demo/index.ts"
   },
   "keywords": [
@@ -52,10 +52,11 @@
     "concurrently": "^9.2.1",
     "eslint": "^9.25.1",
     "prettier": "^3.5.3",
-    "vitest": "^3.1.2",
-    "ws": "^8.18.1"
+    "vitest": "^3.1.2"
   },
   "dependencies": {
-    "chalk": "^5.4.1"
+    "chalk": "^5.4.1",
+    "typescript": "^5.9.3",
+    "ws": "^8.18.1"
   }
 }

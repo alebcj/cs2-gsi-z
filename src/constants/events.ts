@@ -100,6 +100,7 @@ export const EVENTS = /* * @type {GsiEvents} */ ({
 
 type TeamName = 'CT' | 'T';
 type ActivityName = 'menu' | 'playing';
+type PhaseName = 'warmup' | 'live' | 'over' | 'freezetime';
 
 type eventDataString<T> = [{ previously: T | null | 'unknown', current: T | null | 'unknown' }];
 type eventDataNumber<T> = [{ previously: T | null | 0, current: T | null | 0 }];
@@ -127,4 +128,19 @@ export type EventMap = {
   'player:deathsChanged': eventDataNumber<number>;
   'player:assistsChanged': eventDataNumber<number>;
   'player:scoreChanged': eventDataNumber<number>;
+
+  'map:nameChanged': eventDataString<string>;
+  'map:phaseChanged': eventDataString<PhaseName>;
+  'map:roundChanged': eventDataNumber<number>;
+  'map:teamCTScoreChanged': eventDataNumber<number>;
+  'map:teamTScoreChanged': eventDataNumber<number>;
+
+  'round:phaseChanged': eventDataString<PhaseName>;
+  'round:started': eventDataString<string>;
+  'round:ended': eventDataString<string>;
+  'round:won': eventDataString<string>;
+
+  'round:bombPlantingStarted': eventDataNumber<string>;
+  'round:bombPlanted': eventDataNumber<string>;
+  'round:bombPlantFake': eventDataNumber<string>;
 }
