@@ -53,6 +53,7 @@ export const EVENTS = /* * @type {GsiEvents} */ ({
     teamChanged: 'player:teamChanged',
     activityChanged: 'player:activityChanged',
     observerSlotChanged: 'player:observerSlotChanged',
+    specTargetChanged: 'player:spectargetChanged',
 
     // Player State
     hpChanged: 'player:hpChanged',
@@ -75,6 +76,10 @@ export const EVENTS = /* * @type {GsiEvents} */ ({
     deathsChanged: 'player:deathsChanged',
     assistsChanged: 'player:assistsChanged',
     scoreChanged: 'player:scoreChanged',
+
+    // Position
+    positionChanged: 'player:positionChanged',
+    forwardDirectionChanged: 'player:forwardDirectionChanged',
   },
 
   map: {
@@ -98,17 +103,20 @@ export const EVENTS = /* * @type {GsiEvents} */ ({
   }
 }) as const;
 
-type TeamName = 'CT' | 'T';
-type ActivityName = 'menu' | 'playing';
-type PhaseName = 'warmup' | 'live' | 'over' | 'freezetime';
+export type TeamName = 'CT' | 'T';
+export type ActivityName = 'menu' | 'playing' | 'textinput';
+export type PhaseName = 'warmup' | 'live' | 'over' | 'freezetime';
 
-type eventDataString<T> = [{ previously: T | null | 'unknown', current: T | null | 'unknown' }];
-type eventDataNumber<T> = [{ previously: T | null | 0, current: T | null | 0 }];
+export type eventDataString<T> = [{ previously: T | null | 'unknown', current: T | null | 'unknown' }];
+export type eventDataNumber<T> = [{ previously: T | null | 0, current: T | null | 0 }];
+
+export type PlayerActivity = eventDataString<ActivityName>;
 
 export type EventMap = {
   'player:teamChanged': eventDataString<TeamName>;
   'player:activityChanged': eventDataString<ActivityName>;
   'player:observerSlotChanged': eventDataNumber<number>;
+  'player:spectargetChanged': eventDataString<string>;
 
   'player:hpChanged': eventDataNumber<number>;
   'player:armorChanged': eventDataNumber<number>;

@@ -28,6 +28,7 @@ export class GsiUpdateHandler {
   }
 
   handle(rawUpdate: Record<string, any>) {
+    console.log(rawUpdate);
     if (!rawUpdate) {
       this.logger.warn('⚠️ Empty GSI payload received.');
 
