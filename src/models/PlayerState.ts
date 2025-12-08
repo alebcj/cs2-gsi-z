@@ -24,8 +24,8 @@ export class PlayerState extends ModelBase {
   public burning: number;
   public money: number;
   public roundKills: number;
-  public roundHeadshots: number;
-  public equipValue: number;
+  public roundHeadshotKills: number;
+  public equipmentValue: number;
 
   constructor(data: PlayerStateInput = {}) {
     super();
@@ -44,8 +44,8 @@ export class PlayerState extends ModelBase {
     this.burning = this.validateNumberOrZero(data.burning);
     this.money = this.validateNumberOrZero(data.money);
     this.roundKills = this.validateNumberOrZero(data.round_kills);
-    this.roundHeadshots = this.validateNumberOrZero(data.round_killhs);
-    this.equipValue = this.validateNumberOrZero(data.equip_value);
+    this.roundHeadshotKills = this.validateNumberOrZero(data.round_killhs);
+    this.equipmentValue = this.validateNumberOrZero(data.equip_value);
   }
 
   public isAlive() {

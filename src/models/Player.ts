@@ -7,7 +7,7 @@ import {
 import { ModelBase } from "./ModelBase.js";
 import { Weapon } from "./Weapon.js";
 import { Vector3D } from "./helpers/Vector3D.js";
-import { ActivityName, eventDataString, PlayerActivity } from "../constants/events.js";
+import { Activity, stringToActivity, stringToTeam, Team } from "../constants/enums.js";
 
 export interface PlayerInput {
   steamid?: string;
@@ -32,7 +32,7 @@ export class Player extends ModelBase {
   public name: string;
   public clan: string;
   public xpOverloadLevel: number | null;
-  public team: string;
+  public team: Team;
   /**
    * The player's observer slot. The keybind to spectate this player is observerSlot + 1.
    */
@@ -41,7 +41,7 @@ export class Player extends ModelBase {
    * The player's spectated target. The steamid of the player being spectated. Can result in null if GSI is not subscribed to the correct data.
    */
   public specTarget: string | null;
-  public activity: ActivityName | 'unknown';
+  public activity: Activity;
 
   public state: PlayerState;
   public matchStats: PlayerMatchStats;
@@ -66,11 +66,11 @@ export class Player extends ModelBase {
     this.steamid = this.validateString(data.steamid);
     this.name = this.validateString(data.name);
     this.xpOverloadLevel = this.validateNumberOrNull(data.xpoverload);
-    this.team = this.validateString(data.team);
+    this.team = stringToTeam(data.team);
     this.clan = this.validateString(data.clan);
     this.observerSlot = this.validateNumberOrNull(data.observer_slot);
     this.specTarget = this.validateString(data.spectarget);
-    this.activity = this.validateString(data.activity) as ActivityName | 'unknown';
+    this.activity = stringToActivity(data.activity);
 
     this.state = new PlayerState(data.state || {});
     this.matchStats = new PlayerMatchStats(data.match_stats || {});

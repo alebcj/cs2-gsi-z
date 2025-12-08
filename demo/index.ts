@@ -9,9 +9,5 @@ console.log(config);
 gsiService.start();
 
 gsiService.onAny((event, { previously, current }) => {
-  if (!String(event).startsWith("player:spectargetChanged")) {
-    return;
-  }
-
   console.log(event, previously, '→', current);
 });

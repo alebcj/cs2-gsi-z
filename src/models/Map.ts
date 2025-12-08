@@ -1,7 +1,9 @@
+import { GameMode, Phase, stringToGameMode, stringToPhase } from "../constants/enums.js";
 import { ModelBase } from "./ModelBase.js";
 
 export interface TeamInfoInput {
   score?: number;
+  name?: string;
   consecutive_round_losses?: number;
   timeouts_remaining?: number;
   matches_won_this_series?: number;
@@ -11,6 +13,7 @@ export interface TeamInfoInput {
  * Represents the information of a team (CT or T). */
 export class TeamInfo extends ModelBase {
   public score: number;
+  public name: string;
   public consecutiveRoundLosses: number;
   public timeoutsRemaining: number;
   public matchesWonThisSeries: number;
@@ -25,6 +28,7 @@ export class TeamInfo extends ModelBase {
     }
 
     this.score = this.validateNumber(data.score, 0);
+    this.name = this.validateString(data.name);
     this.consecutiveRoundLosses = this.validateNumber(data.consecutive_round_losses, 0);
     this.timeoutsRemaining = this.validateNumber(data.timeouts_remaining, 0);
     this.matchesWonThisSeries = this.validateNumber(data.matches_won_this_series, 0);
@@ -45,9 +49,9 @@ export interface MapInput {
 /**
  * Represents the current state of the map. */
 export class Map extends ModelBase {
-  public mode: string;
+  public mode: GameMode;
   public name: string;
-  public phase: string;
+  public phase: Phase;
   public round: number;
   public numMatchesToWinSeries: number;
 
@@ -62,9 +66,9 @@ export class Map extends ModelBase {
       data = {};
     }
 
-    this.mode = this.validateString(data.mode, 'unknown');
-    this.name = this.validateString(data.name, 'unknown');
-    this.phase = this.validateString(data.phase, 'unknown');
+    this.mode = stringToGameMode(data.mode);
+    this.name = this.validateString(data.name);
+    this.phase = stringToPhase(data.phase);
     this.round = this.validateNumber(data.round, 0);
     this.numMatchesToWinSeries = this.validateNumber(data.num_matches_to_win_series, 0);
 

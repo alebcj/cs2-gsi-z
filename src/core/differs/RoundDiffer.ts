@@ -33,11 +33,11 @@ export class RoundDiffer extends DifferBase<Round> {
 
     if (prevPhase !== currPhase) {
       this.logger.log(`🔁 Change of phase: ${prevPhase} → ${currPhase}`);
-      this.emitWithContext(emitter, EVENTS.round.phaseChanged, { previously: prevPhase, current: currPhase }, 'round');
+      this.emitWithContext(emitter, EVENTS.round.phaseChanged, { previously: prevPhase, current: currPhase });
 
       if (currPhase === 'freezetime') {
         this.logger.log('🚀 Round starts (freezetime).');
-        this.emitWithContext(emitter, EVENTS.round.started, {}, 'round');
+        this.emitWithContext(emitter, EVENTS.round.started, {});
       }
     }
 
@@ -46,8 +46,8 @@ export class RoundDiffer extends DifferBase<Round> {
 
     if (prevWinTeam !== currWinTeam) {
       this.logger.log(`🏆 Change of win_team: ${prevWinTeam} → ${currWinTeam}`);
-      this.emitWithContext(emitter, EVENTS.round.won, { previously: prevWinTeam, current: currWinTeam }, 'round');
-      this.emitWithContext(emitter, EVENTS.round.ended, { winner: currWinTeam }, 'round');
+      this.emitWithContext(emitter, EVENTS.round.won, { previously: prevWinTeam, current: currWinTeam });
+      this.emitWithContext(emitter, EVENTS.round.ended, { winner: currWinTeam });
     }
 
     const prevRoundNumber = this.getFieldSafe('round.round', prev, this.previously);
@@ -55,13 +55,13 @@ export class RoundDiffer extends DifferBase<Round> {
 
     if (prevRoundNumber !== currRoundNumber) {
       this.logger.log(`🔢 Change of round number: ${prevRoundNumber} → ${currRoundNumber}`);
-      this.emitWithContext(emitter, EVENTS.map.roundChanged, { previously: prevRoundNumber, current: currRoundNumber }, 'map');
+      this.emitWithContext(emitter, EVENTS.map.roundChanged, { previously: prevRoundNumber, current: currRoundNumber });
     }
     
     // @ts-expect-error
     if (options.added?.round?.bomb === true) {
       this.logger.log('💣 Bomb planting started.');
-      this.emitWithContext(emitter, EVENTS.round.bombPlantingStarted, {}, 'round');
+      this.emitWithContext(emitter, EVENTS.round.bombPlantingStarted, {});
     }
 
     const prevBomb = this.getFieldSafe('round.bomb', prev, this.previously);
@@ -70,10 +70,10 @@ export class RoundDiffer extends DifferBase<Round> {
     if (prevBomb !== currBomb) {
       if (currBomb === 'planted') {
         this.logger.log('💥 Bomb planted.');
-        this.emitWithContext(emitter, EVENTS.round.bombPlanted, {}, 'round');
+        this.emitWithContext(emitter, EVENTS.round.bombPlanted, {});
       } else if (!currBomb) {
         this.logger.log('❌ Bomb plant attempt failed.');
-        this.emitWithContext(emitter, EVENTS.round.bombPlantFake, {}, 'round');
+        this.emitWithContext(emitter, EVENTS.round.bombPlantFake, {});
       }
     }
   }

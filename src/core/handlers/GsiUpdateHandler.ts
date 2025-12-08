@@ -58,12 +58,7 @@ export class GsiUpdateHandler {
 
         this.logger.log('🔀 Delta applied.');
 
-        this.differManager.diff(previousState, parsedUpdate, {
-          emit: (event, payload) => {
-            this.logger.log(`🛎️ Event detected: ${event}`, payload);
-            this.emitter.emit(event, payload);
-          }
-        }, {});
+        this.differManager.diff(previousState, parsedUpdate, this.emitter, {});
       }
 
       this.stateManager.setFullState(parsedUpdate);

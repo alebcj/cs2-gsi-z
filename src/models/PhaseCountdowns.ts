@@ -1,20 +1,18 @@
 import { Phase, stringToPhase } from '../constants/enums.js';
 import { ModelBase } from './ModelBase.js';
 
-export interface RoundInput {
+export interface PhaseCountdownsInput {
   phase?: string;
-  bomb?: string;
-  win_team?: string;
+  phase_ends_in?: string;
 }
 
 /**
  * Represents the current state of the round. */
-export class Round extends ModelBase {
+export class PhaseCountdowns extends ModelBase {
   public phase: Phase;
-  public bomb: string | null;
-  public winner: string | null;
+  public phaseEndsIn: string | null;
 
-  constructor(data: RoundInput = {}) {
+  constructor(data: PhaseCountdownsInput = {}) {
     super();
 
     if (typeof data !== 'object' || data === null) {
@@ -24,7 +22,6 @@ export class Round extends ModelBase {
     }
 
     this.phase = stringToPhase(data.phase); // E.g.: freezetime, live, over
-    this.bomb = this.validateStringOrNull(data.bomb);        // E.g.: planted, exploded, defused
-    this.winner = this.validateStringOrNull(data.win_team);  // E.g.: CT, T, null
+    this.phaseEndsIn = this.validateStringOrNull(data.phase_ends_in); // E.g.: minutes, seconds
   }
 }

@@ -5,6 +5,7 @@ import { GsiUpdateHandler } from '../core/handlers/GsiUpdateHandler.js';
 import { default_differs } from '../core/differs/default_differs.js';
 import { DifferManager } from '../core/differs/DifferManager.js';
 import { LEVELS, Logger } from '../utils/Logger.js';
+import { EventMap } from '../constants/events.js';
 
 export interface GsiServiceOptions {
   httpPort?: number;
@@ -15,11 +16,11 @@ export interface GsiServiceOptions {
  * Main GSI service that coordinates all components for CS2 Game State Integration.
  * Handles HTTP listening, state management, and event emission.
  */
-export class GsiService extends EventEmitter {
+export class GsiService extends EventEmitter<EventMap> {
   private logger: Logger | Console;
   private httpPort: number;
   private listener: GsiListener;
-  private stateManager: GameStateManager;
+  public stateManager: GameStateManager;
   private differManager: DifferManager;
   private updateHandler: GsiUpdateHandler;
 
@@ -95,9 +96,9 @@ export class GsiService extends EventEmitter {
    * Useful for debugging or logging all events.
    * @param {Function} callback - Callback function that receives (eventName, ...args)
    */
-  onAny(callback: (eventName: string | symbol, ...args: any[]) => any) {
+  onAny(callback: (eventName: keyof EventMap, ...args: any[]) => any) {
     const originalEmit = this.emit;
-    this.emit = function(eventName, ...args) {
+    this.emit = function<EventMap>(eventName, ...args) {
       callback(eventName, ...args);
       return originalEmit.apply(this, [eventName, ...args]);
     };

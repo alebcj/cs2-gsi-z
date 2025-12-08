@@ -1,31 +1,27 @@
 import { Map } from "../../models/Map.js";
 import { ModelBase } from "../../models/ModelBase.js";
+import { PhaseCountdowns } from "../../models/PhaseCountdowns.js";
 import { Player } from "../../models/Player.js";
+import { Provider } from "../../models/Provider.js";
 import { Round } from "../../models/Round.js";
 
-export interface Provider {
-  name: string;
-  appid: number;
-  version: number;
-  steamid: string;
-  timestamp: number;
-}
-
 export interface GameStateInput {
-  player?: Player;
-  round?: Round;
-  map?: Map;
   provider?: Provider;
+  map?: Map;
+  round?: Round;
+  player?: Player;
+  phase_countdowns?: PhaseCountdowns;
   previously?: GameState;
 }
 
 /**
  * Represents the complete game state at a given moment. */
 export class GameState extends ModelBase {
-  public player: Player;
-  public round: Round;
-  public map: Map;
   public provider: Provider | null;
+  public map: Map;
+  public round: Round;
+  public player: Player;
+  public phaseCountdowns: PhaseCountdowns;
   public previously: GameState | null;
 
   constructor({
@@ -34,29 +30,46 @@ export class GameState extends ModelBase {
     map,
     provider,
     previously,
+    phase_countdowns
   }: GameStateInput) {
     super();
 
-    if (typeof player !== "object" || player === null) {
-      // console.warn('⚠️ GameState: invalid player, assigning empty object.');
+    if (typeof provider !== "object" || provider === null) {
+      console.warn('⚠️ GameState: invalid provider, assigning empty object.');
 
-      player = new Player();
+      provider = new Provider();
     }
-    if (typeof round !== "object" || round === null) {
-      // console.warn('⚠️ GameState: invalid round, assigning empty object.');
-
-      round = new Round();
-    }
+     
     if (typeof map !== "object" || map === null) {
-      // console.warn('⚠️ GameState: invalid map, assigning empty object.');
+      console.warn('⚠️ GameState: invalid map, assigning empty object.');
 
       map = new Map();
     }
 
-    this.player = player; // It is assumed these are already instances of Player, Round, and Map.
-    this.round = round;
+    if (typeof round !== "object" || round === null) {
+      console.warn('⚠️ GameState: invalid round, assigning empty object.');
+
+      round = new Round();
+    }
+
+    if (typeof player !== "object" || player === null) {
+      console.warn('⚠️ GameState: invalid player, assigning empty object.');
+
+      player = new Player();
+    }
+
+    if (typeof phase_countdowns !== "object" || phase_countdowns === null) {
+      console.warn('⚠️ GameState: invalid phase_countdowns, assigning empty object.');
+
+      phase_countdowns = new PhaseCountdowns();
+    }
+
+    this.provider = provider;
     this.map = map;
-    this.provider = provider ?? null;
+    this.round = round;
+    this.player = player;
+    this.phaseCountdowns = phase_countdowns;
+    
     this.previously =
       typeof previously === "object" && previously !== null
         ? previously

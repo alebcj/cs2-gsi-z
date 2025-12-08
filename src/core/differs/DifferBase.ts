@@ -1,10 +1,11 @@
+import { EventEmitter } from "events";
 import { ModelBase } from "../../models/ModelBase.js";
 import { Logger } from "../../utils/Logger.js";
 import { GameState } from '../gamestate/GameState.js';
+import { EventMap } from "../../constants/events.js";
 
-export interface EmitterContext {
-  emit: (eventName: string, ...args: any[]) => any
-}
+export type EmitterContext = EventEmitter<EventMap>;
+
 export interface DiffOptions {
   previously?: GameState;
   added?: GameState;
@@ -20,12 +21,8 @@ export abstract class DifferBase<T extends ModelBase> {
     this.added = added ?? null;
   }
 
-  emitWithContext(emitter: EmitterContext, eventName: string, data: any, entity: string | null = null) {
-    emitter.emit(eventName, {
-      ...(data instanceof ModelBase ? data.toSerializableObject() : data),
-      previouslyBlock: entity ? (this.previously?.[entity as keyof GameState] ?? {}) : this.previously,
-      addedBlock: entity ? (this.added?.[entity as keyof GameState] ?? {}) : this.added,
-    });
+  emitWithContext(emitter: EventEmitter<EventMap>, eventName: keyof EventMap, data: any) {
+    emitter.emit(eventName, data);
   }
 
   /**

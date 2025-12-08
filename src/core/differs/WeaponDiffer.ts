@@ -57,7 +57,7 @@ export class WeaponDiffer extends DifferBase<Weapon> {
     if (prevWeapon.ammo_clip !== currWeapon.ammo_clip) {
       this.logger.log(`🚀 ammoClip change: ${prevWeapon.ammo_clip} → ${currWeapon.ammo_clip}`);
 
-      emitter.emit(EVENTS.player.ammoClipChanged, {
+      this.emitWithContext(emitter, EVENTS.player.ammoClipChanged, {
         previously: prevWeapon.ammo_clip,
         current: currWeapon.ammo_clip,
       });
@@ -65,8 +65,8 @@ export class WeaponDiffer extends DifferBase<Weapon> {
 
     if (prevWeapon.ammo_reserve !== currWeapon.ammo_reserve) {
       this.logger.log(`🚀 ammoReserve change: ${prevWeapon.ammo_reserve} → ${currWeapon.ammo_reserve}`);
-      
-      emitter.emit(EVENTS.player.ammoReserveChanged, {
+
+      this.emitWithContext(emitter, EVENTS.player.ammoReserveChanged, {
         previously: prevWeapon.ammo_reserve,
         current: currWeapon.ammo_reserve,
       });
@@ -74,7 +74,8 @@ export class WeaponDiffer extends DifferBase<Weapon> {
 
     if (prevWeapon.name !== currWeapon.name) {
       this.logger.log(`🚀 Weapon changed: ${prevWeapon.name} → ${currWeapon.name}`);
-      emitter.emit(EVENTS.player.weaponChanged, {
+
+      this.emitWithContext(emitter, EVENTS.player.weaponChanged, {
         previously: prevWeapon,
         current: currWeapon,
       });

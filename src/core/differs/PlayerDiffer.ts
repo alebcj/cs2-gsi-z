@@ -1,4 +1,5 @@
 import { EVENTS } from '../../constants/events.js';
+import { Vector3D } from '../../models/helpers/Vector3D.js';
 import { Player } from '../../models/Player.js';
 import { Logger } from '../../utils/Logger.js';
 import { GameState } from '../gamestate/GameState.js';
@@ -35,15 +36,24 @@ export class PlayerDiffer extends DifferBase<Player> {
       { path: 'player.activity', event: EVENTS.player.activityChanged },
       { path: 'player.observerSlot', event: EVENTS.player.observerSlotChanged },
       { path: 'player.specTarget', event: EVENTS.player.specTargetChanged },
+      { path: 'player.position', event: EVENTS.player.positionChanged },
+      { path: 'player.forward', event: EVENTS.player.forwardDirectionChanged },
     ];
 
     for (const { path, event } of fields) {
       const prevVal = this.getFieldSafe(path, prev, this.previously);
       const currVal = this.getFieldSafe(path, curr, this.added);
 
+      if (Vector3D.isVector3D(prevVal) && Vector3D.isVector3D(currVal)) {
+        // Both are Vector3D, compare
+        if (prevVal.x === currVal.x && prevVal.y === currVal.y && prevVal.z === currVal.z) {
+          continue; // No change
+        }
+      }
+
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
-        this.emitWithContext(emitter, event, { previously: prevVal, current: currVal }, 'player');
+        this.emitWithContext(emitter, event, { previously: prevVal, current: currVal });
       }
     }
   }

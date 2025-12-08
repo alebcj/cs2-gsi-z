@@ -52,8 +52,8 @@ export class ModelBase {
       return this.constructor(JSON.parse(json));
     }
 
-    protected validateString(value): string | 'unknown' {
-      return (typeof value === 'string' && value.trim() !== '') ? value : "unknown";
+    protected validateString<T>(value): T | 'unknown' {
+      return (typeof value === 'string' && value.trim() !== '') ? value as T : "unknown";
     }
 
     protected validateStringOrNull(value) {

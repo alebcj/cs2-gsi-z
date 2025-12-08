@@ -1,5 +1,6 @@
-import { Logger } from "../../utils/Logger";
 import { ModelBase } from "../ModelBase";
+
+export type Vector3DArray = [x: number, y: number, z: number];
 
 export interface Vector3DInput {
     x?: number;
@@ -28,6 +29,14 @@ export class Vector3D extends ModelBase {
         });
     }
 
+    static isVector3DArray(arr: any): arr is Vector3DArray {
+        return Array.isArray(arr) && arr.length === 3 && typeof arr[0] === 'number' && typeof arr[1] === 'number' && typeof arr[2] === 'number';
+    }
+
+    static isVector3D(obj: any): obj is Vector3D {
+        return obj instanceof Vector3D;
+    }
+
     constructor(data: Vector3DInput = {}) {
         super();
 
@@ -40,5 +49,9 @@ export class Vector3D extends ModelBase {
         this.x = this.validateNumber(data.x);
         this.y = this.validateNumber(data.y);
         this.z = this.validateNumber(data.z);
+    }
+
+    toArray(): Vector3DArray {
+        return [this.x, this.y, this.z];
     }
 }

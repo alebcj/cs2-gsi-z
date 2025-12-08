@@ -36,7 +36,7 @@ export class PlayerStateDiffer extends DifferBase<PlayerState> {
       { path: 'player.state.flashed', event: EVENTS.player.flashedChanged },
       { path: 'player.state.smoked', event: EVENTS.player.smokedChanged },
       { path: 'player.state.burning', event: EVENTS.player.burningChanged },
-      { path: 'player.state.equipValue', event: EVENTS.player.equipValueChanged },
+      { path: 'player.state.equipmentValue', event: EVENTS.player.equipmentValueChanged },
     ];
 
     for (const { path, event } of fields) {
@@ -45,7 +45,7 @@ export class PlayerStateDiffer extends DifferBase<PlayerState> {
 
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
-        this.emitWithContext(emitter, event, { previousus: prevVal, current: currVal }, 'player');
+        this.emitWithContext(emitter, event, { previousus: prevVal, current: currVal });
       }
     }
 
@@ -55,7 +55,7 @@ export class PlayerStateDiffer extends DifferBase<PlayerState> {
     if (currMoney !== null && prevMoney !== null && currMoney > prevMoney) {
       const earned = currMoney - prevMoney;
       this.logger.log(`💵 Money earned: +${earned}`);
-      this.emitWithContext(emitter, EVENTS.player.moneyEarned, { earned }, 'player');
+      this.emitWithContext(emitter, EVENTS.player.moneyEarned, { earned });
     }
   }
 }
