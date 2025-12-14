@@ -27,4 +27,12 @@ export class Round extends ModelBase {
     this.bomb = this.validateStringOrNull(data.bomb);        // E.g.: planted, exploded, defused
     this.winner = this.validateStringOrNull(data.win_team);  // E.g.: CT, T, null
   }
+
+  toSerializableObject(): RoundInput {
+    return {
+      phase: this.phase,
+      bomb: this.bomb ?? undefined,
+      win_team: this.winner ?? undefined,
+    }
+  }
 }

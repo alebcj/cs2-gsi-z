@@ -67,6 +67,7 @@ export const WeaponData = {
     weapon_knife_cord: { type: 'Knife', displayName: 'Paracord Knife' },
     weapon_knife_skeleton: { type: 'Knife', displayName: 'Skeleton Knife' },
     weapon_knife_outdoor: { type: 'Knife', displayName: 'Nomad Knife' },
+    weapon_knife_kukri: { type: 'Knife', displayName: 'Kukri Knife' },
   
     // Grenades
     weapon_decoy: { type: 'Grenade', displayName: 'Decoy' },

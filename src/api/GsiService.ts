@@ -1,6 +1,5 @@
 import { EventEmitter } from 'events';
 import { GsiListener } from './GsiListener.js';
-import { GameStateManager } from '../core/gamestate/GameStateManager.js';
 import { GsiUpdateHandler } from '../core/handlers/GsiUpdateHandler.js';
 import { default_differs } from '../core/differs/default_differs.js';
 import { DifferManager } from '../core/differs/DifferManager.js';
@@ -20,7 +19,6 @@ export class GsiService extends EventEmitter<EventMap> {
   private logger: Logger | Console;
   private httpPort: number;
   private listener: GsiListener;
-  public stateManager: GameStateManager;
   private differManager: DifferManager;
   private updateHandler: GsiUpdateHandler;
 
@@ -37,7 +35,6 @@ export class GsiService extends EventEmitter<EventMap> {
     
     // Initialize components
     this.listener = this.createWithLogger(GsiListener, 'GsiListener');
-    this.stateManager = new GameStateManager();
     this.differManager = new DifferManager();
 
     // Register default differs
@@ -50,7 +47,6 @@ export class GsiService extends EventEmitter<EventMap> {
     // Initialize update handler
     this.updateHandler = new GsiUpdateHandler({
       logger: this.logger.child('GsiUpdateHandler'),
-      stateManager: this.stateManager,
       differManager: this.differManager,
       emitter: this
     });
@@ -102,14 +98,6 @@ export class GsiService extends EventEmitter<EventMap> {
       callback(eventName, ...args);
       return originalEmit.apply(this, [eventName, ...args]);
     };
-  }
-
-  /**
-   * Returns the current game state snapshot.
-   * @returns Current game state containing player, map, and round data
-   */
-  getSnapshot() {
-    return this.stateManager.getFullState();
   }
 
   /**

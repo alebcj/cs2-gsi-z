@@ -21,8 +21,8 @@ export abstract class DifferBase<T extends ModelBase> {
     this.added = added ?? null;
   }
 
-  emitWithContext(emitter: EventEmitter<EventMap>, eventName: keyof EventMap, data: any) {
-    emitter.emit(eventName, data);
+  emitWithContext(emitter: EventEmitter<EventMap>, eventName: keyof EventMap, ...data: EventMap[typeof eventName]) {
+    emitter.emit(eventName, ...data);
   }
 
   /**

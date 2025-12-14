@@ -47,4 +47,17 @@ export class WeaponsCollection extends ModelBase {
   some(predicate: (value: Weapon, index: number, array: Weapon[]) => unknown) {
     return this.list.some(predicate);
   }
+
+  toSerializableObject(): WeaponsCollectionInput {
+    const result: WeaponsCollectionInput = {};
+
+    let i = 0;
+    for (const weapon of this.list) {
+      result[`weapon_${i}`] = weapon.toSerializableObject();
+
+      i++;
+    }
+
+    return result;
+  }
 }

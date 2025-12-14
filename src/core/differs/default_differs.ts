@@ -4,12 +4,18 @@ import { WeaponDiffer } from './WeaponDiffer.js';
 import { MapDiffer } from './MapDiffer.js';
 import { RoundDiffer } from './RoundDiffer.js';
 import { PhaseCountdownsDiffer } from './PhaseCountdownsDiffer.js';
+import { AllPlayersDiffer } from './AllPlayersDiffer.js';
+import { BombDiffer } from './BombDiffer.js';
+import { ProviderDiffer } from './ProviderDiffer.js';
 
 export const default_differs = [
+  ProviderDiffer,
   MapDiffer,
   RoundDiffer,
-  PhaseCountdownsDiffer,
   PlayerDiffer,
   PlayerStateDiffer,
-  WeaponDiffer
+  WeaponDiffer,
+  PhaseCountdownsDiffer,
+  AllPlayersDiffer,
+  BombDiffer
 ];

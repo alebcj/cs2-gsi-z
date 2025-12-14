@@ -10,12 +10,12 @@ import { ModelBase } from "../models/ModelBase.js";
  * @param currentState - The current parsed state.
  * @param previously - The "previously" delta block from GSI, parsed.
  * @returns - The reconstructed state. */
-export function applyDelta<T extends ModelBase>(currentState: T, previously: T) {
+export function applyDelta<T extends Object>(currentState: T, previously: T) {
   if (!previously || typeof previously !== 'object') {
     return currentState;
   }
 
-  deepMerge(currentState, previously);
+  deepMerge(previously, currentState);
 
   return currentState;
 }
@@ -26,14 +26,14 @@ export function applyDelta<T extends ModelBase>(currentState: T, previously: T) 
  * 
  * @param target - The object to apply the changes to.
  * @param source - The "previously" block changes. */
-function deepMerge<T extends ModelBase>(target: T, source: Record<string, any>) {
+function deepMerge<T extends Object>(target: T, source: any) {
   for (const key of Object.keys(source)) {
-    const sourceValue = source[key as keyof ModelBase];
-    const targetValue = target[key as keyof ModelBase];
+    const sourceValue = source[key as keyof T];
+    const targetValue = target[key as keyof T];
 
     if (
       typeof sourceValue === 'object' &&
-      targetValue instanceof ModelBase
+      targetValue instanceof Object
     ) {
       deepMerge(targetValue, sourceValue);
     } else {

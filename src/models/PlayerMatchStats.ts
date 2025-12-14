@@ -36,4 +36,14 @@ export class PlayerMatchStats extends ModelBase {
   public kda() {
     return this.deaths > 0 ? ((this.kills + this.assists) / this.deaths).toFixed(2) : '∞';
   }
+
+  toSerializableObject(): PlayerMatchStatsInput {
+    return {
+      kills: this.kills,
+      assists: this.assists,
+      deaths: this.deaths,
+      mvps: this.mvps,
+      score: this.score,
+    }
+  }
 }

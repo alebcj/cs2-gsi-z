@@ -1,7 +1,7 @@
 /**
  * Base class for all models (Player, Map, Round, etc.).
  * Adds serialization, cloning, and automatic comparison. */
-export class ModelBase {
+export abstract class ModelBase {
     toJSON(): string {
       const result = {};
 
@@ -17,20 +17,7 @@ export class ModelBase {
       return JSON.stringify(result);
     }
 
-    toSerializableObject() {
-      const result = {};
-
-      for (const key of Object.keys(this)) {
-        const value = this[key];
-        if (value && typeof value.toSerializableObject === 'function') {
-          result[key] = value.toSerializableObject();
-        } else {
-          result[key] = value;
-        }
-      }
-
-      return result;
-    }
+    abstract toSerializableObject(): any;
   
     clone() {
       return this.fromJSON(this.toJSON());

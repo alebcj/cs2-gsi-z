@@ -54,4 +54,16 @@ export class Vector3D extends ModelBase {
     toArray(): Vector3DArray {
         return [this.x, this.y, this.z];
     }
+
+    toString() {
+        return `${this.x}, ${this.y}, ${this.z}`;
+    }
+
+    toSerializableObject(): Vector3DInput {
+        return {
+            x: this.x,
+            y: this.y,
+            z: this.z,
+        }
+    }
 }

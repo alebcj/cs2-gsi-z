@@ -22,7 +22,9 @@
  */
 
 import { Vector3DArray } from "../models/helpers/Vector3D";
-import { Activity, Phase, Team } from "./enums";
+import { Weapon } from "../models/Weapon";
+import { Activity, BombState, Phase, Team } from "./enums";
+import { STEAMID64 } from "./types";
 
 /**
  * @typedef {Object} MapEvents
@@ -82,6 +84,8 @@ export const EVENTS = /* * @type {GsiEvents} */ {
     activityChanged: "player:activityChanged",
     observerSlotChanged: "player:observerSlotChanged",
     specTargetChanged: "player:spectargetChanged",
+    positionChanged: "player:positionChanged",
+    forwardDirectionChanged: "player:forwardDirectionChanged",
 
     // Player State
     hpChanged: "player:hpChanged",
@@ -91,7 +95,6 @@ export const EVENTS = /* * @type {GsiEvents} */ {
     smokedChanged: "player:smokedChanged",
     burningChanged: "player:burningChanged",
     moneyChanged: "player:moneyChanged",
-    moneyEarned: "player:moneyEarned",
     equipmentValueChanged: "player:equipmentValueChanged",
 
     // Weapons
@@ -104,31 +107,59 @@ export const EVENTS = /* * @type {GsiEvents} */ {
     deathsChanged: "player:deathsChanged",
     assistsChanged: "player:assistsChanged",
     scoreChanged: "player:scoreChanged",
-
-    // Position
-    positionChanged: "player:positionChanged",
-    forwardDirectionChanged: "player:forwardDirectionChanged",
+    mvpsChanged: "player:mvpsChanged",
   },
 
   phaseCountdowns: {
     phaseChanged: "phaseCountdowns:phaseChanged",
     phaseEndsInChanged: "phaseCountdowns:phaseEndsInChanged",
   },
+
+  allPlayers: {
+    joined: "allPlayers:joined",
+    left: "allPlayers:left",
+
+    // Basic Info
+    teamChanged: "allPlayers:teamChanged",
+    observerSlotChanged: "allPlayers:observerSlotChanged",
+    positionChanged: "allPlayers:positionChanged",
+    forwardDirectionChanged: "allPlayers:forwardDirectionChanged",
+
+    // Player State
+    hpChanged: "allPlayers:hpChanged",
+    armorChanged: "allPlayers:armorChanged",
+    helmetChanged: "allPlayers:helmetChanged",
+    flashedChanged: "allPlayers:flashedChanged",
+    smokedChanged: "allPlayers:smokedChanged",
+    burningChanged: "allPlayers:burningChanged",
+    moneyChanged: "allPlayers:moneyChanged",
+    moneyEarned: "allPlayers:moneyEarned",
+    equipmentValueChanged: "allPlayers:equipmentValueChanged",
+
+    // Weapons
+    weaponChanged: "allPlayers:weaponChanged",
+    ammoClipChanged: "allPlayers:ammoClipChanged",
+    ammoReserveChanged: "allPlayers:ammoReserveChanged",
+
+    // Match Stats
+    killsChanged: "allPlayers:killsChanged",
+    deathsChanged: "allPlayers:deathsChanged",
+    assistsChanged: "allPlayers:assistsChanged",
+    scoreChanged: "allPlayers:scoreChanged",
+    mvpsChanged: "allPlayers:mvpsChanged",
+  },
+
+  bomb: {
+    stateChanged: "bomb:stateChanged",
+    positionChanged: "bomb:positionChanged",
+    playerChanged: "bomb:playerChanged",
+  },
 } as const;
 
-export type eventDataString<T> = [
-  { previously: T | null | "unknown"; current: T | null | "unknown" },
-];
-export type eventDataNumber<T> = [
-  { previously: T | null | 0; current: T | null | 0 },
-];
-export type eventDataEnum<T> = [
-  { previously: T; current: T },
-];
-
-export type eventDataVector3D = [
-  { previously: null | Vector3DArray; current: null | Vector3DArray },
-];
+export type eventDataString<T> = { previously: T | null | "unknown"; current: T | null | "unknown" };
+export type eventDataNumber<T> = { previously: T | null | 0; current: T | null | 0 };
+export type eventDataEnum<T> = { previously: T; current: T };
+export type eventDataVector3D = { previously: null | Vector3DArray; current: null | Vector3DArray };
 
 export type EventMap = {
   "provider:nameChanged": [eventDataString<string>];
@@ -141,21 +172,18 @@ export type EventMap = {
   "map:teamTScoreChanged": [eventDataNumber<number>];
 
   "round:phaseChanged": [eventDataEnum<Phase>];
-  "round:started": [eventDataString<string>];
-  "round:ended": [eventDataString<string>];
+  "round:started": [];
+  "round:ended": [{ winner: string | null | "unknown" }];
   "round:won": [eventDataString<string>];
 
   "round:bombPlantingStarted": [eventDataNumber<string>];
   "round:bombPlanted": [eventDataNumber<string>];
   "round:bombPlantFake": [eventDataNumber<string>];
 
-  "phaseCountdowns:phaseChanged": [eventDataEnum<Phase>];
-  "phaseCountdowns:phaseEndsInChanged": [eventDataString<string>];
-
   "player:teamChanged": [eventDataEnum<Team>];
   "player:activityChanged": [eventDataEnum<Activity>];
   "player:observerSlotChanged": [eventDataNumber<number>];
-  "player:spectargetChanged": [eventDataString<string>];
+  "player:spectargetChanged": [eventDataString<STEAMID64>];
 
   "player:hpChanged": [eventDataNumber<number>];
   "player:armorChanged": [eventDataNumber<number>];
@@ -164,10 +192,9 @@ export type EventMap = {
   "player:smokedChanged": [eventDataNumber<number>];
   "player:burningChanged": [eventDataNumber<number>];
   "player:moneyChanged": [eventDataNumber<number>];
-  "player:moneyEarned": [eventDataNumber<number>];
   "player:equipmentValueChanged": [eventDataNumber<number>];
 
-  "player:weaponChanged": [eventDataString<string>];
+  "player:weaponChanged": [eventDataString<Weapon>];
   "player:ammoClipChanged": [eventDataNumber<number>];
   "player:ammoReserveChanged": [eventDataNumber<number>];
 
@@ -175,7 +202,42 @@ export type EventMap = {
   "player:deathsChanged": [eventDataNumber<number>];
   "player:assistsChanged": [eventDataNumber<number>];
   "player:scoreChanged": [eventDataNumber<number>];
+  "player:mvpsChanged": [eventDataNumber<number>];
 
   "player:positionChanged": [eventDataVector3D];
   "player:forwardDirectionChanged": [eventDataVector3D];
+
+  "phaseCountdowns:phaseChanged": [eventDataEnum<Phase>];
+  "phaseCountdowns:phaseEndsInChanged": [eventDataString<string>];
+
+  "allPlayers:joined": [STEAMID64, eventDataString<string>];
+  "allPlayers:left": [STEAMID64, eventDataString<string>];
+
+  "allPlayers:teamChanged": [STEAMID64, eventDataEnum<Team>];
+  "allPlayers:observerSlotChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:positionChanged": [STEAMID64, eventDataVector3D];
+  "allPlayers:forwardDirectionChanged": [STEAMID64, eventDataVector3D];
+
+  "allPlayers:hpChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:armorChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:helmetChanged": [STEAMID64, eventDataNumber<boolean>];
+  "allPlayers:flashedChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:smokedChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:burningChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:moneyChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:equipmentValueChanged": [STEAMID64, eventDataNumber<number>];
+
+  "allPlayers:weaponChanged": [STEAMID64, eventDataString<Weapon>];
+  "allPlayers:ammoClipChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:ammoReserveChanged": [STEAMID64, eventDataNumber<number>];
+
+  "allPlayers:killsChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:deathsChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:assistsChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:scoreChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:mvpsChanged": [STEAMID64, eventDataNumber<number>];
+
+  "bomb:stateChanged": [eventDataEnum<BombState>];
+  "bomb:positionChanged": [eventDataVector3D];
+  "bomb:playerChanged": [eventDataString<STEAMID64>];
 };

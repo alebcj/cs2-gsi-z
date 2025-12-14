@@ -7,7 +7,3 @@ const config = GSIConfigWriter.generate({ name: 'cs2-gsi', uri: 'http://localhos
 console.log(config);
 
 gsiService.start();
-
-gsiService.onAny((event, { previously, current }) => {
-  console.log(event, previously, '→', current);
-});

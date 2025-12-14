@@ -29,8 +29,6 @@ export class PlayerDiffer extends DifferBase<Player> {
   diff(prev: GameState, curr: GameState, emitter: EmitterContext, options: DiffOptions = {}) {
     if (!prev?.player && !curr?.player) return;
 
-    console.log(prev.player.specTarget, curr.player.specTarget);
-
     const fields = [
       { path: 'player.team', event: EVENTS.player.teamChanged },
       { path: 'player.activity', event: EVENTS.player.activityChanged },

@@ -1,3 +1,4 @@
+import { Phase } from '../../constants/enums.js';
 import { EVENTS } from '../../constants/events.js';
 import { Round } from '../../models/Round.js';
 import { Logger } from '../../utils/Logger.js';
@@ -28,16 +29,16 @@ export class RoundDiffer extends DifferBase<Round> {
   diff(prev: GameState, curr: GameState, emitter: EmitterContext, options: DiffOptions = {}) {
     if (!prev?.round && !curr?.round) return;
 
-    const prevPhase = this.getFieldSafe('round.phase', prev, this.previously);
-    const currPhase = this.getFieldSafe('round.phase', curr, this.added);
+    const prevPhase = this.getFieldSafe('round.phase', prev, this.previously) as Phase;
+    const currPhase = this.getFieldSafe('round.phase', curr, this.added) as Phase;
 
     if (prevPhase !== currPhase) {
       this.logger.log(`🔁 Change of phase: ${prevPhase} → ${currPhase}`);
       this.emitWithContext(emitter, EVENTS.round.phaseChanged, { previously: prevPhase, current: currPhase });
 
-      if (currPhase === 'freezetime') {
+      if (currPhase === Phase.Freezetime) {
         this.logger.log('🚀 Round starts (freezetime).');
-        this.emitWithContext(emitter, EVENTS.round.started, {});
+        this.emitWithContext(emitter, EVENTS.round.started);
       }
     }
 
@@ -58,23 +59,23 @@ export class RoundDiffer extends DifferBase<Round> {
       this.emitWithContext(emitter, EVENTS.map.roundChanged, { previously: prevRoundNumber, current: currRoundNumber });
     }
     
-    // @ts-expect-error
-    if (options.added?.round?.bomb === true) {
-      this.logger.log('💣 Bomb planting started.');
-      this.emitWithContext(emitter, EVENTS.round.bombPlantingStarted, {});
-    }
+    // // @ts-expect-error
+    // if (options.added?.round?.bomb === true) {
+    //   this.logger.log('💣 Bomb planting started.');
+    //   this.emitWithContext(emitter, EVENTS.round.bombPlantingStarted, {});
+    // }
 
-    const prevBomb = this.getFieldSafe('round.bomb', prev, this.previously);
-    const currBomb = this.getFieldSafe('round.bomb', curr, this.added);
+    // const prevBomb = this.getFieldSafe('round.bomb', prev, this.previously);
+    // const currBomb = this.getFieldSafe('round.bomb', curr, this.added);
 
-    if (prevBomb !== currBomb) {
-      if (currBomb === 'planted') {
-        this.logger.log('💥 Bomb planted.');
-        this.emitWithContext(emitter, EVENTS.round.bombPlanted, {});
-      } else if (!currBomb) {
-        this.logger.log('❌ Bomb plant attempt failed.');
-        this.emitWithContext(emitter, EVENTS.round.bombPlantFake, {});
-      }
-    }
+    // if (prevBomb !== currBomb) {
+    //   if (currBomb === 'planted') {
+    //     this.logger.log('💥 Bomb planted.');
+    //     this.emitWithContext(emitter, EVENTS.round.bombPlanted, {});
+    //   } else if (!currBomb) {
+    //     this.logger.log('❌ Bomb plant attempt failed.');
+    //     this.emitWithContext(emitter, EVENTS.round.bombPlantFake, {});
+    //   }
+    // }
   }
 }

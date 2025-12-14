@@ -6,10 +6,6 @@ export { Logger, LEVELS } from './utils/Logger.js';
 export { applyDelta } from './utils/applyDelta.js';
 export { GSIConfigWriter } from './utils/GSIConfigWriter.js';
 
-// 🧩 Core - Game State Management
-export { GameStateManager } from './core/gamestate/GameStateManager.js';
-export { GsiParser } from './core/parser/GsiParser.js';
-
 // 🎯 Core - Differes
 export { DifferManager } from './core/differs/DifferManager.js';
 export { DifferBase } from './core/differs/DifferBase.js';

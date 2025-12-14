@@ -55,4 +55,19 @@ export class PlayerState extends ModelBase {
   public hasArmor() {
     return (this.armor ?? 0) > 0 || this.helmet;
   }
+
+  toSerializableObject(): PlayerStateInput {
+    return {
+      health: this.health ?? undefined,
+      armor: this.armor ?? undefined,
+      helmet: this.helmet,
+      flashed: this.flashed,
+      smoked: this.smoked,
+      burning: this.burning,
+      money: this.money,
+      round_kills: this.roundKills,
+      round_killhs: this.roundHeadshotKills,
+      equip_value: this.equipmentValue,
+    }
+  }
 }

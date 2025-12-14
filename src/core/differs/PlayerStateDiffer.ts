@@ -1,4 +1,5 @@
-import { EVENTS } from '../../constants/events.js';
+import { EventMap, EVENTS } from '../../constants/events.js';
+import { STEAMID64 } from '../../constants/types.js';
 import { PlayerState } from '../../models/PlayerState.js';
 import { Logger } from '../../utils/Logger.js';
 import { GameState } from '../gamestate/GameState.js';
@@ -26,6 +27,8 @@ export class PlayerStateDiffer extends DifferBase<PlayerState> {
    * @param {Object} emitter Event emission context
    * @param {Object} [options] Optional. Object with { previously, added } */
   diff(prev: GameState, curr: GameState, emitter: EmitterContext, options: DiffOptions = {}) {
+    this.diffAllPlayers(prev, curr, emitter);
+    
     if (!prev?.player && !curr?.player) return;
 
     const fields = [
@@ -45,17 +48,57 @@ export class PlayerStateDiffer extends DifferBase<PlayerState> {
 
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
-        this.emitWithContext(emitter, event, { previousus: prevVal, current: currVal });
+        this.emitWithContext(emitter, event, { previously: prevVal, current: currVal });
       }
     }
 
-    const prevMoney = this.getFieldSafe('player.state.money', prev, this.previously);
-    const currMoney = this.getFieldSafe('player.state.money', curr, this.added);
+    // Seems redundant since you can simply use the moneyChanged event to calculate the earned money
 
-    if (currMoney !== null && prevMoney !== null && currMoney > prevMoney) {
-      const earned = currMoney - prevMoney;
-      this.logger.log(`💵 Money earned: +${earned}`);
-      this.emitWithContext(emitter, EVENTS.player.moneyEarned, { earned });
+    // const prevMoney = this.getFieldSafe('player.state.money', prev, this.previously);
+    // const currMoney = this.getFieldSafe('player.state.money', curr, this.added);
+
+    // if (currMoney !== null && prevMoney !== null && currMoney > prevMoney) {
+    //   const earned = currMoney - prevMoney;
+    //   this.logger.log(`💵 Money earned: +${earned}`);
+    //   this.emitWithContext(emitter, EVENTS.player.moneyEarned, { earned });
+    // }
+  }
+
+  diffAllPlayers(prev: GameState, curr: GameState, emitter: EmitterContext) {
+    if (!prev?.allPlayers && !curr?.allPlayers) return;
+
+    const prevSteamids = prev.allPlayers.getAllSteamids();
+    const currSteamids = curr.allPlayers.getAllSteamids();
+
+    const allSteamids = new Set([...currSteamids, ...prevSteamids]);
+
+    let fields: {
+      path: string;
+      event: keyof EventMap;
+    }[] = [];
+
+    for (const steamid of allSteamids) {
+      fields.push(
+        { path: `allPlayers.${steamid}.state.health`, event: EVENTS.allPlayers.hpChanged },
+        { path: `allPlayers.${steamid}.state.armor`, event: EVENTS.allPlayers.armorChanged },
+        { path: `allPlayers.${steamid}.state.helmet`, event: EVENTS.allPlayers.helmetChanged },
+        { path: `allPlayers.${steamid}.state.money`, event: EVENTS.allPlayers.moneyChanged },
+        { path: `allPlayers.${steamid}.state.flashed`, event: EVENTS.allPlayers.flashedChanged },
+        { path: `allPlayers.${steamid}.state.smoked`, event: EVENTS.allPlayers.smokedChanged },
+        { path: `allPlayers.${steamid}.state.burning`, event: EVENTS.allPlayers.burningChanged },
+        { path: `allPlayers.${steamid}.state.equip_value`, event: EVENTS.allPlayers.equipmentValueChanged },
+      );
+    }
+
+    for (const { path, event } of fields) {
+      const prevVal = this.getFieldSafe(path, prev, this.previously);
+      const currVal = this.getFieldSafe(path, curr, this.added);
+      const steamid = path.split(".")[1] as STEAMID64;
+
+      if (prevVal !== currVal) {
+        this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
+        this.emitWithContext(emitter, event, steamid, { previously: prevVal, current: currVal });
+      }
     }
   }
 }

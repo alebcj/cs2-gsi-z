@@ -24,4 +24,11 @@ export class PhaseCountdowns extends ModelBase {
     this.phase = stringToPhase(data.phase); // E.g.: freezetime, live, over
     this.phaseEndsIn = this.validateStringOrNull(data.phase_ends_in); // E.g.: minutes, seconds
   }
+
+  toSerializableObject(): PhaseCountdownsInput {
+    return {
+      phase: this.phase,
+      phase_ends_in: this.phaseEndsIn ?? undefined,
+    }
+  }
 }

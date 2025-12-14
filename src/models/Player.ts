@@ -8,6 +8,7 @@ import { ModelBase } from "./ModelBase.js";
 import { Weapon } from "./Weapon.js";
 import { Vector3D } from "./helpers/Vector3D.js";
 import { Activity, stringToActivity, stringToTeam, Team } from "../constants/enums.js";
+import { STEAMID64 } from "../constants/types.js";
 
 export interface PlayerInput {
   steamid?: string;
@@ -28,7 +29,7 @@ export interface PlayerInput {
 /**
  * Represents the current player. */
 export class Player extends ModelBase {
-  public steamid: string;
+  public steamid: STEAMID64;
   public name: string;
   public clan: string;
   public xpOverloadLevel: number | null;
@@ -98,5 +99,22 @@ export class Player extends ModelBase {
    * Does the player have C4? */
   public hasC4() {
     return this.weapons.some((w) => w.isC4());
+  }
+
+  toSerializableObject(): PlayerInput {
+    return {
+      steamid: this.steamid,
+      name: this.name,
+      xpoverload: this.xpOverloadLevel ?? undefined,
+      clan: this.clan,
+      team: this.team,
+      observer_slot: this.observerSlot ?? undefined,
+      spectarget: this.specTarget ?? undefined,
+      position: this.position.toString(),
+      forward: this.forwardDirection.toString(),
+      state: this.state.toSerializableObject(),
+      match_stats: this.matchStats.toSerializableObject(),
+      weapons: this.weapons.toSerializableObject(),
+    }
   }
 }

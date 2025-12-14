@@ -32,4 +32,14 @@ export class Provider extends ModelBase {
     this.steamid = this.validateString(data.steamid);
     this.timestamp = this.validateNumber(data.timestamp);
   }
+
+  toSerializableObject(): ProviderInput {
+    return {
+      name: this.name,
+      appid: this.appid,
+      version: this.version,
+      steamid: this.steamid,
+      timestamp: this.timestamp,
+    }
+  }
 }

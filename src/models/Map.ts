@@ -33,6 +33,16 @@ export class TeamInfo extends ModelBase {
     this.timeoutsRemaining = this.validateNumber(data.timeouts_remaining, 0);
     this.matchesWonThisSeries = this.validateNumber(data.matches_won_this_series, 0);
   }
+
+  toSerializableObject(): TeamInfoInput {
+    return {
+      score: this.score,
+      name: this.name,
+      consecutive_round_losses: this.consecutiveRoundLosses,
+      timeouts_remaining: this.timeoutsRemaining,
+      matches_won_this_series: this.matchesWonThisSeries,
+    }
+  }
 }
 
 
@@ -74,5 +84,17 @@ export class Map extends ModelBase {
 
     this.teamCT = new TeamInfo(data.team_ct || {});
     this.teamT = new TeamInfo(data.team_t || {});
+  }
+
+  toSerializableObject(): MapInput {
+    return {
+      mode: this.mode,
+      name: this.name,
+      phase: this.phase,
+      round: this.round,
+      num_matches_to_win_series: this.numMatchesToWinSeries,
+      team_ct: this.teamCT.toSerializableObject(),
+      team_t: this.teamT.toSerializableObject(),
+    }
   }
 }

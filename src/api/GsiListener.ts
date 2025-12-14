@@ -64,6 +64,7 @@ export class GsiListener extends EventEmitter {
           
         } catch (err: any) {
           this.logger.error('Error parsing GSI payload:', err);
+          this.logger.log('Raw payload:', body);
           this.emit('error', err);
           
           res.writeHead(400, { 'Content-Type': 'application/json' });

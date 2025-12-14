@@ -87,8 +87,6 @@ export enum GameMode {
 
 export function stringToGameMode(str?: string): GameMode {
     switch (str) {
-        case 'unknown':
-            return GameMode.Unknown;
         case 'custom':
             return GameMode.Custom;
         case 'skirmish':
@@ -134,8 +132,6 @@ export enum Team {
 
 export function stringToTeam(str?: string): Team {
     switch (str) {
-        case 'unknown':
-            return Team.Unknown;
         case 'CT':
             return Team.CT;
         case 'T':
@@ -154,8 +150,6 @@ export enum Activity {
 
 export function stringToActivity(str?: string): Activity {
     switch (str) {
-        case 'unknown':
-            return Activity.Unknown;
         case 'menu':
             return Activity.Menu;
         case 'playing':
@@ -177,8 +171,6 @@ export enum Phase {
 
 export function stringToPhase(str?: string): Phase {
     switch (str) {
-        case 'unknown':
-            return Phase.Unknown;
         case 'warmup':
             return Phase.Warmup;
         case 'live':
@@ -189,5 +181,86 @@ export function stringToPhase(str?: string): Phase {
             return Phase.Freezetime;
         default:
             return Phase.Unknown;
+    }
+}
+
+export enum BombState {
+    Unknown = 'unknown',
+    Carried = 'carried',
+    Dropped = 'dropped',
+    Planting = 'planting',
+    Planted = 'planted',
+    Exploded = 'exploded',
+    Defusing = 'defusing',
+    Defused = 'defused',
+}
+
+export function stringToBombState(str?: string): BombState {
+    switch (str) {
+        case 'carried':
+            return BombState.Carried;
+        case 'dropped':
+            return BombState.Dropped;
+        case 'planting':
+            return BombState.Planting;
+        case 'planted':
+            return BombState.Planted;
+        case 'exploded':
+            return BombState.Exploded;
+        case 'defusing':
+            return BombState.Defusing;
+        case 'defused':
+            return BombState.Defused;
+        default:
+            return BombState.Unknown;
+    }
+}
+
+export enum WeaponState {
+    Unknown = 'unknown',
+    Active = 'active',
+    Holstered = 'holstered',
+    Reloading = 'reloading',
+}
+
+export function stringToWeaponState(str?: string): WeaponState {
+    switch (str) {
+        case 'active':
+            return WeaponState.Active;
+        case 'holstered':
+            return WeaponState.Holstered;
+        case 'reloading':
+            return WeaponState.Reloading;
+        default:
+            return WeaponState.Unknown;
+    }
+}
+
+export enum GrenadeType {
+    Unknown = 'unknown',
+    Smoke = 'smoke',
+    Incendiary = 'inferno',
+    Molotov = 'firebomb',
+    HighExplosive = 'frag',
+    Flashbang = 'flashbang',
+    Decoy = 'decoy'
+}
+
+export function stringToGrenadeType(str?: string): GrenadeType {
+    switch (str) {
+        case 'smoke':
+            return GrenadeType.Smoke;
+        case 'inferno':
+            return GrenadeType.Incendiary;
+        case 'firebomb':
+            return GrenadeType.Molotov;
+        case 'frag':
+            return GrenadeType.HighExplosive;
+        case 'flashbang':
+            return GrenadeType.Flashbang;
+        case 'decoy':
+            return GrenadeType.Decoy;
+        default:
+            return GrenadeType.Unknown;
     }
 }

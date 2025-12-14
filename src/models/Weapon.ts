@@ -1,5 +1,6 @@
-import { WeaponData } from './WeaponData.js';
+import { WeaponData } from '../data/WeaponData.js';
 import { ModelBase } from './ModelBase.js';
+import { stringToWeaponState, WeaponState } from '../constants/enums.js';
 
 export interface WeaponInput {
   name?: string;
@@ -17,7 +18,7 @@ export class Weapon extends ModelBase {
   public displayName: string;
 
   public name: string;
-  public state: string;
+  public state: WeaponState;
   public ammo_clip: number | null;
   public ammo_clip_max: number | null;
   public ammo_reserve: number | null;
@@ -32,7 +33,7 @@ export class Weapon extends ModelBase {
     }
 
     this.name = this.validateString(data.name);
-    this.state = this.validateString(data.state, 'holstered');
+    this.state = stringToWeaponState(data.state);
     this.ammo_clip = this.validateNumberOrNull(data.ammo_clip);
     this.ammo_clip_max = this.validateNumberOrNull(data.ammo_clip_max);
     this.ammo_reserve = this.validateNumberOrNull(data.ammo_reserve);
@@ -64,5 +65,16 @@ export class Weapon extends ModelBase {
 
   public isActive() {
     return this.state === 'active';
+  }
+
+  toSerializableObject(): WeaponInput {
+    return {
+      name: this.name,
+      state: this.state,
+      type: this.type,
+      ammo_clip: this.ammo_clip ?? undefined,
+      ammo_clip_max: this.ammo_clip_max ?? undefined,
+      ammo_reserve: this.ammo_reserve ?? undefined,
+    }
   }
 }
