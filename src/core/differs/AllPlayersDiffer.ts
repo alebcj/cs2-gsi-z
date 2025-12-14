@@ -36,14 +36,14 @@ export class AllPlayersDiffer extends DifferBase<AllPlayers> {
     for (const steamid of prevSteamids) {
       if (!currSteamids.has(steamid)) {
         this.logger.log(`🔄 Player ${prev.allPlayers.getBySteamid(steamid)?.name} left the game.`);
-        this.emitWithContext(emitter, EVENTS.allPlayers.left, { previously: steamid, current: null });
+        this.emitWithContext(emitter, EVENTS.allPlayers.left, steamid, { previously: steamid, current: null });
       }
     }
 
     for (const steamid of currSteamids) {
       if (!prevSteamids.has(steamid)) {
         this.logger.log(`🔄 Player ${curr.allPlayers.getBySteamid(steamid)?.name} joined the game.`);
-        this.emitWithContext(emitter, EVENTS.allPlayers.joined, { previously: null, current: steamid });
+        this.emitWithContext(emitter, EVENTS.allPlayers.joined, steamid, { previously: null, current: steamid });
       }
     }
 
@@ -56,10 +56,10 @@ export class AllPlayersDiffer extends DifferBase<AllPlayers> {
 
     for (const steamid of allSteamids) {
       fields.push(
-        { path: `allPlayers.${steamid}.team`, event: EVENTS.allPlayers.teamChanged },
-        { path: `allPlayers.${steamid}.observerSlot`, event: EVENTS.allPlayers.observerSlotChanged },
-        { path: `allPlayers.${steamid}.position`, event: EVENTS.allPlayers.positionChanged },
-        { path: `allPlayers.${steamid}.forward`, event: EVENTS.allPlayers.forwardDirectionChanged },
+        { path: `allPlayers.list.${steamid}.team`, event: EVENTS.allPlayers.teamChanged },
+        { path: `allPlayers.list.${steamid}.observerSlot`, event: EVENTS.allPlayers.observerSlotChanged },
+        { path: `allPlayers.list.${steamid}.position`, event: EVENTS.allPlayers.positionChanged },
+        { path: `allPlayers.list.${steamid}.forward`, event: EVENTS.allPlayers.forwardDirectionChanged },
       );
     }
 
@@ -67,16 +67,21 @@ export class AllPlayersDiffer extends DifferBase<AllPlayers> {
       const prevVal = this.getFieldSafe(path, prev, this.previously);
       const currVal = this.getFieldSafe(path, curr, this.added);
 
+      const steamid = path.split('.')[2] as STEAMID64;
+
       if (Vector3D.isVector3D(prevVal) && Vector3D.isVector3D(currVal)) {
         // Both are Vector3D, compare
         if (prevVal.x === currVal.x && prevVal.y === currVal.y && prevVal.z === currVal.z) {
           continue; // No change
+        } else {
+            this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
+            this.emitWithContext(emitter, event, steamid, { previously: prevVal, current: currVal });
         }
       }
 
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
-        this.emitWithContext(emitter, event, path.split(".")[1] as STEAMID64 ?? 'unknown', { previously: prevVal, current: currVal });
+        this.emitWithContext(emitter, event, steamid, { previously: prevVal, current: currVal });
       }
     }
   }

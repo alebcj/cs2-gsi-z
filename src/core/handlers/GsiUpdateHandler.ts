@@ -25,8 +25,6 @@ export class GsiUpdateHandler {
   }
 
   handle(rawUpdate: GameStateInput) {
-    // /@ts-expect-error
-    console.log(rawUpdate?.player?.weapons);
     if (!rawUpdate) {
       this.logger.warn('⚠️ Empty GSI payload received.');
 

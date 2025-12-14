@@ -162,6 +162,7 @@ export class WeaponDiffer extends DifferBase<Weapon> {
       }
 
       if (prevWeapon.name !== currWeapon.name) {
+        console.log(2, steamid, prevWeapon.name, currWeapon.name);
         this.logger.log(
           `🚀 Weapon changed: ${prevWeapon.name} → ${currWeapon.name}`
         );

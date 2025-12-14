@@ -7,6 +7,7 @@ import { PhaseCountdownsDiffer } from './PhaseCountdownsDiffer.js';
 import { AllPlayersDiffer } from './AllPlayersDiffer.js';
 import { BombDiffer } from './BombDiffer.js';
 import { ProviderDiffer } from './ProviderDiffer.js';
+import { GrenadesDiffer } from './GrenadesDiffer.js';
 
 export const default_differs = [
   ProviderDiffer,
@@ -17,5 +18,6 @@ export const default_differs = [
   WeaponDiffer,
   PhaseCountdownsDiffer,
   AllPlayersDiffer,
-  BombDiffer
+  BombDiffer,
+  GrenadesDiffer
 ];

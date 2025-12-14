@@ -28,7 +28,10 @@ export class Bomb extends ModelBase {
     }
 
     if (!isSteamId64(data.player)) {
-        console.warn("⚠️ Bomb received invalid player, defaulting to unknown.");
+        if (typeof data.player === 'string') {
+            console.log(data.player);
+            console.warn("⚠️ Bomb received invalid player, defaulting to unknown.");
+        }
 
         data.player = "unknown";
     }

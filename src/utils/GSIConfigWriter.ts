@@ -1,5 +1,5 @@
 export class GSIConfigWriter {
-  static generate({ name = 'cs2-gsi', uri = 'http://localhost:3000' } = {}) {
+  static generate({ name = "cs2-gsi", uri = "http://localhost:3000" } = {}) {
     const data = `"${name}"
 {
   "uri"          "${uri}"
@@ -26,7 +26,6 @@ export class GSIConfigWriter {
     "allplayers_position"       "1"
     "allgrenades"               "1"
     "bomb"                      "1"
-    "tournamentdraft"           "1"
   }
 }`;
 

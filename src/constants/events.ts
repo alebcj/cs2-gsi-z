@@ -21,10 +21,12 @@
  * @property {string} scoreChanged
  */
 
-import { Vector3DArray } from "../models/helpers/Vector3D";
+import { GrenadeBase } from "../models/grenades/GrenadeBase";
+import { Vector3D, Vector3DArray } from "../models/helpers/Vector3D";
+import { ModelBase } from "../models/ModelBase";
 import { Weapon } from "../models/Weapon";
 import { Activity, BombState, Phase, Team } from "./enums";
-import { STEAMID64 } from "./types";
+import { GRENADEID, STEAMID64 } from "./types";
 
 /**
  * @typedef {Object} MapEvents
@@ -154,12 +156,23 @@ export const EVENTS = /* * @type {GsiEvents} */ {
     positionChanged: "bomb:positionChanged",
     playerChanged: "bomb:playerChanged",
   },
+
+  grenades: {
+    existenceChanged: "grenades:existenceChanged",
+    positionChanged: "grenades:positionChanged",
+    velocityChanged: "grenades:velocityChanged",
+    lifetimeChanged: "grenades:lifetimeChanged",
+    effectTimeChanged: "grenades:effectTimeChanged",
+    flamesChanged: "grenades:flamesChanged",
+  }
 } as const;
 
 export type eventDataString<T> = { previously: T | null | "unknown"; current: T | null | "unknown" };
+export type eventDataModel<T extends ModelBase> = { previously: T | null | "unknown"; current: T | null | "unknown" };
+export type eventDataModelArray<T extends ModelBase> = { previously: T[] | null | "unknown"; current: T[] | null | "unknown" };
 export type eventDataNumber<T> = { previously: T | null | 0; current: T | null | 0 };
 export type eventDataEnum<T> = { previously: T; current: T };
-export type eventDataVector3D = { previously: null | Vector3DArray; current: null | Vector3DArray };
+export type eventDataVector3D = { previously: null | Vector3D; current: null | Vector3D };
 
 export type EventMap = {
   "provider:nameChanged": [eventDataString<string>];
@@ -194,7 +207,7 @@ export type EventMap = {
   "player:moneyChanged": [eventDataNumber<number>];
   "player:equipmentValueChanged": [eventDataNumber<number>];
 
-  "player:weaponChanged": [eventDataString<Weapon>];
+  "player:weaponChanged": [eventDataModel<Weapon>];
   "player:ammoClipChanged": [eventDataNumber<number>];
   "player:ammoReserveChanged": [eventDataNumber<number>];
 
@@ -227,7 +240,7 @@ export type EventMap = {
   "allPlayers:moneyChanged": [STEAMID64, eventDataNumber<number>];
   "allPlayers:equipmentValueChanged": [STEAMID64, eventDataNumber<number>];
 
-  "allPlayers:weaponChanged": [STEAMID64, eventDataString<Weapon>];
+  "allPlayers:weaponChanged": [STEAMID64, eventDataModel<Weapon>];
   "allPlayers:ammoClipChanged": [STEAMID64, eventDataNumber<number>];
   "allPlayers:ammoReserveChanged": [STEAMID64, eventDataNumber<number>];
 
@@ -240,4 +253,11 @@ export type EventMap = {
   "bomb:stateChanged": [eventDataEnum<BombState>];
   "bomb:positionChanged": [eventDataVector3D];
   "bomb:playerChanged": [eventDataString<STEAMID64>];
+
+  "grenades:existenceChanged": [GRENADEID, eventDataModel<GrenadeBase>];
+  "grenades:positionChanged": [GRENADEID, eventDataVector3D];
+  "grenades:velocityChanged": [GRENADEID, eventDataVector3D];
+  "grenades:lifetimeChanged": [GRENADEID, eventDataNumber<number>];
+  "grenades:effectTimeChanged": [GRENADEID, eventDataNumber<number>];
+  "grenades:flamesChanged": [GRENADEID, eventDataModelArray<Vector3D>];
 };

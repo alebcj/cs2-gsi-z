@@ -7,7 +7,7 @@ export type AllPlayersInput = Record<string, PlayerInput>;
 /**
  * List of all players. */
 export class AllPlayers extends ModelBase {
-  public list: Player[];
+  public list: Record<STEAMID64, Player>;
 
   constructor(data: AllPlayersInput = {}) {
     super();
@@ -23,26 +23,18 @@ export class AllPlayers extends ModelBase {
     const steamids = Object.keys(data);
     const values = Object.values(data);
 
-    this.list = values.map(
-      (w, i) => new Player({ ...w, steamid: steamids[i] as STEAMID64 })
-    );
+    this.list = Object.fromEntries(steamids.map((steamid, i) => [steamid, new Player({ ...values[i], steamid })])) as Record<STEAMID64, Player>;
   }
 
   getBySteamid(steamid: STEAMID64) {
-    return this.list.find((p) => p.steamid === steamid) ?? null;
+    return this.list[steamid] ?? null;
   }
 
   getAllSteamids() {
-    return new Set(this.list.map((p) => p.steamid as STEAMID64));
+    return new Set(Object.keys(this.list) as STEAMID64[]);
   }
 
   toSerializableObject(): AllPlayersInput {
-    const result: AllPlayersInput = {};
-
-    for (const player of this.list) {
-      result[player.steamid] = player.toSerializableObject();
-    }
-
-    return result;
+    return Object.fromEntries(Object.entries(this.list).map(([steamid, player]) => [steamid, player.toSerializableObject()]));
   }
 }

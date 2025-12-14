@@ -1,5 +1,6 @@
 import { AllPlayers, AllPlayersInput } from "../../models/AllPlayers.js";
 import { Bomb, BombInput } from "../../models/Bomb.js";
+import { GrenadeList, GrenadeListInput } from "../../models/grenades/GrenadeList.js";
 import { Map, MapInput } from "../../models/Map.js";
 import { ModelBase } from "../../models/ModelBase.js";
 import { PhaseCountdowns, PhaseCountdownsInput } from "../../models/PhaseCountdowns.js";
@@ -15,6 +16,7 @@ export interface GameStateInput {
   phase_countdowns?: PhaseCountdownsInput;
   allplayers?: AllPlayersInput;
   bomb?: BombInput;
+  grenades?: GrenadeListInput;
   previously?: GameStateInput;
 }
 
@@ -28,6 +30,7 @@ export class GameState extends ModelBase {
   public phaseCountdowns: PhaseCountdowns;
   public allPlayers: AllPlayers;
   public bomb: Bomb;
+  public grenades: GrenadeList;
   public previously: GameStateInput | null;
 
   constructor({
@@ -38,6 +41,7 @@ export class GameState extends ModelBase {
     phase_countdowns,
     allplayers,
     bomb,
+    grenades,
     previously,
   }: GameStateInput) {
     super();
@@ -49,6 +53,7 @@ export class GameState extends ModelBase {
     this.phaseCountdowns = new PhaseCountdowns(phase_countdowns);
     this.allPlayers = new AllPlayers(allplayers);
     this.bomb = new Bomb(bomb);
+    this.grenades = new GrenadeList(grenades);
     
     this.previously =
       typeof previously === "object" && previously !== null
@@ -65,6 +70,7 @@ export class GameState extends ModelBase {
       phase_countdowns: this.phaseCountdowns.toSerializableObject(),
       allplayers: this.allPlayers.toSerializableObject(),
       bomb: this.bomb.toSerializableObject(),
+      grenades: this.grenades.toSerializableObject(),
     }
   }
 }
