@@ -121,12 +121,10 @@ When a new GSI payload is received, `cs2-gsi-z`:
 
 Each emitted event includes:
 
-```javascript
+```ts
 {
   previous: <previous value>,
-  current: <current value>,
-  previouslyBlock: <raw previous GSI block>,
-  addedBlock: <raw new GSI block>
+  current: <current value>
 }
 ```
 
