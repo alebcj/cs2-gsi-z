@@ -1,9 +1,9 @@
-import { EVENTS } from '../../constants/events.js';
-import { Vector3D } from '../../models/helpers/Vector3D.js';
-import { Player } from '../../models/Player.js';
-import { Logger } from '../../utils/Logger.js';
-import { GameState } from '../gamestate/GameState.js';
-import { DifferBase, DiffOptions, EmitterContext } from './DifferBase.js';
+import { EVENTS } from '../../constants/events';
+import { Vector3D } from '../../models/helpers/Vector3D';
+import { Player } from '../../models/players/Player';
+import { Logger } from '../../utils/Logger';
+import { GameState } from '../gamestate/GameState';
+import { DifferBase, DiffOptions, EmitterContext } from './DifferBase';
 
 export interface PlayerDifferOptions  {
   logger?: Logger | null;

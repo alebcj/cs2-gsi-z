@@ -1,6 +1,6 @@
-import { STEAMID64 } from "../constants/types.js";
-import { ModelBase } from "./ModelBase.js";
-import { Player, PlayerInput } from "./Player.js";
+import { STEAMID64 } from "../../constants/types";
+import { ModelBase } from "../ModelBase";
+import { Player, PlayerInput } from "./Player";
 
 export type AllPlayersInput = Record<string, PlayerInput>;
 
@@ -26,7 +26,7 @@ export class AllPlayers extends ModelBase {
     this.list = Object.fromEntries(steamids.map((steamid, i) => [steamid, new Player({ ...values[i], steamid })])) as Record<STEAMID64, Player>;
   }
 
-  getBySteamid(steamid: STEAMID64) {
+  getBySteamid(steamid: STEAMID64): Player | null {
     return this.list[steamid] ?? null;
   }
 

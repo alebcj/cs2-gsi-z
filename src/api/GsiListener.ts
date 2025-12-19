@@ -1,22 +1,28 @@
 import http from 'node:http';
 import { EventEmitter } from 'events';
-import { Logger } from '../utils/Logger.js';
+import { Logger } from '../utils/Logger';
 
 export interface GsiListenerOptions {
   logger?: Logger | null;
   port?: number;
+  allowedUAs?: string[];
+  enableUACheck?: boolean;
 }
 
 export class GsiListener extends EventEmitter {
   private logger: Logger | Console;
   private port: number;
+  private allowedUAs: string[];
+  private enableUACheck = true;
   private server: http.Server<typeof http.IncomingMessage, typeof http.ServerResponse> | null = null;
 
-  constructor({ logger = null, port = 3000 }: GsiListenerOptions = {}) {
+  constructor({ logger = null, port = 3000, allowedUAs = ["Valve/Steam HTTP Client 1.0 (730)"], enableUACheck = true }: GsiListenerOptions = {}) {
     super();
 
     this.logger = logger?.child ? logger.child('GsiListener') : console;
     this.port = port;
+    this.allowedUAs = allowedUAs;
+    this.enableUACheck = enableUACheck;
     this.logger.log('GsiListener instantiated correctly.');
   }
 
@@ -38,6 +44,14 @@ export class GsiListener extends EventEmitter {
   }
 
   handleHttp(req: http.IncomingMessage, res: http.ServerResponse) {
+    if (this.enableUACheck && (!req.headers['user-agent'] || !this.allowedUAs.includes(req.headers['user-agent']))) {
+      this.logger.warn(`Request not allowed: User-Agent ${req.headers['user-agent']}`);
+      res.writeHead(403, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'User-Agent not allowed' }));
+
+      return;
+    }
+
     if (req.method === 'POST') {
       let body = '';
       

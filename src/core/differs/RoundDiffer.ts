@@ -1,9 +1,9 @@
-import { Phase } from '../../constants/enums.js';
-import { EVENTS } from '../../constants/events.js';
-import { Round } from '../../models/Round.js';
-import { Logger } from '../../utils/Logger.js';
-import { GameState } from '../gamestate/GameState.js';
-import { DifferBase, DiffOptions, EmitterContext } from './DifferBase.js';
+import { RoundPhase } from '../../constants/enums';
+import { EVENTS } from '../../constants/events';
+import { Round } from '../../models/Round';
+import { Logger } from '../../utils/Logger';
+import { GameState } from '../gamestate/GameState';
+import { DifferBase, DiffOptions, EmitterContext } from './DifferBase';
 
 export interface RoundDifferOptions {
   logger?: Logger | null;
@@ -29,14 +29,14 @@ export class RoundDiffer extends DifferBase<Round> {
   diff(prev: GameState, curr: GameState, emitter: EmitterContext, options: DiffOptions = {}) {
     if (!prev?.round && !curr?.round) return;
 
-    const prevPhase = this.getFieldSafe('round.phase', prev, this.previously) as Phase;
-    const currPhase = this.getFieldSafe('round.phase', curr, this.added) as Phase;
+    const prevPhase = this.getFieldSafe('round.phase', prev, this.previously) as RoundPhase;
+    const currPhase = this.getFieldSafe('round.phase', curr, this.added) as RoundPhase;
 
     if (prevPhase !== currPhase) {
       this.logger.log(`🔁 Change of phase: ${prevPhase} → ${currPhase}`);
       this.emitWithContext(emitter, EVENTS.round.phaseChanged, { previously: prevPhase, current: currPhase });
 
-      if (currPhase === Phase.Freezetime) {
+      if (currPhase === RoundPhase.Freezetime) {
         this.logger.log('🚀 Round starts (freezetime).');
         this.emitWithContext(emitter, EVENTS.round.started);
       }

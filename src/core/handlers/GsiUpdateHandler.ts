@@ -1,8 +1,8 @@
-import { applyDelta } from '../../utils/applyDelta.js';
-import { Logger } from "../../utils/Logger.js";
-import { DifferManager } from "../differs/DifferManager.js";
-import { EmitterContext } from "../differs/DifferBase.js";
-import { GameState, GameStateInput } from "../gamestate/GameState.js";
+import { applyDelta } from '../../utils/applyDelta';
+import { Logger } from "../../utils/Logger";
+import { DifferManager } from "../differs/DifferManager";
+import { EmitterContext } from "../differs/DifferBase";
+import { GameState, GameStateInput } from "../gamestate/GameState";
 
 interface GsiUpdateHandlerOptions {
   logger: Logger | null;

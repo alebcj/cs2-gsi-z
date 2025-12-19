@@ -39,23 +39,23 @@ export abstract class ModelBase {
       return this.constructor(JSON.parse(json));
     }
 
-    protected validateString<T>(value): T | 'unknown' {
+    protected validateString<T>(value: unknown): T | 'unknown' {
       return (typeof value === 'string' && value.trim() !== '') ? value as T : "unknown";
     }
 
-    protected validateStringOrNull(value) {
+    protected validateStringOrNull(value: unknown) {
       return (typeof value === 'string' && value.trim() !== '') ? value : null;
     }
 
-    protected validateNumberOrZero(value) {
+    protected validateNumberOrZero(value: unknown) {
       return (typeof value === 'number' && !isNaN(value)) ? value : 0;
     }
 
-    protected validateNumberOrNull(value) {
+    protected validateNumberOrNull(value: unknown) {
       return (typeof value === 'number' && !isNaN(value)) ? value : null;
     }
 
-    protected validateNumber(value, defaultValue = 0) {
+    protected validateNumber(value: unknown, defaultValue = 0) {
       return (typeof value === 'number' && !isNaN(value)) ? value : defaultValue;
     }
 }

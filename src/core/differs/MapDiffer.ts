@@ -1,8 +1,8 @@
-import { EVENTS } from '../../constants/events.js';
-import { Map } from '../../models/Map.js';
-import { Logger } from '../../utils/Logger.js';
-import { GameState } from '../gamestate/GameState.js';
-import { DifferBase, DiffOptions, EmitterContext } from './DifferBase.js';
+import { EVENTS } from '../../constants/events';
+import { Map } from '../../models/map/Map';
+import { Logger } from '../../utils/Logger';
+import { GameState } from '../gamestate/GameState';
+import { DifferBase, DiffOptions, EmitterContext } from './DifferBase';
 
 export interface MapDifferOptions {
   logger?: Logger | null;
@@ -34,6 +34,8 @@ export class MapDiffer extends DifferBase<Map> {
       { path: 'map.round', event: EVENTS.map.roundChanged },
       { path: 'map.team_ct.score', event: EVENTS.map.teamCTScoreChanged },
       { path: 'map.team_t.score', event: EVENTS.map.teamTScoreChanged },
+      { path: 'map.current_spectators', event: EVENTS.map.currentSpectatorsChanged },
+      { path: 'map.souvenirs_total', event: EVENTS.map.souvenirsTotalChanged },
     ];
 
     for (const { path, event } of fields) {

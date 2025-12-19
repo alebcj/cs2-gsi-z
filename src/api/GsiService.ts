@@ -1,10 +1,10 @@
 import { EventEmitter } from 'events';
-import { GsiListener } from './GsiListener.js';
-import { GsiUpdateHandler } from '../core/handlers/GsiUpdateHandler.js';
-import { default_differs } from '../core/differs/default_differs.js';
-import { DifferManager } from '../core/differs/DifferManager.js';
-import { LEVELS, Logger } from '../utils/Logger.js';
-import { EventMap } from '../constants/events.js';
+import { GsiListener } from './GsiListener';
+import { GsiUpdateHandler } from '../core/handlers/GsiUpdateHandler';
+import { default_differs } from '../core/differs/default_differs';
+import { DifferManager } from '../core/differs/DifferManager';
+import { LEVELS, Logger } from '../utils/Logger';
+import { EventMap } from '../constants/events';
 
 export interface GsiServiceOptions {
   httpPort?: number;

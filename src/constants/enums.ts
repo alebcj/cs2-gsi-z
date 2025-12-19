@@ -161,7 +161,7 @@ export function stringToActivity(str?: string): Activity {
     }
 }
 
-export enum Phase {
+export enum RoundPhase {
     Unknown = 'unknown',
     Warmup = 'warmup',
     Live = 'live',
@@ -169,18 +169,76 @@ export enum Phase {
     Freezetime = 'freezetime',
 }
 
-export function stringToPhase(str?: string): Phase {
+export function stringToRoundPhase(str?: string): RoundPhase {
     switch (str) {
         case 'warmup':
-            return Phase.Warmup;
+            return RoundPhase.Warmup;
         case 'live':
-            return Phase.Live;
+            return RoundPhase.Live;
         case 'over':
-            return Phase.Over;
+            return RoundPhase.Over;
         case 'freezetime':
-            return Phase.Freezetime;
+            return RoundPhase.Freezetime;
         default:
-            return Phase.Unknown;
+            return RoundPhase.Unknown;
+    }
+}
+
+export enum CountdownPhase {
+    Unknown = 'unknown',
+    Warmup = 'warmup',
+    Live = 'live',
+    Over = 'over',
+    Freezetime = 'freezetime',
+    /**
+     * Phase when the bomb is planted, alongisde phase_ends_in that corresponds to the time remaining until the bomb explodes.
+     */
+    Bomb = 'bomb',
+    /**
+     * Phase when the bomb is being defused, alongisde phase_ends_in that corresponds to the time remaining until the bomb is successfully defused.
+     */
+    Defusing = 'defuse'
+}
+
+export function stringToCountdownPhase(str?: string): CountdownPhase {
+    switch (str) {
+        case 'warmup':
+            return CountdownPhase.Warmup;
+        case 'live':
+            return CountdownPhase.Live;
+        case 'over':
+            return CountdownPhase.Over;
+        case 'freezetime':
+            return CountdownPhase.Freezetime;
+        case 'bomb':
+            return CountdownPhase.Bomb;
+        case 'defuse':
+            return CountdownPhase.Defusing;
+        default:
+            return CountdownPhase.Unknown;
+    }
+}
+
+export enum MapPhase {
+    Unknown = 'unknown',
+    Warmup = 'warmup',
+    Live = 'live',
+    Intermission = 'intermission',
+    GameOver = 'gameover',
+}
+
+export function stringToMapPhase(str?: string): MapPhase {
+    switch (str) {
+        case 'warmup':
+            return MapPhase.Warmup;
+        case 'live':
+            return MapPhase.Live;
+        case 'intermission':
+            return MapPhase.Intermission;
+        case 'gameover':
+            return MapPhase.GameOver;
+        default:
+            return MapPhase.Unknown;
     }
 }
 
@@ -213,6 +271,30 @@ export function stringToBombState(str?: string): BombState {
             return BombState.Defused;
         default:
             return BombState.Unknown;
+    }
+}
+
+/**
+ * This enum represents a stable version of the BombState enum, which is used in the round model.
+ * It is used to determine the state of the bomb where only the planted, exploded, and defused states are relevant.
+ */
+export enum StableBombState {
+    Unknown = 'unknown',
+    Planted = 'planted',
+    Exploded = 'exploded',
+    Defused = 'defused',
+}
+
+export function stringToStableBombState(str?: string): StableBombState {
+    switch (str) {
+        case 'planted':
+            return StableBombState.Planted;
+        case 'exploded':
+            return StableBombState.Exploded;
+        case 'defused':
+            return StableBombState.Defused;
+        default:
+            return StableBombState.Unknown;
     }
 }
 
@@ -262,5 +344,98 @@ export function stringToGrenadeType(str?: string): GrenadeType {
             return GrenadeType.Decoy;
         default:
             return GrenadeType.Unknown;
+    }
+}
+
+export enum WeaponType {
+    Unknown = 'unknown',
+    Pistol = 'Pistol',
+    Knife = 'Knife',
+    SubmachineGun = 'SubmachineGun',
+    Rifle = 'Rifle',
+    Shotgun = 'Shotgun',
+    Grenade = 'Grenade',
+    Sniper = 'SniperRifle',
+    C4 = 'C4',
+    Stackable = 'StackableItem',
+    Tablet = 'Tablet',
+    Fists = 'Fists',
+    BreachCharge = 'BreachCharge',
+    Melee = 'Melee'
+}
+
+export const WeaponTypeDisplayNames: Record<WeaponType, string> = {
+    [WeaponType.Unknown]: 'Unknown',
+    [WeaponType.Pistol]: 'Pistol',
+    [WeaponType.Knife]: 'Knife',
+    [WeaponType.SubmachineGun]: 'Submachine Gun',
+    [WeaponType.Rifle]: 'Rifle',
+    [WeaponType.Shotgun]: 'Shotgun',
+    [WeaponType.Grenade]: 'Grenade',
+    [WeaponType.Sniper]: 'Sniper Rifle',
+    [WeaponType.C4]: 'C4',
+    [WeaponType.Stackable]: 'Stackable Item',
+    [WeaponType.Tablet]: 'Tablet',
+    [WeaponType.Fists]: 'Fists',
+    [WeaponType.BreachCharge]: 'Breach Charge',
+    [WeaponType.Melee]: 'Melee',
+}
+
+export function stringToWeaponType(str?: string): WeaponType {
+    switch (str) {
+        case 'Pistol':
+            return WeaponType.Pistol;
+        case 'Knife':
+            return WeaponType.Knife;
+        case 'SubmachineGun':
+            return WeaponType.SubmachineGun;
+        case 'Rifle':
+            return WeaponType.Rifle;
+        case 'Shotgun':
+            return WeaponType.Shotgun;
+        case 'Grenade':
+            return WeaponType.Grenade;
+        case 'SniperRifle':
+            return WeaponType.Sniper;
+        case 'C4':
+            return WeaponType.C4;
+        case 'StackableItem':
+            return WeaponType.Stackable;
+        case 'Tablet':
+            return WeaponType.Tablet;
+        case 'Fists':
+            return WeaponType.Fists;
+        case 'BreachCharge':
+            return WeaponType.BreachCharge;
+        case 'Melee':
+            return WeaponType.Melee;
+        default:
+            return WeaponType.Unknown;
+    }
+}
+
+export enum RoundWinCondition {
+    Unknown = 'unknown',
+    CTWinsByElimination = 'ct_win_elimination',
+    CTWinsByDefusal = 'ct_win_defuse',
+    CTWinsByTimeRunout = 'ct_win_time',
+    TWinsByElimination = 't_win_elimination',
+    TWinsByExplosion = 't_win_bomb',
+}
+
+export function stringToRoundWinCondition(str?: string): RoundWinCondition {
+    switch (str) {
+        case 'ct_win_elimination':
+            return RoundWinCondition.CTWinsByElimination;
+        case 'ct_win_defuse':
+            return RoundWinCondition.CTWinsByDefusal;
+        case 'ct_win_time':
+            return RoundWinCondition.CTWinsByTimeRunout;
+        case 't_win_elimination':
+            return RoundWinCondition.TWinsByElimination;
+        case 't_win_bomb':
+            return RoundWinCondition.TWinsByExplosion;
+        default:
+            return RoundWinCondition.Unknown;
     }
 }

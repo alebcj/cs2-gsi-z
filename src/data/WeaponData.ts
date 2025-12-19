@@ -12,13 +12,13 @@ export const WeaponData = {
     weapon_hkp2000: { type: 'Pistol', displayName: 'P2000' },
   
     // Submachine Guns
-    weapon_mp9: { type: 'Submachine Gun', displayName: 'MP9' },
-    weapon_mac10: { type: 'Submachine Gun', displayName: 'MAC-10' },
-    weapon_bizon: { type: 'Submachine Gun', displayName: 'PP-Bizon' },
-    weapon_mp7: { type: 'Submachine Gun', displayName: 'MP7' },
-    weapon_ump45: { type: 'Submachine Gun', displayName: 'UMP-45' },
-    weapon_p90: { type: 'Submachine Gun', displayName: 'P90' },
-    weapon_mp5sd: { type: 'Submachine Gun', displayName: 'MP5-SD' },
+    weapon_mp9: { type: 'SubmachineGun', displayName: 'MP9' },
+    weapon_mac10: { type: 'SubmachineGun', displayName: 'MAC-10' },
+    weapon_bizon: { type: 'SubmachineGun', displayName: 'PP-Bizon' },
+    weapon_mp7: { type: 'SubmachineGun', displayName: 'MP7' },
+    weapon_ump45: { type: 'SubmachineGun', displayName: 'UMP-45' },
+    weapon_p90: { type: 'SubmachineGun', displayName: 'P90' },
+    weapon_mp5sd: { type: 'SubmachineGun', displayName: 'MP5-SD' },
   
     // Rifles
     weapon_famas: { type: 'Rifle', displayName: 'FAMAS' },
@@ -30,10 +30,10 @@ export const WeaponData = {
     weapon_sg553: { type: 'Rifle', displayName: 'SG-553' },
   
     // Sniper Rifles
-    weapon_ssg08: { type: 'Sniper', displayName: 'SSG 08' },
-    weapon_awp: { type: 'Sniper', displayName: 'AWP' },
-    weapon_scar20: { type: 'Sniper', displayName: 'SCAR-20' },
-    weapon_g3sg1: { type: 'Sniper', displayName: 'G3SG1' },
+    weapon_ssg08: { type: 'SniperRifle', displayName: 'SSG 08' },
+    weapon_awp: { type: 'SniperRifle', displayName: 'AWP' },
+    weapon_scar20: { type: 'SniperRifle', displayName: 'SCAR-20' },
+    weapon_g3sg1: { type: 'SniperRifle', displayName: 'G3SG1' },
   
     // Shotguns
     weapon_nova: { type: 'Shotgun', displayName: 'Nova' },
@@ -75,6 +75,9 @@ export const WeaponData = {
     weapon_smokegrenade: { type: 'Grenade', displayName: 'Smoke Grenade' },
     weapon_hegrenade: { type: 'Grenade', displayName: 'HE Grenade' },
     weapon_molotov: { type: 'Grenade', displayName: 'Molotov' },
-    weapon_incgrenade: { type: 'Grenade', displayName: 'Incendiary (CT Molotov)' }
+    weapon_incgrenade: { type: 'Grenade', displayName: 'Incendiary (CT Molotov)' },
+
+    // C4
+    weapon_c4: { type: 'C4', displayName: 'C4 Explosive' },
   } as const;
   

@@ -1,8 +1,8 @@
 import { EventEmitter } from "events";
-import { ModelBase } from "../../models/ModelBase.js";
-import { Logger } from "../../utils/Logger.js";
-import { GameState } from '../gamestate/GameState.js';
-import { EventMap } from "../../constants/events.js";
+import { ModelBase } from "../../models/ModelBase";
+import { Logger } from "../../utils/Logger";
+import { GameState } from '../gamestate/GameState';
+import { EventMap } from "../../constants/events";
 
 export type EmitterContext = EventEmitter<EventMap>;
 

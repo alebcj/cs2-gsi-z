@@ -1,5 +1,5 @@
-import { Phase, stringToPhase } from '../constants/enums.js';
-import { ModelBase } from './ModelBase.js';
+import { RoundPhase, StableBombState, stringToRoundPhase, stringToStableBombState, stringToTeam, Team } from '../constants/enums';
+import { ModelBase } from './ModelBase';
 
 export interface RoundInput {
   phase?: string;
@@ -10,9 +10,9 @@ export interface RoundInput {
 /**
  * Represents the current state of the round. */
 export class Round extends ModelBase {
-  public phase: Phase;
-  public bomb: string | null;
-  public winner: string | null;
+  public phase: RoundPhase;
+  public bomb: StableBombState | null;
+  public winner: Team | null;
 
   constructor(data: RoundInput = {}) {
     super();
@@ -23,9 +23,9 @@ export class Round extends ModelBase {
       data = {};
     }
 
-    this.phase = stringToPhase(data.phase); // E.g.: freezetime, live, over
-    this.bomb = this.validateStringOrNull(data.bomb);        // E.g.: planted, exploded, defused
-    this.winner = this.validateStringOrNull(data.win_team);  // E.g.: CT, T, null
+    this.phase = stringToRoundPhase(data.phase); // E.g.: freezetime, live, over
+    this.bomb = data.bomb ? stringToStableBombState(data.bomb) : null;        // E.g.: planted, exploded, defused
+    this.winner = data.win_team ? stringToTeam(data.win_team) : null;  // E.g.: CT, T, null
   }
 
   toSerializableObject(): RoundInput {

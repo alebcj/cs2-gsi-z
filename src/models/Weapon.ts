@@ -1,6 +1,6 @@
-import { WeaponData } from '../data/WeaponData.js';
-import { ModelBase } from './ModelBase.js';
-import { stringToWeaponState, WeaponState } from '../constants/enums.js';
+import { WeaponData } from '../data/WeaponData';
+import { ModelBase } from './ModelBase';
+import { stringToWeaponState, stringToWeaponType, WeaponState, WeaponType } from '../constants/enums';
 
 export interface WeaponInput {
   name?: string;
@@ -14,7 +14,7 @@ export interface WeaponInput {
 /**
  * Represents a player's weapon. */
 export class Weapon extends ModelBase {
-  public type: string;
+  public type: WeaponType;
   public displayName: string;
 
   public name: string;
@@ -39,7 +39,7 @@ export class Weapon extends ModelBase {
     this.ammo_reserve = this.validateNumberOrNull(data.ammo_reserve);
 
     const metadata = WeaponData[this.name] ?? {};
-    this.type = data.type ?? metadata.type ?? 'Unknown';
+    this.type = stringToWeaponType(data.type);
     this.displayName = metadata.displayName ?? this.name;
   }
 

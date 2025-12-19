@@ -1,10 +1,10 @@
-import { EventMap, EVENTS } from '../../constants/events.js';
-import { STEAMID64 } from '../../constants/types.js';
-import { AllPlayers } from '../../models/AllPlayers.js';
-import { Vector3D } from '../../models/helpers/Vector3D.js';
-import { Logger } from '../../utils/Logger.js';
-import { GameState } from '../gamestate/GameState.js';
-import { DifferBase, DiffOptions, EmitterContext } from './DifferBase.js';
+import { EventMap, EVENTS } from '../../constants/events';
+import { STEAMID64 } from '../../constants/types';
+import { AllPlayers } from '../../models/players/AllPlayers';
+import { Vector3D } from '../../models/helpers/Vector3D';
+import { Logger } from '../../utils/Logger';
+import { GameState } from '../gamestate/GameState';
+import { DifferBase, DiffOptions, EmitterContext } from './DifferBase';
 
 export interface AllPlayersDifferOptions  {
   logger?: Logger | null;
@@ -36,14 +36,14 @@ export class AllPlayersDiffer extends DifferBase<AllPlayers> {
     for (const steamid of prevSteamids) {
       if (!currSteamids.has(steamid)) {
         this.logger.log(`🔄 Player ${prev.allPlayers.getBySteamid(steamid)?.name} left the game.`);
-        this.emitWithContext(emitter, EVENTS.allPlayers.left, steamid, { previously: steamid, current: null });
+        this.emitWithContext(emitter, EVENTS.allPlayers.left, steamid);
       }
     }
 
     for (const steamid of currSteamids) {
       if (!prevSteamids.has(steamid)) {
         this.logger.log(`🔄 Player ${curr.allPlayers.getBySteamid(steamid)?.name} joined the game.`);
-        this.emitWithContext(emitter, EVENTS.allPlayers.joined, steamid, { previously: null, current: steamid });
+        this.emitWithContext(emitter, EVENTS.allPlayers.joined, steamid);
       }
     }
 

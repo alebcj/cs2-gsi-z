@@ -1,12 +1,12 @@
-import { AllPlayers, AllPlayersInput } from "../../models/AllPlayers.js";
-import { Bomb, BombInput } from "../../models/Bomb.js";
-import { GrenadeList, GrenadeListInput } from "../../models/grenades/GrenadeList.js";
-import { Map, MapInput } from "../../models/Map.js";
-import { ModelBase } from "../../models/ModelBase.js";
-import { PhaseCountdowns, PhaseCountdownsInput } from "../../models/PhaseCountdowns.js";
-import { Player, PlayerInput } from "../../models/Player.js";
-import { Provider, ProviderInput } from "../../models/Provider.js";
-import { Round, RoundInput } from "../../models/Round.js";
+import { AllPlayers, AllPlayersInput } from "../../models/players/AllPlayers";
+import { Bomb, BombInput } from "../../models/Bomb";
+import { GrenadeList, GrenadeListInput } from "../../models/grenades/GrenadeList";
+import { Map, MapInput } from "../../models/map/Map";
+import { ModelBase } from "../../models/ModelBase";
+import { PhaseCountdowns, PhaseCountdownsInput } from "../../models/PhaseCountdowns";
+import { Player, PlayerInput } from "../../models/players/Player";
+import { Provider, ProviderInput } from "../../models/Provider";
+import { Round, RoundInput } from "../../models/Round";
 
 export interface GameStateInput {
   provider?: ProviderInput;

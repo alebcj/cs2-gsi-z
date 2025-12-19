@@ -22,10 +22,10 @@
  */
 
 import { GrenadeBase } from "../models/grenades/GrenadeBase";
-import { Vector3D, Vector3DArray } from "../models/helpers/Vector3D";
+import { Vector3D } from "../models/helpers/Vector3D";
 import { ModelBase } from "../models/ModelBase";
 import { Weapon } from "../models/Weapon";
-import { Activity, BombState, Phase, Team } from "./enums";
+import { Activity, BombState, CountdownPhase, MapPhase, RoundPhase, RoundWinCondition, Team } from "./enums";
 import { GRENADEID, STEAMID64 } from "./types";
 
 /**
@@ -66,6 +66,10 @@ export const EVENTS = /* * @type {GsiEvents} */ {
     roundChanged: "map:roundChanged",
     teamCTScoreChanged: "map:teamCTScoreChanged",
     teamTScoreChanged: "map:teamTScoreChanged",
+    currentSpectatorsChanged: "map:currentSpectatorsChanged",
+    souvenirsTotalChanged: "map:souvenirsTotalChanged",
+
+    roundWinsChanged: "map:roundWinsChanged",
   },
 
   round: {
@@ -73,11 +77,6 @@ export const EVENTS = /* * @type {GsiEvents} */ {
     started: "round:started",
     ended: "round:ended",
     won: "round:won",
-
-    // Bomb events
-    bombPlantingStarted: "round:bombPlantingStarted",
-    bombPlanted: "round:bombPlanted",
-    bombPlantFake: "round:bombPlantFake",
   },
 
   player: {
@@ -167,97 +166,97 @@ export const EVENTS = /* * @type {GsiEvents} */ {
   }
 } as const;
 
-export type eventDataString<T> = { previously: T | null | "unknown"; current: T | null | "unknown" };
-export type eventDataModel<T extends ModelBase> = { previously: T | null | "unknown"; current: T | null | "unknown" };
-export type eventDataModelArray<T extends ModelBase> = { previously: T[] | null | "unknown"; current: T[] | null | "unknown" };
-export type eventDataNumber<T> = { previously: T | null | 0; current: T | null | 0 };
-export type eventDataEnum<T> = { previously: T; current: T };
-export type eventDataVector3D = { previously: null | Vector3D; current: null | Vector3D };
+export type comparisonDataString<T> = { previously: T | null | "unknown"; current: T | null | "unknown" };
+export type comparisonDataModel<T extends ModelBase> = { previously: T | null | "unknown"; current: T | null | "unknown" };
+export type comparisonDataModelArray<T extends ModelBase> = { previously: T[] | null | "unknown"; current: T[] | null | "unknown" };
+export type comparisonDataNumber<T> = { previously: T | null | 0; current: T | null | 0 };
+export type comparisonDataEnum<T> = { previously: T; current: T };
+export type comparisonDataVector3D = { previously: null | Vector3D; current: null | Vector3D };
 
 export type EventMap = {
-  "provider:nameChanged": [eventDataString<string>];
-  "provider:timestampChanged": [eventDataNumber<number>];
+  "provider:nameChanged": [comparisonDataString<string>];
+  "provider:timestampChanged": [comparisonDataNumber<number>];
 
-  "map:nameChanged": [eventDataString<string>];
-  "map:phaseChanged": [eventDataEnum<Phase>];
-  "map:roundChanged": [eventDataNumber<number>];
-  "map:teamCTScoreChanged": [eventDataNumber<number>];
-  "map:teamTScoreChanged": [eventDataNumber<number>];
+  "map:nameChanged": [comparisonDataString<string>];
+  "map:phaseChanged": [comparisonDataEnum<MapPhase>];
+  "map:roundChanged": [comparisonDataNumber<number>];
+  "map:teamCTScoreChanged": [comparisonDataNumber<number>];
+  "map:teamTScoreChanged": [comparisonDataNumber<number>];
+  "map:currentSpectatorsChanged": [comparisonDataNumber<number>];
+  "map:souvenirsTotalChanged": [comparisonDataNumber<number>];
 
-  "round:phaseChanged": [eventDataEnum<Phase>];
+  "map:roundWinsChanged": [comparisonDataEnum<Record<`${number}`, RoundWinCondition>>];
+
+  "round:phaseChanged": [comparisonDataEnum<RoundPhase>];
   "round:started": [];
   "round:ended": [{ winner: string | null | "unknown" }];
-  "round:won": [eventDataString<string>];
+  "round:won": [comparisonDataString<string>];
 
-  "round:bombPlantingStarted": [eventDataNumber<string>];
-  "round:bombPlanted": [eventDataNumber<string>];
-  "round:bombPlantFake": [eventDataNumber<string>];
+  "player:teamChanged": [comparisonDataEnum<Team>];
+  "player:activityChanged": [comparisonDataEnum<Activity>];
+  "player:observerSlotChanged": [comparisonDataNumber<number>];
+  "player:spectargetChanged": [comparisonDataString<STEAMID64>];
 
-  "player:teamChanged": [eventDataEnum<Team>];
-  "player:activityChanged": [eventDataEnum<Activity>];
-  "player:observerSlotChanged": [eventDataNumber<number>];
-  "player:spectargetChanged": [eventDataString<STEAMID64>];
+  "player:hpChanged": [comparisonDataNumber<number>];
+  "player:armorChanged": [comparisonDataNumber<number>];
+  "player:helmetChanged": [comparisonDataNumber<boolean>];
+  "player:flashedChanged": [comparisonDataNumber<number>];
+  "player:smokedChanged": [comparisonDataNumber<number>];
+  "player:burningChanged": [comparisonDataNumber<number>];
+  "player:moneyChanged": [comparisonDataNumber<number>];
+  "player:equipmentValueChanged": [comparisonDataNumber<number>];
 
-  "player:hpChanged": [eventDataNumber<number>];
-  "player:armorChanged": [eventDataNumber<number>];
-  "player:helmetChanged": [eventDataNumber<boolean>];
-  "player:flashedChanged": [eventDataNumber<number>];
-  "player:smokedChanged": [eventDataNumber<number>];
-  "player:burningChanged": [eventDataNumber<number>];
-  "player:moneyChanged": [eventDataNumber<number>];
-  "player:equipmentValueChanged": [eventDataNumber<number>];
+  "player:weaponChanged": [comparisonDataModel<Weapon>];
+  "player:ammoClipChanged": [comparisonDataNumber<number>];
+  "player:ammoReserveChanged": [comparisonDataNumber<number>];
 
-  "player:weaponChanged": [eventDataModel<Weapon>];
-  "player:ammoClipChanged": [eventDataNumber<number>];
-  "player:ammoReserveChanged": [eventDataNumber<number>];
+  "player:killsChanged": [comparisonDataNumber<number>];
+  "player:deathsChanged": [comparisonDataNumber<number>];
+  "player:assistsChanged": [comparisonDataNumber<number>];
+  "player:scoreChanged": [comparisonDataNumber<number>];
+  "player:mvpsChanged": [comparisonDataNumber<number>];
 
-  "player:killsChanged": [eventDataNumber<number>];
-  "player:deathsChanged": [eventDataNumber<number>];
-  "player:assistsChanged": [eventDataNumber<number>];
-  "player:scoreChanged": [eventDataNumber<number>];
-  "player:mvpsChanged": [eventDataNumber<number>];
+  "player:positionChanged": [comparisonDataVector3D];
+  "player:forwardDirectionChanged": [comparisonDataVector3D];
 
-  "player:positionChanged": [eventDataVector3D];
-  "player:forwardDirectionChanged": [eventDataVector3D];
+  "phaseCountdowns:phaseChanged": [comparisonDataEnum<CountdownPhase>];
+  "phaseCountdowns:phaseEndsInChanged": [comparisonDataString<string>];
 
-  "phaseCountdowns:phaseChanged": [eventDataEnum<Phase>];
-  "phaseCountdowns:phaseEndsInChanged": [eventDataString<string>];
+  "allPlayers:joined": [STEAMID64];
+  "allPlayers:left": [STEAMID64];
 
-  "allPlayers:joined": [STEAMID64, eventDataString<string>];
-  "allPlayers:left": [STEAMID64, eventDataString<string>];
+  "allPlayers:teamChanged": [STEAMID64, comparisonDataEnum<Team>];
+  "allPlayers:observerSlotChanged": [STEAMID64, comparisonDataNumber<number>];
+  "allPlayers:positionChanged": [STEAMID64, comparisonDataVector3D];
+  "allPlayers:forwardDirectionChanged": [STEAMID64, comparisonDataVector3D];
 
-  "allPlayers:teamChanged": [STEAMID64, eventDataEnum<Team>];
-  "allPlayers:observerSlotChanged": [STEAMID64, eventDataNumber<number>];
-  "allPlayers:positionChanged": [STEAMID64, eventDataVector3D];
-  "allPlayers:forwardDirectionChanged": [STEAMID64, eventDataVector3D];
+  "allPlayers:hpChanged": [STEAMID64, comparisonDataNumber<number>];
+  "allPlayers:armorChanged": [STEAMID64, comparisonDataNumber<number>];
+  "allPlayers:helmetChanged": [STEAMID64, comparisonDataNumber<boolean>];
+  "allPlayers:flashedChanged": [STEAMID64, comparisonDataNumber<number>];
+  "allPlayers:smokedChanged": [STEAMID64, comparisonDataNumber<number>];
+  "allPlayers:burningChanged": [STEAMID64, comparisonDataNumber<number>];
+  "allPlayers:moneyChanged": [STEAMID64, comparisonDataNumber<number>];
+  "allPlayers:equipmentValueChanged": [STEAMID64, comparisonDataNumber<number>];
 
-  "allPlayers:hpChanged": [STEAMID64, eventDataNumber<number>];
-  "allPlayers:armorChanged": [STEAMID64, eventDataNumber<number>];
-  "allPlayers:helmetChanged": [STEAMID64, eventDataNumber<boolean>];
-  "allPlayers:flashedChanged": [STEAMID64, eventDataNumber<number>];
-  "allPlayers:smokedChanged": [STEAMID64, eventDataNumber<number>];
-  "allPlayers:burningChanged": [STEAMID64, eventDataNumber<number>];
-  "allPlayers:moneyChanged": [STEAMID64, eventDataNumber<number>];
-  "allPlayers:equipmentValueChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:weaponChanged": [STEAMID64, comparisonDataModel<Weapon>];
+  "allPlayers:ammoClipChanged": [STEAMID64, comparisonDataNumber<number>];
+  "allPlayers:ammoReserveChanged": [STEAMID64, comparisonDataNumber<number>];
 
-  "allPlayers:weaponChanged": [STEAMID64, eventDataModel<Weapon>];
-  "allPlayers:ammoClipChanged": [STEAMID64, eventDataNumber<number>];
-  "allPlayers:ammoReserveChanged": [STEAMID64, eventDataNumber<number>];
+  "allPlayers:killsChanged": [STEAMID64, comparisonDataNumber<number>];
+  "allPlayers:deathsChanged": [STEAMID64, comparisonDataNumber<number>];
+  "allPlayers:assistsChanged": [STEAMID64, comparisonDataNumber<number>];
+  "allPlayers:scoreChanged": [STEAMID64, comparisonDataNumber<number>];
+  "allPlayers:mvpsChanged": [STEAMID64, comparisonDataNumber<number>];
 
-  "allPlayers:killsChanged": [STEAMID64, eventDataNumber<number>];
-  "allPlayers:deathsChanged": [STEAMID64, eventDataNumber<number>];
-  "allPlayers:assistsChanged": [STEAMID64, eventDataNumber<number>];
-  "allPlayers:scoreChanged": [STEAMID64, eventDataNumber<number>];
-  "allPlayers:mvpsChanged": [STEAMID64, eventDataNumber<number>];
+  "bomb:stateChanged": [comparisonDataEnum<BombState>];
+  "bomb:positionChanged": [comparisonDataVector3D];
+  "bomb:playerChanged": [comparisonDataString<STEAMID64>];
 
-  "bomb:stateChanged": [eventDataEnum<BombState>];
-  "bomb:positionChanged": [eventDataVector3D];
-  "bomb:playerChanged": [eventDataString<STEAMID64>];
-
-  "grenades:existenceChanged": [GRENADEID, eventDataModel<GrenadeBase>];
-  "grenades:positionChanged": [GRENADEID, eventDataVector3D];
-  "grenades:velocityChanged": [GRENADEID, eventDataVector3D];
-  "grenades:lifetimeChanged": [GRENADEID, eventDataNumber<number>];
-  "grenades:effectTimeChanged": [GRENADEID, eventDataNumber<number>];
-  "grenades:flamesChanged": [GRENADEID, eventDataModelArray<Vector3D>];
+  "grenades:existenceChanged": [GRENADEID, comparisonDataModel<GrenadeBase>];
+  "grenades:positionChanged": [GRENADEID, comparisonDataVector3D];
+  "grenades:velocityChanged": [GRENADEID, comparisonDataVector3D];
+  "grenades:lifetimeChanged": [GRENADEID, comparisonDataNumber<number>];
+  "grenades:effectTimeChanged": [GRENADEID, comparisonDataNumber<number>];
+  "grenades:flamesChanged": [GRENADEID, comparisonDataModelArray<Vector3D>];
 };

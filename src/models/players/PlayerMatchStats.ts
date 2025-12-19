@@ -1,6 +1,6 @@
 /**
  * Match statistics for the player. */
-import { ModelBase } from './ModelBase.js';
+import { ModelBase } from '../ModelBase';
 
 export interface PlayerMatchStatsInput {
   kills?: number;

@@ -1,7 +1,7 @@
-import { ModelBase } from "./ModelBase.js";
-import { Vector3D } from "./helpers/Vector3D.js";
-import { BombState, stringToBombState } from "../constants/enums.js";
-import { isSteamId64, STEAMID64 } from "../constants/types.js";
+import { ModelBase } from "./ModelBase";
+import { Vector3D } from "./helpers/Vector3D";
+import { BombState, stringToBombState } from "../constants/enums";
+import { isSteamId64, STEAMID64 } from "../constants/types";
 
 export interface BombInput {
     state?: string;
@@ -29,7 +29,6 @@ export class Bomb extends ModelBase {
 
     if (!isSteamId64(data.player)) {
         if (typeof data.player === 'string') {
-            console.log(data.player);
             console.warn("⚠️ Bomb received invalid player, defaulting to unknown.");
         }
 

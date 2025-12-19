@@ -1,10 +1,10 @@
-import { eventDataVector3D, EventMap, EVENTS } from "../../constants/events.js";
-import { GRENADEID } from "../../constants/types.js";
-import { GrenadeList } from "../../models/grenades/GrenadeList.js";
-import { Vector3D } from "../../models/helpers/Vector3D.js";
-import { Logger } from "../../utils/Logger.js";
-import { GameState } from "../gamestate/GameState.js";
-import { DifferBase, DiffOptions, EmitterContext } from "./DifferBase.js";
+import { comparisonDataVector3D, EventMap, EVENTS } from "../../constants/events";
+import { GRENADEID } from "../../constants/types";
+import { GrenadeList } from "../../models/grenades/GrenadeList";
+import { Vector3D } from "../../models/helpers/Vector3D";
+import { Logger } from "../../utils/Logger";
+import { GameState } from "../gamestate/GameState";
+import { DifferBase, DiffOptions, EmitterContext } from "./DifferBase";
 
 export interface GrenadesDifferOptions {
   logger?: Logger | null;
@@ -152,7 +152,7 @@ export class GrenadesDiffer extends DifferBase<GrenadeList> {
             {
               previously: prevVal,
               current: currVal,
-            } as eventDataVector3D
+            } as comparisonDataVector3D
           );
         }
 

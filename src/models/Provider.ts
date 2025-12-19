@@ -1,4 +1,4 @@
-import { ModelBase } from './ModelBase.js';
+import { ModelBase } from './ModelBase';
 
 export interface ProviderInput {
   name?: string;

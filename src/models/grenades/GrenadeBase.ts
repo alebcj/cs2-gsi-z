@@ -1,7 +1,7 @@
-import { GrenadeType, stringToGrenadeType } from '../../constants/enums.js';
-import { isSteamId64, STEAMID64 } from '../../constants/types.js';
-import { Vector3D } from '../helpers/Vector3D.js';
-import { ModelBase } from '../ModelBase.js';
+import { GrenadeType, stringToGrenadeType } from "../../constants/enums";
+import { isSteamId64, STEAMID64 } from "../../constants/types";
+import { Vector3D } from "../helpers/Vector3D";
+import { ModelBase } from "../ModelBase";
 
 export interface GrenadeBaseInput {
   owner?: string;
@@ -26,18 +26,24 @@ export class GrenadeBase extends ModelBase {
   constructor(data: GrenadeBaseInput = {}) {
     super();
 
-    if (typeof data !== 'object' || data === null) {
-      console.warn('⚠️ Round received invalid data, defaulting to empty object.');
+    if (typeof data !== "object" || data === null) {
+      console.warn(
+        "⚠️ Round received invalid data, defaulting to empty object."
+      );
 
       data = {};
     }
 
     if (!isSteamId64(data.owner)) {
-        if (typeof data.owner === 'string') {
-            console.warn("⚠️ Grenade received invalid player, defaulting to unknown.");
-        }
+      // There seems to be a bug in GSI where sometimes the owner is a three-digit number string,
+      // not a steamid64. No idea why this happens or what the three-digit number represents.
+      if (typeof data.owner === "string") {
+        console.warn(
+          "⚠️ Grenade received invalid player, defaulting to unknown. This could be due to a known GSI bug."
+        );
+      }
 
-        data.owner = "unknown";
+      data.owner = "unknown";
     }
 
     this.owner = data.owner as STEAMID64;
@@ -49,7 +55,9 @@ export class GrenadeBase extends ModelBase {
   }
 
   isMoving() {
-    return this.velocity.x !== 0 || this.velocity.y !== 0 || this.velocity.z !== 0;
+    return (
+      this.velocity.x !== 0 || this.velocity.y !== 0 || this.velocity.z !== 0
+    );
   }
 
   toSerializableObject(): GrenadeBaseInput {
@@ -59,7 +67,7 @@ export class GrenadeBase extends ModelBase {
       type: this.type,
       velocity: this.velocity.toString(),
       position: this.position.toString(),
-      effecttime: this.effecttime
-    }
+      effecttime: this.effecttime,
+    };
   }
 }

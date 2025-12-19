@@ -5,7 +5,7 @@
 ![Status](https://img.shields.io/badge/status-active-blue)
 
 
-> A modern, modular, and event-driven Game State Integration (GSI) handler for **Counter-Strike 2**, built with Node.js.
+> A modern, modular, and event-driven Game State Integration (GSI) handler for **Counter-Strike 2**, built with bun.sh and intercompatible with Node.js.
 
 ---
 
@@ -14,7 +14,7 @@
 `cs2-gsi-z` is an advanced event processing library for Counter-Strike 2 Game State Integration (GSI) data.
 It transforms raw GSI JSON updates into high-level, context-aware events, enabling developers to easily build real-time HUDs, dashboards, analytics systems, bots, or esports tools.
 
-Unlike traditional GSI listeners that emit low-level or noisy data, `cs2-gsi-z` structures and simplifies information, significantly reducing client-side complexity.
+Unlike traditional GSI listeners that emit low-level or noisy data, `cs2-gsi-z` structures and simplifies information, significantly reducing end-developer complexity.
 
 ---
 
@@ -74,7 +74,7 @@ To receive data from CS2, you must set up a Game State Integration (GSI) configu
 
 Or you can simply generate a valid GSI configuration file automatically using the included helper in this library:
 
-```javascript
+```ts
 import { GSIConfigWriter } from 'cs2-gsi-z';
 
 // Generate the config file on your desktop
@@ -90,23 +90,21 @@ console.log(`Config file created at: ${configPath}`);
 ### Installation
 
 ```bash
-npm install cs2-gsi-z
+bun add cs2-gsi-z
 ```
-
-*⚠️ Note: This package is not yet published on npm. You can install it directly from GitHub for now.*
 
 ### Basic Usage
 
-```javascript
+```ts
 import { GsiService, EVENTS } from 'cs2-gsi-z';
 
-const gsi = new GsiService({
+const gsiService = new GsiService({
   httpPort: 3000
 });
 
-gsi.start();
+gsiService.start();
 
-gsi.on(EVENTS.player.weaponChanged, (payload) => {
+gsiService.on(EVENTS.player.weaponChanged, (payload) => {
   console.log(`weapon changed:`, payload);
 });
 ```
@@ -136,19 +134,29 @@ Each emitted event includes:
 
 ## 🔖 Supported Events
 
-**Player:** `hpChanged`, `armorChanged`, `teamChanged`, `weaponChanged`, `activityChanged`, `helmetChanged`, `flashedChanged`, `smokedChanged`, `burningChanged`, `killsChanged`, `deathsChanged`, `assistsChanged`, `scoreChanged`
+**Provider:** `nameChanged`, `timestampChanged`
+
+**Map:** `nameChanged`, `phaseChanged`, `roundChanged`, `teamCTScoreChanged`, `teamTScoreChanged`, `currentSpectatorsChanged`, `souvenirsTotalChanged`, `roundWinsChanged`
 
 **Round:** `phaseChanged`, `started`, `ended`, `won`
 
-**Map:** `nameChanged`, `phaseChanged`, `roundChanged`, `teamCTScoreChanged`, `teamTScoreChanged`
+**Player:** `teamChanged`, `activityChanged`, `observerSlotChanged`, `spectargetChanged`, `positionChanged`, `forwardDirectionChanged`, `hpChanged`, `armorChanged`, `helmetChanged`, `flashedChanged`, `smokedChanged`, `burningChanged`, `moneyChanged`, `equipmentValueChanged`, `weaponChanged`, `ammoClipChanged`, `ammoReserveChanged`, `killsChanged`, `deathsChanged`, `assistsChanged`, `scoreChanged`, `mvpsChanged`
 
-(Some of them are not yet implemented, but you can easily do it)
+**PhaseCountdowns:** `phaseChanged`, `phaseEndsInChanged`
+
+**AllPlayers:** `joined`, `left`, `teamChanged`, `observerSlotChanged`, `positionChanged`, `forwardDirectionChanged`, `hpChanged`, `armorChanged`, `helmetChanged`, `flashedChanged`, `smokedChanged`, `burningChanged`, `moneyChanged`, `equipmentValueChanged`, `weaponChanged`, `ammoClipChanged`, `ammoReserveChanged`, `killsChanged`, `deathsChanged`, `assistsChanged`, `scoreChanged`, `mvpsChanged`
+
+**Bomb:** `stateChanged`, `positionChanged`, `playerChanged`
+
+**Grenades:** `existenceChanged`, `positionChanged`, `velocityChanged`, `lifetimeChanged`, `effectTimeChanged`, `flamesChanged`
+
+You can further implement your own differs, with the below DifferBase class.
 
 ---
 
 ## 🔢 Differs and Diff Manager
 
-Each differ handles one domain: player, round, map, etc.
+Each differ handles one domain: map, round, player, etc.
 
 The `DifferManager`:
 - Manages active differs
@@ -163,9 +171,9 @@ The `DifferManager`:
 
 Register your own differ easily:
 
-```javascript
-const customDiffer = {
-  diff(prev, curr, emitter) {
+```ts
+class customDiffer extends DifferBase<Map> {
+  diff(prev, curr, emitter, options?) {
     const p = prev?.map?.team_t;
     const c = curr.map?.team_t;
     if (p && c && p.score !== c.score) {
@@ -174,21 +182,7 @@ const customDiffer = {
   }
 };
 
-gsi.differManager.registerDiffer(customDiffer);
-```
-
----
-
-## 🔍 Advanced Event Subscription
-
-Subscribe to:
-- Specific event (`player:hpChanged`)
-- Whole namespace (`player:*`)
-
-```javascript
-gsi.on('player:*', (eventName, payload) => {
-  console.log(`[Player Event] ${eventName}:`, payload);
-});
+gsiService.differManager.registerDiffer(new customDiffer);
 ```
 
 ---
@@ -196,16 +190,41 @@ gsi.on('player:*', (eventName, payload) => {
 ## 🔹 Examples
 
 ### Log Health Changes
-```javascript
-gsi.on('player:hpChanged', ({ previous, current }) => {
+```ts
+gsiService.on('player:hpChanged', ({ previous, current }) => {
   console.log(`HP: ${previous} → ${current}`);
 });
 ```
 
 ### Log Map Changes
-```javascript
-gsi.on('map:nameChanged', ({ previous, current }) => {
+```ts
+gsiService.on('map:nameChanged', ({ previous, current }) => {
   console.log(`Map: ${previous} → ${current}`);
+});
+```
+
+### Log bomb state changes
+```ts
+gsiService.on('bomb:stateChanged', ({ previous, current }) => {
+  if (current === BombState.Defusing) {
+    console.log(`Bomb is being defused!`);
+  }
+
+  if (current === BombState.Planting) {
+    console.log(`Bomb is being planted!`);
+  }
+
+  if (current === BombState.Planted) {
+    console.log(`Bomb has been planted!`);
+  }
+
+  if (current === BombState.Exploded) {
+    console.log(`Bomb has exploded!`);
+  }
+
+  if (current === BombState.Carried) {
+    console.log(`Bomb is being carried by a player!`);
+  }
 });
 ```
 
@@ -225,7 +244,7 @@ gsi.on('map:nameChanged', ({ previous, current }) => {
 
 ## 🔹 Requirements
 
-- **Node.js** v18+
+- **Node.js** v18+ / **bun.sh** v1.0.0+
 - Support for `async/await`, optional chaining (`?.`), and ES Modules.
 
 ---

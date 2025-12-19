@@ -1,9 +1,9 @@
-import { EventMap, EVENTS } from '../../constants/events.js';
-import { STEAMID64 } from '../../constants/types.js';
-import { PlayerState } from '../../models/PlayerState.js';
-import { Logger } from '../../utils/Logger.js';
-import { GameState } from '../gamestate/GameState.js';
-import { DifferBase, DiffOptions, EmitterContext } from './DifferBase.js';
+import { EventMap, EVENTS } from '../../constants/events';
+import { STEAMID64 } from '../../constants/types';
+import { PlayerState } from '../../models/players/PlayerState';
+import { Logger } from '../../utils/Logger';
+import { GameState } from '../gamestate/GameState';
+import { DifferBase, DiffOptions, EmitterContext } from './DifferBase';
 
 export interface PlayerStateDifferOptions {
   logger?: Logger | null;
@@ -79,21 +79,21 @@ export class PlayerStateDiffer extends DifferBase<PlayerState> {
 
     for (const steamid of allSteamids) {
       fields.push(
-        { path: `allPlayers.${steamid}.state.health`, event: EVENTS.allPlayers.hpChanged },
-        { path: `allPlayers.${steamid}.state.armor`, event: EVENTS.allPlayers.armorChanged },
-        { path: `allPlayers.${steamid}.state.helmet`, event: EVENTS.allPlayers.helmetChanged },
-        { path: `allPlayers.${steamid}.state.money`, event: EVENTS.allPlayers.moneyChanged },
-        { path: `allPlayers.${steamid}.state.flashed`, event: EVENTS.allPlayers.flashedChanged },
-        { path: `allPlayers.${steamid}.state.smoked`, event: EVENTS.allPlayers.smokedChanged },
-        { path: `allPlayers.${steamid}.state.burning`, event: EVENTS.allPlayers.burningChanged },
-        { path: `allPlayers.${steamid}.state.equip_value`, event: EVENTS.allPlayers.equipmentValueChanged },
+        { path: `allPlayers.list.${steamid}.state.health`, event: EVENTS.allPlayers.hpChanged },
+        { path: `allPlayers.list.${steamid}.state.armor`, event: EVENTS.allPlayers.armorChanged },
+        { path: `allPlayers.list.${steamid}.state.helmet`, event: EVENTS.allPlayers.helmetChanged },
+        { path: `allPlayers.list.${steamid}.state.money`, event: EVENTS.allPlayers.moneyChanged },
+        { path: `allPlayers.list.${steamid}.state.flashed`, event: EVENTS.allPlayers.flashedChanged },
+        { path: `allPlayers.list.${steamid}.state.smoked`, event: EVENTS.allPlayers.smokedChanged },
+        { path: `allPlayers.list.${steamid}.state.burning`, event: EVENTS.allPlayers.burningChanged },
+        { path: `allPlayers.list.${steamid}.state.equip_value`, event: EVENTS.allPlayers.equipmentValueChanged },
       );
     }
 
     for (const { path, event } of fields) {
       const prevVal = this.getFieldSafe(path, prev, this.previously);
       const currVal = this.getFieldSafe(path, curr, this.added);
-      const steamid = path.split(".")[1] as STEAMID64;
+      const steamid = path.split(".")[2] as STEAMID64;
 
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);

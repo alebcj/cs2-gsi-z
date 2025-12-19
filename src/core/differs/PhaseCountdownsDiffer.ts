@@ -1,8 +1,8 @@
-import { EVENTS } from '../../constants/events.js';
-import { PhaseCountdowns } from '../../models/PhaseCountdowns.js';
-import { Logger } from '../../utils/Logger.js';
-import { GameState } from '../gamestate/GameState.js';
-import { DifferBase, DiffOptions, EmitterContext } from './DifferBase.js';
+import { EVENTS } from '../../constants/events';
+import { PhaseCountdowns } from '../../models/PhaseCountdowns';
+import { Logger } from '../../utils/Logger';
+import { GameState } from '../gamestate/GameState';
+import { DifferBase, DiffOptions, EmitterContext } from './DifferBase';
 
 export interface PhaseCountdownsDifferOptions  {
   logger?: Logger | null;

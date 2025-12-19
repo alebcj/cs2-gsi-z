@@ -1,8 +1,8 @@
-import { EVENTS } from "../../constants/events.js";
-import { Weapon } from "../../models/Weapon.js";
-import { Logger } from "../../utils/Logger.js";
-import { GameState } from "../gamestate/GameState.js";
-import { DifferBase, DiffOptions, EmitterContext } from "./DifferBase.js";
+import { EVENTS } from "../../constants/events";
+import { Weapon } from "../../models/Weapon";
+import { Logger } from "../../utils/Logger";
+import { GameState } from "../gamestate/GameState";
+import { DifferBase, DiffOptions, EmitterContext } from "./DifferBase";
 
 export interface WeaponDifferOptions {
   logger?: Logger | null;
@@ -108,12 +108,13 @@ export class WeaponDiffer extends DifferBase<Weapon> {
     const allSteamids = new Set([...currSteamids, ...prevSteamids]);
 
     for (const steamid of allSteamids) {
-      const player = curr.allPlayers.getBySteamid(steamid);
+      const currPlayer = curr.allPlayers.getBySteamid(steamid);
+      const prevPlayer = prev.allPlayers.getBySteamid(steamid);
 
-      if (!player) continue;
+      if (!currPlayer || !prevPlayer) continue;
 
-      const prevWeapon = player.activeWeapon;
-      const currWeapon = player.activeWeapon;
+      const prevWeapon = prevPlayer.activeWeapon;
+      const currWeapon = currPlayer.activeWeapon;
 
       if (this.logger instanceof Logger) {
         this.logger.verbose("🔍 prevWeapon:", prevWeapon);
@@ -162,7 +163,6 @@ export class WeaponDiffer extends DifferBase<Weapon> {
       }
 
       if (prevWeapon.name !== currWeapon.name) {
-        console.log(2, steamid, prevWeapon.name, currWeapon.name);
         this.logger.log(
           `🚀 Weapon changed: ${prevWeapon.name} → ${currWeapon.name}`
         );

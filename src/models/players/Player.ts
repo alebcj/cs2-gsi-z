@@ -1,14 +1,14 @@
-import { PlayerState, PlayerStateInput } from "./PlayerState.js";
-import { PlayerMatchStats, PlayerMatchStatsInput } from "./PlayerMatchStats.js";
+import { PlayerState, PlayerStateInput } from "./PlayerState";
+import { PlayerMatchStats, PlayerMatchStatsInput } from "./PlayerMatchStats";
 import {
   WeaponsCollection,
   WeaponsCollectionInput,
-} from "./WeaponsCollection.js";
-import { ModelBase } from "./ModelBase.js";
-import { Weapon } from "./Weapon.js";
-import { Vector3D } from "./helpers/Vector3D.js";
-import { Activity, stringToActivity, stringToTeam, Team } from "../constants/enums.js";
-import { STEAMID64 } from "../constants/types.js";
+} from "../WeaponsCollection";
+import { ModelBase } from "../ModelBase";
+import { Weapon } from "../Weapon";
+import { Vector3D } from "../helpers/Vector3D";
+import { Activity, stringToActivity, stringToTeam, Team } from "../../constants/enums";
+import { STEAMID64 } from "../../constants/types";
 
 export interface PlayerInput {
   steamid?: string;

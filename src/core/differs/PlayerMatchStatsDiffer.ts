@@ -1,9 +1,9 @@
-import { EventMap, EVENTS } from "../../constants/events.js";
-import { STEAMID64 } from "../../constants/types.js";
-import { PlayerMatchStats } from "../../models/PlayerMatchStats.js";
-import { Logger } from "../../utils/Logger.js";
-import { GameState } from "../gamestate/GameState.js";
-import { DifferBase, DiffOptions, EmitterContext } from "./DifferBase.js";
+import { EventMap, EVENTS } from "../../constants/events";
+import { STEAMID64 } from "../../constants/types";
+import { PlayerMatchStats } from "../../models/players/PlayerMatchStats";
+import { Logger } from "../../utils/Logger";
+import { GameState } from "../gamestate/GameState";
+import { DifferBase, DiffOptions, EmitterContext } from "./DifferBase";
 
 export interface PlayerMatchStatsDifferOptions {
   logger?: Logger | null;
@@ -79,23 +79,23 @@ export class PlayerMatchStatsDiffer extends DifferBase<PlayerMatchStats> {
     for (const steamid of allSteamids) {
       fields.push(
         {
-          path: `allPlayers.${steamid}.matchStats.kills`,
+          path: `allPlayers.list.${steamid}.matchStats.kills`,
           event: EVENTS.allPlayers.killsChanged,
         },
         {
-          path: `allPlayers.${steamid}.matchStats.assists`,
+          path: `allPlayers.list.${steamid}.matchStats.assists`,
           event: EVENTS.allPlayers.assistsChanged,
         },
         {
-          path: `allPlayers.${steamid}.matchStats.deaths`,
+          path: `allPlayers.list.${steamid}.matchStats.deaths`,
           event: EVENTS.allPlayers.deathsChanged,
         },
         {
-          path: `allPlayers.${steamid}.matchStats.mvps`,
+          path: `allPlayers.list.${steamid}.matchStats.mvps`,
           event: EVENTS.allPlayers.mvpsChanged,
         },
         {
-          path: `allPlayers.${steamid}.matchStats.score`,
+          path: `allPlayers.list.${steamid}.matchStats.score`,
           event: EVENTS.allPlayers.scoreChanged,
         }
       );
@@ -104,7 +104,7 @@ export class PlayerMatchStatsDiffer extends DifferBase<PlayerMatchStats> {
     for (const { path, event } of fields) {
       const prevVal = this.getFieldSafe(path, prev, this.previously);
       const currVal = this.getFieldSafe(path, curr, this.added);
-      const steamid = path.split(".")[1] as STEAMID64;
+      const steamid = path.split(".")[2] as STEAMID64;
 
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);

@@ -1,5 +1,5 @@
-import { Weapon, type WeaponInput } from './Weapon.js';
-import { ModelBase } from './ModelBase.js';
+import { Weapon, type WeaponInput } from './Weapon';
+import { ModelBase } from './ModelBase';
 
 export type WeaponsCollectionInput = Record<string, WeaponInput>;
 
