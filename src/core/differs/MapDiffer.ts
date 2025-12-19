@@ -32,10 +32,10 @@ export class MapDiffer extends DifferBase<Map> {
       { path: 'map.name', event: EVENTS.map.nameChanged },
       { path: 'map.phase', event: EVENTS.map.phaseChanged },
       { path: 'map.round', event: EVENTS.map.roundChanged },
-      { path: 'map.team_ct.score', event: EVENTS.map.teamCTScoreChanged },
-      { path: 'map.team_t.score', event: EVENTS.map.teamTScoreChanged },
-      { path: 'map.current_spectators', event: EVENTS.map.currentSpectatorsChanged },
-      { path: 'map.souvenirs_total', event: EVENTS.map.souvenirsTotalChanged },
+      { path: 'map.teamCT.score', event: EVENTS.map.teamCTScoreChanged },
+      { path: 'map.teamT.score', event: EVENTS.map.teamTScoreChanged },
+      { path: 'map.currentSpectators', event: EVENTS.map.currentSpectatorsChanged },
+      { path: 'map.souvenirsTotal', event: EVENTS.map.souvenirsTotalChanged },
     ];
 
     for (const { path, event } of fields) {
