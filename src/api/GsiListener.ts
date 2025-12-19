@@ -16,7 +16,7 @@ export class GsiListener extends EventEmitter {
   private enableUACheck = true;
   private server: http.Server<typeof http.IncomingMessage, typeof http.ServerResponse> | null = null;
 
-  constructor({ logger = null, port = 3000, allowedUAs = ["Valve/Steam HTTP Client 1.0 (730)"], enableUACheck = true }: GsiListenerOptions = {}) {
+  constructor({ logger = null, port = 3000, allowedUAs = ["Valve/Steam HTTP Client 1.0 (730)"], enableUACheck = false }: GsiListenerOptions = {}) {
     super();
 
     this.logger = logger?.child ? logger.child('GsiListener') : console;
