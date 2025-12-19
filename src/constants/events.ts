@@ -166,12 +166,12 @@ export const EVENTS = /* * @type {GsiEvents} */ {
   }
 } as const;
 
-export type comparisonDataString<T> = { previously: T | null | "unknown"; current: T | null | "unknown" };
-export type comparisonDataModel<T extends ModelBase> = { previously: T | null | "unknown"; current: T | null | "unknown" };
-export type comparisonDataModelArray<T extends ModelBase> = { previously: T[] | null | "unknown"; current: T[] | null | "unknown" };
-export type comparisonDataNumber<T> = { previously: T | null | 0; current: T | null | 0 };
-export type comparisonDataEnum<T> = { previously: T; current: T };
-export type comparisonDataVector3D = { previously: null | Vector3D; current: null | Vector3D };
+export type comparisonDataString<T> = { previous: T | null | "unknown"; current: T | null | "unknown" };
+export type comparisonDataModel<T extends ModelBase> = { previous: T | null | "unknown"; current: T | null | "unknown" };
+export type comparisonDataModelArray<T extends ModelBase> = { previous: T[] | null | "unknown"; current: T[] | null | "unknown" };
+export type comparisonDataNumber<T> = { previous: T | null | 0; current: T | null | 0 };
+export type comparisonDataEnum<T> = { previous: T; current: T };
+export type comparisonDataVector3D = { previous: null | Vector3D; current: null | Vector3D };
 
 export type EventMap = {
   "provider:nameChanged": [comparisonDataString<string>];

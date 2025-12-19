@@ -56,7 +56,7 @@ export class PlayerMatchStatsDiffer extends DifferBase<PlayerMatchStats> {
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
         this.emitWithContext(emitter, event, {
-          previously: prevVal,
+          previous: prevVal,
           current: currVal,
         });
       }
@@ -109,7 +109,7 @@ export class PlayerMatchStatsDiffer extends DifferBase<PlayerMatchStats> {
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
         this.emitWithContext(emitter, event, steamid, {
-          previously: prevVal,
+          previous: prevVal,
           current: currVal,
         });
       }

@@ -48,7 +48,7 @@ export class PlayerStateDiffer extends DifferBase<PlayerState> {
 
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
-        this.emitWithContext(emitter, event, { previously: prevVal, current: currVal });
+        this.emitWithContext(emitter, event, { previous: prevVal, current: currVal });
       }
     }
 
@@ -97,7 +97,7 @@ export class PlayerStateDiffer extends DifferBase<PlayerState> {
 
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
-        this.emitWithContext(emitter, event, steamid, { previously: prevVal, current: currVal });
+        this.emitWithContext(emitter, event, steamid, { previous: prevVal, current: currVal });
       }
     }
   }

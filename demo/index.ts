@@ -28,9 +28,9 @@ gsiService.onAny((eventName, ...args) => {
     console.log(
       eventName,
       ...args.map((a) => {
-        if (a.previously instanceof Vector3D) {
+        if (a.previous instanceof Vector3D) {
           return {
-            previously: a.previously.toString(),
+            previous: a.previously.toString(),
             current: a.current.toString(),
           };
         }

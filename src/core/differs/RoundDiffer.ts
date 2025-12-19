@@ -34,7 +34,7 @@ export class RoundDiffer extends DifferBase<Round> {
 
     if (prevPhase !== currPhase) {
       this.logger.log(`🔁 Change of phase: ${prevPhase} → ${currPhase}`);
-      this.emitWithContext(emitter, EVENTS.round.phaseChanged, { previously: prevPhase, current: currPhase });
+      this.emitWithContext(emitter, EVENTS.round.phaseChanged, { previous: prevPhase, current: currPhase });
 
       if (currPhase === RoundPhase.Freezetime) {
         this.logger.log('🚀 Round starts (freezetime).');
@@ -47,7 +47,7 @@ export class RoundDiffer extends DifferBase<Round> {
 
     if (prevWinTeam !== currWinTeam) {
       this.logger.log(`🏆 Change of win_team: ${prevWinTeam} → ${currWinTeam}`);
-      this.emitWithContext(emitter, EVENTS.round.won, { previously: prevWinTeam, current: currWinTeam });
+      this.emitWithContext(emitter, EVENTS.round.won, { previous: prevWinTeam, current: currWinTeam });
       this.emitWithContext(emitter, EVENTS.round.ended, { winner: currWinTeam });
     }
 
@@ -56,7 +56,7 @@ export class RoundDiffer extends DifferBase<Round> {
 
     if (prevRoundNumber !== currRoundNumber) {
       this.logger.log(`🔢 Change of round number: ${prevRoundNumber} → ${currRoundNumber}`);
-      this.emitWithContext(emitter, EVENTS.map.roundChanged, { previously: prevRoundNumber, current: currRoundNumber });
+      this.emitWithContext(emitter, EVENTS.map.roundChanged, { previous: prevRoundNumber, current: currRoundNumber });
     }
     
     // // @ts-expect-error

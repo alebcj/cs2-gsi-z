@@ -71,7 +71,7 @@ export class WeaponDiffer extends DifferBase<Weapon> {
       );
 
       this.emitWithContext(emitter, EVENTS.player.ammoClipChanged, {
-        previously: prevWeapon.ammo_clip,
+        previous: prevWeapon.ammo_clip,
         current: currWeapon.ammo_clip,
       });
     }
@@ -82,7 +82,7 @@ export class WeaponDiffer extends DifferBase<Weapon> {
       );
 
       this.emitWithContext(emitter, EVENTS.player.ammoReserveChanged, {
-        previously: prevWeapon.ammo_reserve,
+        previous: prevWeapon.ammo_reserve,
         current: currWeapon.ammo_reserve,
       });
     }
@@ -93,7 +93,7 @@ export class WeaponDiffer extends DifferBase<Weapon> {
       );
 
       this.emitWithContext(emitter, EVENTS.player.weaponChanged, {
-        previously: prevWeapon,
+        previous: prevWeapon,
         current: currWeapon,
       });
     }
@@ -146,7 +146,7 @@ export class WeaponDiffer extends DifferBase<Weapon> {
         );
 
         this.emitWithContext(emitter, EVENTS.allPlayers.ammoClipChanged, steamid, {
-            previously: prevWeapon.ammo_clip,
+            previous: prevWeapon.ammo_clip,
             current: currWeapon.ammo_clip,
         });
       }
@@ -157,7 +157,7 @@ export class WeaponDiffer extends DifferBase<Weapon> {
         );
 
         this.emitWithContext(emitter, EVENTS.allPlayers.ammoReserveChanged, steamid, {
-          previously: prevWeapon.ammo_reserve,
+          previous: prevWeapon.ammo_reserve,
           current: currWeapon.ammo_reserve,
         });
       }
@@ -168,7 +168,7 @@ export class WeaponDiffer extends DifferBase<Weapon> {
         );
 
         this.emitWithContext(emitter, EVENTS.allPlayers.weaponChanged, steamid, {
-          previously: prevWeapon,
+          previous: prevWeapon,
           current: currWeapon,
         });
       }

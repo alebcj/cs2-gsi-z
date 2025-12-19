@@ -38,7 +38,7 @@ export class RoundWinsDiffer extends DifferBase<RoundWins> {
 
       if (prevVal.length !== currVal.length) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
-        this.emitWithContext(emitter, event, { previously: prevVal, current: currVal });
+        this.emitWithContext(emitter, event, { previous: prevVal, current: currVal });
       }
     }
   }

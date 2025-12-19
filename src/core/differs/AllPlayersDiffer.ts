@@ -75,13 +75,13 @@ export class AllPlayersDiffer extends DifferBase<AllPlayers> {
           continue; // No change
         } else {
             this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
-            this.emitWithContext(emitter, event, steamid, { previously: prevVal, current: currVal });
+            this.emitWithContext(emitter, event, steamid, { previous: prevVal, current: currVal });
         }
       }
 
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
-        this.emitWithContext(emitter, event, steamid, { previously: prevVal, current: currVal });
+        this.emitWithContext(emitter, event, steamid, { previous: prevVal, current: currVal });
       }
     }
   }

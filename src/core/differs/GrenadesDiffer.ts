@@ -49,7 +49,7 @@ export class GrenadesDiffer extends DifferBase<GrenadeList> {
           EVENTS.grenades.existenceChanged,
           id as GRENADEID,
           {
-            previously: null,
+            previous: null,
             current: grenade,
           }
         );
@@ -70,7 +70,7 @@ export class GrenadesDiffer extends DifferBase<GrenadeList> {
           EVENTS.grenades.existenceChanged,
           id as GRENADEID,
           {
-            previously: grenade,
+            previous: grenade,
             current: null,
           }
         );
@@ -128,7 +128,7 @@ export class GrenadesDiffer extends DifferBase<GrenadeList> {
             `🔄 Change in ${path}: ${prevFlames} → ${currFlames}`
           );
           this.emitWithContext(emitter, event, id as GRENADEID, {
-            previously: prevVal,
+            previous: prevVal,
             current: currVal,
           });
 
@@ -150,7 +150,7 @@ export class GrenadesDiffer extends DifferBase<GrenadeList> {
             event,
             id as GRENADEID,
             {
-              previously: prevVal,
+              previous: prevVal,
               current: currVal,
             } as comparisonDataVector3D
           );
@@ -162,7 +162,7 @@ export class GrenadesDiffer extends DifferBase<GrenadeList> {
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
         this.emitWithContext(emitter, event, id as GRENADEID, {
-          previously: prevVal,
+          previous: prevVal,
           current: currVal,
         });
       }

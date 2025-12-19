@@ -39,7 +39,7 @@ export class ProviderDiffer extends DifferBase<Provider> {
 
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
-        this.emitWithContext(emitter, event, { previously: prevVal, current: currVal });
+        this.emitWithContext(emitter, event, { previous: prevVal, current: currVal });
       }
     }
   }
