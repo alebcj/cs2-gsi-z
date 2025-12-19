@@ -11,6 +11,8 @@ export { stringToRoundPhase, RoundPhase } from './constants/enums';
 export { stringToCountdownPhase, CountdownPhase } from './constants/enums';
 export { stringToGameMode, GameMode } from './constants/enums';
 export { stringToWeaponType, WeaponType, WeaponTypeDisplayNames } from './constants/enums';
+export { stringToGrenadeType, GrenadeType } from './constants/enums';
+export { comparisonDataString, comparisonDataModel, comparisonDataModelArray, comparisonDataNumber, comparisonDataEnum, comparisonDataVector3D } from './constants/events';
 
 // 🏗️ Models
 export type { ModelBase } from './models/ModelBase';
