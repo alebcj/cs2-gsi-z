@@ -1,4 +1,4 @@
-import { EventMap, EVENTS } from '../../constants/events';
+import { EVENTS } from '../../constants/events';
 import { STEAMID64 } from '../../constants/types';
 import { AllPlayers } from '../../models/players/AllPlayers';
 import { Vector3D } from '../../models/helpers/Vector3D';
@@ -37,6 +37,7 @@ export class AllPlayersDiffer extends DifferBase<AllPlayers> {
       if (!currSteamids.has(steamid)) {
         this.logger.log(`🔄 Player ${prev.allPlayers.getBySteamid(steamid)?.name} left the game.`);
         this.emitWithContext(emitter, EVENTS.allPlayers.left, steamid);
+        this.emitWithContext(emitter, `${EVENTS.allPlayers.left}@${steamid}`);
       }
     }
 
@@ -44,12 +45,13 @@ export class AllPlayersDiffer extends DifferBase<AllPlayers> {
       if (!prevSteamids.has(steamid)) {
         this.logger.log(`🔄 Player ${curr.allPlayers.getBySteamid(steamid)?.name} joined the game.`);
         this.emitWithContext(emitter, EVENTS.allPlayers.joined, steamid);
+        this.emitWithContext(emitter, `${EVENTS.allPlayers.joined}@${steamid}`);
       }
     }
 
     let fields: {
         path: string;
-        event: keyof EventMap;
+        event: typeof EVENTS.allPlayers[keyof typeof EVENTS.allPlayers];
     }[] = [];
 
     const allSteamids = new Set([...currSteamids, ...prevSteamids]);
@@ -76,12 +78,14 @@ export class AllPlayersDiffer extends DifferBase<AllPlayers> {
         } else {
             this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
             this.emitWithContext(emitter, event, steamid, { previous: prevVal, current: currVal });
+            this.emitWithContext(emitter, `${event}@${steamid}`, { previous: prevVal, current: currVal });
         }
       }
 
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
         this.emitWithContext(emitter, event, steamid, { previous: prevVal, current: currVal });
+        this.emitWithContext(emitter, `${event}@${steamid}`, { previous: prevVal, current: currVal });
       }
     }
   }

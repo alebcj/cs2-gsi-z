@@ -134,7 +134,6 @@ export const EVENTS = /* * @type {GsiEvents} */ {
     smokedChanged: "allPlayers:smokedChanged",
     burningChanged: "allPlayers:burningChanged",
     moneyChanged: "allPlayers:moneyChanged",
-    moneyEarned: "allPlayers:moneyEarned",
     equipmentValueChanged: "allPlayers:equipmentValueChanged",
 
     // Weapons
@@ -173,7 +172,7 @@ export type comparisonDataNumber<T> = { previous: T | null | 0; current: T | nul
 export type comparisonDataEnum<T> = { previous: T; current: T };
 export type comparisonDataVector3D = { previous: null | Vector3D; current: null | Vector3D };
 
-export type EventMap = {
+export interface EventMap {
   "provider:nameChanged": [comparisonDataString<string>];
   "provider:timestampChanged": [comparisonDataNumber<number>];
 
@@ -249,6 +248,33 @@ export type EventMap = {
   "allPlayers:scoreChanged": [STEAMID64, comparisonDataNumber<number>];
   "allPlayers:mvpsChanged": [STEAMID64, comparisonDataNumber<number>];
 
+  [key: `allPlayers:joined@${STEAMID64}`]: [];
+  [key: `allPlayers:left@${STEAMID64}`]: [];
+
+  [key: `allPlayers:teamChanged@${STEAMID64}`]: [comparisonDataEnum<Team>];
+  [key: `allPlayers:observerSlotChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  [key: `allPlayers:positionChanged@${STEAMID64}`]: [comparisonDataVector3D];
+  [key: `allPlayers:forwardDirectionChanged@${STEAMID64}`]: [comparisonDataVector3D];
+
+  [key: `allPlayers:hpChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  [key: `allPlayers:armorChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  [key: `allPlayers:helmetChanged@${STEAMID64}`]: [comparisonDataNumber<boolean>];
+  [key: `allPlayers:flashedChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  [key: `allPlayers:smokedChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  [key: `allPlayers:burningChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  [key: `allPlayers:moneyChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  [key: `allPlayers:equipmentValueChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+
+  [key: `allPlayers:weaponChanged@${STEAMID64}`]: [comparisonDataModel<Weapon>];
+  [key: `allPlayers:ammoClipChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  [key: `allPlayers:ammoReserveChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  
+  [key: `allPlayers:killsChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  [key: `allPlayers:deathsChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  [key: `allPlayers:assistsChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  [key: `allPlayers:scoreChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+  [key: `allPlayers:mvpsChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
+
   "bomb:stateChanged": [comparisonDataEnum<BombState>];
   "bomb:positionChanged": [comparisonDataVector3D];
   "bomb:playerChanged": [comparisonDataString<STEAMID64>];
@@ -259,4 +285,11 @@ export type EventMap = {
   "grenades:lifetimeChanged": [GRENADEID, comparisonDataNumber<number>];
   "grenades:effectTimeChanged": [GRENADEID, comparisonDataNumber<number>];
   "grenades:flamesChanged": [GRENADEID, comparisonDataModelArray<Vector3D>];
+
+  [key: `grenades:existenceChanged@${GRENADEID}`]: [comparisonDataModel<GrenadeBase>];
+  [key: `grenades:positionChanged@${GRENADEID}`]: [comparisonDataVector3D];
+  [key: `grenades:velocityChanged@${GRENADEID}`]: [comparisonDataVector3D];
+  [key: `grenades:lifetimeChanged@${GRENADEID}`]: [comparisonDataNumber<number>];
+  [key: `grenades:effectTimeChanged@${GRENADEID}`]: [comparisonDataNumber<number>];
+  [key: `grenades:flamesChanged@${GRENADEID}`]: [comparisonDataModelArray<Vector3D>];
 };

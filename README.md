@@ -150,6 +150,8 @@ Each emitted event includes:
 
 You can further implement your own differs, with the below DifferBase class.
 
+You can also subscribe to specific players or grenades by using the `@` symbol in the event name followed by the players SteamID64/grenades ID.
+
 ---
 
 ## 🔢 Differs and Diff Manager

@@ -2,7 +2,7 @@ import { STEAMID64 } from "../../constants/types";
 import { ModelBase } from "../ModelBase";
 import { Player, PlayerInput } from "./Player";
 
-export type AllPlayersInput = Record<string, PlayerInput>;
+export type AllPlayersInput = Record<STEAMID64, PlayerInput>;
 
 /**
  * List of all players. */
@@ -20,7 +20,7 @@ export class AllPlayers extends ModelBase {
       data = {};
     }
 
-    const steamids = Object.keys(data);
+    const steamids = Object.keys(data) as STEAMID64[];
     const values = Object.values(data);
 
     this.list = Object.fromEntries(steamids.map((steamid, i) => [steamid, new Player({ ...values[i], steamid })])) as Record<STEAMID64, Player>;

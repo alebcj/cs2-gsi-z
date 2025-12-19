@@ -74,7 +74,7 @@ export class PlayerStateDiffer extends DifferBase<PlayerState> {
 
     let fields: {
       path: string;
-      event: keyof EventMap;
+      event: typeof EVENTS.allPlayers[keyof typeof EVENTS.allPlayers];
     }[] = [];
 
     for (const steamid of allSteamids) {
@@ -98,6 +98,7 @@ export class PlayerStateDiffer extends DifferBase<PlayerState> {
       if (prevVal !== currVal) {
         this.logger.log(`🔄 Change in ${path}: ${prevVal} → ${currVal}`);
         this.emitWithContext(emitter, event, steamid, { previous: prevVal, current: currVal });
+        this.emitWithContext(emitter, `${event}@${steamid}`, { previous: prevVal, current: currVal });
       }
     }
   }

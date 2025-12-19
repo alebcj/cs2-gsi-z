@@ -1,4 +1,8 @@
-import { comparisonDataVector3D, EventMap, EVENTS } from "../../constants/events";
+import {
+  comparisonDataVector3D,
+  EventMap,
+  EVENTS,
+} from "../../constants/events";
 import { GRENADEID } from "../../constants/types";
 import { GrenadeList } from "../../models/grenades/GrenadeList";
 import { Vector3D } from "../../models/helpers/Vector3D";
@@ -53,6 +57,14 @@ export class GrenadesDiffer extends DifferBase<GrenadeList> {
             current: grenade,
           }
         );
+        this.emitWithContext(
+          emitter,
+          `${EVENTS.grenades.existenceChanged}@${+id}`,
+          {
+            previous: null,
+            current: grenade,
+          }
+        );
 
         continue;
       }
@@ -74,6 +86,14 @@ export class GrenadesDiffer extends DifferBase<GrenadeList> {
             current: null,
           }
         );
+        this.emitWithContext(
+          emitter,
+          `${EVENTS.grenades.existenceChanged}@${+id}`,
+          {
+            previous: grenade,
+            current: null,
+          }
+        );
 
         continue;
       }
@@ -84,7 +104,7 @@ export class GrenadesDiffer extends DifferBase<GrenadeList> {
       ...Object.keys(curr.grenades.list),
     ]);
 
-    const fields: { path: string; event: keyof EventMap }[] = [];
+    const fields: { path: string; event: typeof EVENTS.grenades[keyof typeof EVENTS.grenades] }[] = [];
 
     for (const id of allIds) {
       fields.push({
@@ -131,6 +151,14 @@ export class GrenadesDiffer extends DifferBase<GrenadeList> {
             previous: prevVal,
             current: currVal,
           });
+          this.emitWithContext(
+            emitter,
+            `${event}@${+id}`,
+            {
+              previous: prevVal,
+              current: currVal,
+            }
+          );
 
           continue;
         }
@@ -154,6 +182,14 @@ export class GrenadesDiffer extends DifferBase<GrenadeList> {
               current: currVal,
             } as comparisonDataVector3D
           );
+          this.emitWithContext(
+            emitter,
+            `${event}@${+id}`,
+            {
+              previous: prevVal,
+              current: currVal,
+            }
+          );
         }
 
         continue;
@@ -165,6 +201,15 @@ export class GrenadesDiffer extends DifferBase<GrenadeList> {
           previous: prevVal,
           current: currVal,
         });
+
+        this.emitWithContext(
+          emitter,
+          `${event}@${+id}`,
+          {
+            previous: prevVal,
+            current: currVal,
+          }
+        );
       }
     }
   }

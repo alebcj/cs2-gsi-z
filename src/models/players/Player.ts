@@ -8,10 +8,10 @@ import { ModelBase } from "../ModelBase";
 import { Weapon } from "../Weapon";
 import { Vector3D } from "../helpers/Vector3D";
 import { Activity, stringToActivity, stringToTeam, Team } from "../../constants/enums";
-import { STEAMID64 } from "../../constants/types";
+import { STEAMID64, UNKNOWN } from "../../constants/types";
 
 export interface PlayerInput {
-  steamid?: string;
+  steamid?: `${number}`;
   name?: string;
   xpoverload?: number;
   clan?: string;
@@ -29,7 +29,7 @@ export interface PlayerInput {
 /**
  * Represents the current player. */
 export class Player extends ModelBase {
-  public steamid: STEAMID64;
+  public steamid: STEAMID64 | UNKNOWN;
   public name: string;
   public clan: string;
   public xpOverloadLevel: number | null;
@@ -64,7 +64,7 @@ export class Player extends ModelBase {
       data = {};
     }
 
-    this.steamid = this.validateString(data.steamid);
+    this.steamid = data.steamid ?? 'unknown';
     this.name = this.validateString(data.name);
     this.xpOverloadLevel = this.validateNumberOrNull(data.xpoverload);
     this.team = stringToTeam(data.team);
@@ -103,7 +103,7 @@ export class Player extends ModelBase {
 
   toSerializableObject(): PlayerInput {
     return {
-      steamid: this.steamid,
+      steamid: this.steamid === 'unknown' ? undefined : this.steamid,
       name: this.name,
       xpoverload: this.xpOverloadLevel ?? undefined,
       clan: this.clan,

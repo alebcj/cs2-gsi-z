@@ -1,4 +1,4 @@
-export type STEAMID64 = `${number}` | UNKNOWN;
+export type STEAMID64 = `${number}`;
 export type UNKNOWN = "unknown";
 
 export type GRENADEID = `${number}`;

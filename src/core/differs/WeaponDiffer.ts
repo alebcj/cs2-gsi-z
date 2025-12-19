@@ -149,6 +149,11 @@ export class WeaponDiffer extends DifferBase<Weapon> {
             previous: prevWeapon.ammo_clip,
             current: currWeapon.ammo_clip,
         });
+
+        this.emitWithContext(emitter, `${EVENTS.allPlayers.ammoClipChanged}@${steamid}`, {
+          previous: prevWeapon.ammo_clip,
+          current: currWeapon.ammo_clip,
+        });
       }
 
       if (prevWeapon.ammo_reserve !== currWeapon.ammo_reserve) {
@@ -160,6 +165,11 @@ export class WeaponDiffer extends DifferBase<Weapon> {
           previous: prevWeapon.ammo_reserve,
           current: currWeapon.ammo_reserve,
         });
+
+        this.emitWithContext(emitter, `${EVENTS.allPlayers.ammoReserveChanged}@${steamid}`, {
+          previous: prevWeapon.ammo_reserve,
+          current: currWeapon.ammo_reserve,
+        });
       }
 
       if (prevWeapon.name !== currWeapon.name) {
@@ -168,6 +178,11 @@ export class WeaponDiffer extends DifferBase<Weapon> {
         );
 
         this.emitWithContext(emitter, EVENTS.allPlayers.weaponChanged, steamid, {
+          previous: prevWeapon,
+          current: currWeapon,
+        });
+
+        this.emitWithContext(emitter, `${EVENTS.allPlayers.weaponChanged}@${steamid}`, {
           previous: prevWeapon,
           current: currWeapon,
         });
