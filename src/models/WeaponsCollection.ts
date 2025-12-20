@@ -6,7 +6,7 @@ export type WeaponsCollectionInput = Record<string, WeaponInput>;
 /**
  * Player weapons collection. */
 export class WeaponsCollection extends ModelBase {
-  public list: Weapon[];
+  public readonly list: Weapon[];
 
   constructor(data: WeaponsCollectionInput = {}) {
     super();

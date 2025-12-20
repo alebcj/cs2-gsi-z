@@ -9,8 +9,8 @@ export interface PhaseCountdownsInput {
 /**
  * Represents the current state of the round. */
 export class PhaseCountdowns extends ModelBase {
-  public phase: CountdownPhase;
-  public phaseEndsIn: string | null;
+  public readonly phase: CountdownPhase;
+  public readonly phaseEndsIn: string | null;
 
   constructor(data: PhaseCountdownsInput = {}) {
     super();

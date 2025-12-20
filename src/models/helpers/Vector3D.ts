@@ -9,9 +9,9 @@ export interface Vector3DInput {
 }
 
 export class Vector3D extends ModelBase {
-    public x: number;
-    public y: number;
-    public z: number;
+    public readonly x: number;
+    public readonly y: number;
+    public readonly z: number;
 
     private static vectorStringRegex = /([+-]?\d*\.?\d+),\s([+-]?\d*\.?\d+),\s([+-]?\d*\.?\d+)/;
 

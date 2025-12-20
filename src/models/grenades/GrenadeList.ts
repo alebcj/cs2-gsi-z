@@ -10,7 +10,7 @@ export type GrenadeListInput = Record<
 >;
 
 export class GrenadeList extends ModelBase {
-  public list: Record<GRENADEID, GrenadeBase | FlameGrenade>;
+  public readonly list: Record<GRENADEID, GrenadeBase | FlameGrenade>;
 
   constructor(data: GrenadeListInput = {}) {
     super();

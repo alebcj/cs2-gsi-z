@@ -11,11 +11,11 @@ export interface PlayerMatchStatsInput {
 }
 
 export class PlayerMatchStats extends ModelBase {
-  public kills: number;
-  public assists: number;
-  public deaths: number;
-  public mvps: number;
-  public score: number;
+  public readonly kills: number;
+  public readonly assists: number;
+  public readonly deaths: number;
+  public readonly mvps: number;
+  public readonly score: number;
 
   constructor(data: PlayerMatchStatsInput = {}) {
     super();

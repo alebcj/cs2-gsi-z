@@ -11,11 +11,11 @@ export interface TeamInfoInput {
 /**
  * Represents the information of a team (CT or T). */
 export class TeamInfo extends ModelBase {
-  public score: number;
-  public name: string;
-  public consecutiveRoundLosses: number;
-  public timeoutsRemaining: number;
-  public matchesWonThisSeries: number;
+  public readonly score: number;
+  public readonly name: string;
+  public readonly consecutiveRoundLosses: number;
+  public readonly timeoutsRemaining: number;
+  public readonly matchesWonThisSeries: number;
 
   constructor(data: TeamInfoInput = {}) {
     super();

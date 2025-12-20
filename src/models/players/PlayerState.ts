@@ -16,16 +16,16 @@ export interface PlayerStateInput {
 /**
  * Current state of the player (health, armor, money, etc.) */
 export class PlayerState extends ModelBase {
-  public health: number | null;
-  public armor: number | null;
-  public helmet: boolean;
-  public flashed: number;
-  public smoked: number;
-  public burning: number;
-  public money: number;
-  public roundKills: number;
-  public roundHeadshotKills: number;
-  public equipmentValue: number;
+  public readonly health: number | null;
+  public readonly armor: number | null;
+  public readonly helmet: boolean;
+  public readonly flashed: number;
+  public readonly smoked: number;
+  public readonly burning: number;
+  public readonly money: number;
+  public readonly roundKills: number;
+  public readonly roundHeadshotKills: number;
+  public readonly equipmentValue: number;
 
   constructor(data: PlayerStateInput = {}) {
     super();

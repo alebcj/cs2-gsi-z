@@ -4,7 +4,7 @@ import { ModelBase } from "../ModelBase";
 export type RoundWinsInput = Record<`${number}`, string>;
 
 export class RoundWins extends ModelBase {
-    public list: Record<`${number}`, RoundWinCondition>;
+    public readonly list: Record<`${number}`, RoundWinCondition>;
     constructor(data: RoundWinsInput = {}) {
         super();
 

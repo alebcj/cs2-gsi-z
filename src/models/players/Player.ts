@@ -29,29 +29,29 @@ export interface PlayerInput {
 /**
  * Represents the current player. */
 export class Player extends ModelBase {
-  public steamid: STEAMID64 | UNKNOWN;
-  public name: string;
-  public clan: string;
-  public xpOverloadLevel: number | null;
-  public team: Team;
+  public readonly steamid: STEAMID64 | UNKNOWN;
+  public readonly name: string;
+  public readonly clan: string;
+  public readonly xpOverloadLevel: number | null;
+  public readonly team: Team;
   /**
    * The player's observer slot. The keybind to spectate this player is observerSlot + 1.
    */
-  public observerSlot: number | null;
+  public readonly observerSlot: number | null;
   /**
    * The player's spectated target. The steamid of the player being spectated. Can result in null if GSI is not subscribed to the correct data.
    */
-  public specTarget: string | null;
-  public activity: Activity;
+  public readonly specTarget: string | null;
+  public readonly activity: Activity;
 
-  public state: PlayerState;
-  public matchStats: PlayerMatchStats;
-  public weapons: WeaponsCollection;
+  public readonly state: PlayerState;
+  public readonly matchStats: PlayerMatchStats;
+  public readonly weapons: WeaponsCollection;
 
-  public activeWeapon: Weapon | null;
+  public readonly activeWeapon: Weapon | null;
 
-  public position: Vector3D;
-  public forwardDirection: Vector3D;
+  public readonly position: Vector3D;
+  public readonly forwardDirection: Vector3D;
 
   constructor(data: PlayerInput = {}) {
     super();

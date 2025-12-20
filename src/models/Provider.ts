@@ -11,11 +11,11 @@ export interface ProviderInput {
 /**
  * Represents the current state of the round. */
 export class Provider extends ModelBase {
-  public name: string;
-  public appid: number;
-  public version: number;
-  public steamid: string;
-  public timestamp: number;
+  public readonly name: string;
+  public readonly appid: number;
+  public readonly version: number;
+  public readonly steamid: string;
+  public readonly timestamp: number;
 
   constructor(data: ProviderInput = {}) {
     super();

@@ -16,12 +16,12 @@ export interface GrenadeBaseInput {
 /**
  * Represents the current state all active grenades. */
 export class GrenadeBase extends ModelBase {
-  public owner: STEAMID64;
-  public lifetime: string;
-  public type: GrenadeType;
-  public velocity: Vector3D;
-  public position: Vector3D;
-  public effecttime: string;
+  public readonly owner: STEAMID64;
+  public readonly lifetime: string;
+  public readonly type: GrenadeType;
+  public readonly velocity: Vector3D;
+  public readonly position: Vector3D;
+  public readonly effecttime: string;
 
   constructor(data: GrenadeBaseInput = {}) {
     super();

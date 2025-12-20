@@ -19,19 +19,19 @@ export interface MapInput {
 /**
  * Represents the current state of the map. */
 export class Map extends ModelBase {
-  public mode: GameMode;
-  public name: string;
-  public phase: MapPhase;
-  public round: number;
-  public numMatchesToWinSeries: number;
+  public readonly mode: GameMode;
+  public readonly name: string;
+  public readonly phase: MapPhase;
+  public readonly round: number;
+  public readonly numMatchesToWinSeries: number;
 
-  public teamCT: TeamInfo;
-  public teamT: TeamInfo;
+  public readonly teamCT: TeamInfo;
+  public readonly teamT: TeamInfo;
 
-  public roundWins: RoundWins;
+  public readonly roundWins: RoundWins;
 
-  public currentSpectators: number;
-  public souvenirsTotal: number;
+  public readonly currentSpectators: number;
+  public readonly souvenirsTotal: number;
   constructor(data: MapInput = {}) {
     super();
 

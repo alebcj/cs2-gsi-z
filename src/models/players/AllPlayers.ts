@@ -7,7 +7,7 @@ export type AllPlayersInput = Record<STEAMID64, PlayerInput>;
 /**
  * List of all players. */
 export class AllPlayers extends ModelBase {
-  public list: Record<STEAMID64, Player>;
+  public readonly list: Record<STEAMID64, Player>;
 
   constructor(data: AllPlayersInput = {}) {
     super();

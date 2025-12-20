@@ -14,14 +14,14 @@ export interface WeaponInput {
 /**
  * Represents a player's weapon. */
 export class Weapon extends ModelBase {
-  public type: WeaponType;
-  public displayName: string;
+  public readonly type: WeaponType;
+  public readonly displayName: string;
 
-  public name: string;
-  public state: WeaponState;
-  public ammo_clip: number | null;
-  public ammo_clip_max: number | null;
-  public ammo_reserve: number | null;
+  public readonly name: string;
+  public readonly state: WeaponState;
+  public readonly ammo_clip: number | null;
+  public readonly ammo_clip_max: number | null;
+  public readonly ammo_reserve: number | null;
 
   constructor(data: WeaponInput) {
     super();

@@ -12,9 +12,9 @@ export interface BombInput {
 /**
  * Represents the current player. */
 export class Bomb extends ModelBase {
-  state: BombState;
-  position: Vector3D;
-  player: STEAMID64;
+  public readonly state: BombState;
+  public readonly position: Vector3D;
+  public readonly player: STEAMID64;
 
   constructor(data: BombInput = {}) {
     super();

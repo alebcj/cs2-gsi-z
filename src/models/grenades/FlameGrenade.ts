@@ -6,7 +6,7 @@ export interface FlameGrenadeInput extends GrenadeBaseInput {
 }
 
 export class FlameGrenade extends GrenadeBase {
-    public flames: Vector3D[];
+    public readonly flames: Vector3D[];
 
     constructor(data: FlameGrenadeInput) {
         super(data);

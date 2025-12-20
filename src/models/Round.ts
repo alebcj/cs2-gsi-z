@@ -10,9 +10,9 @@ export interface RoundInput {
 /**
  * Represents the current state of the round. */
 export class Round extends ModelBase {
-  public phase: RoundPhase;
-  public bomb: StableBombState | null;
-  public winner: Team | null;
+  public readonly phase: RoundPhase;
+  public readonly bomb: StableBombState | null;
+  public readonly winner: Team | null;
 
   constructor(data: RoundInput = {}) {
     super();
