@@ -82,6 +82,10 @@ export const EVENTS = /* * @type {GsiEvents} */ {
 
   player: {
     // Basic Info
+    nameChanged: "player:nameChanged",
+    clanChanged: "player:clanChanged",
+    xpOverloadLevelChanged: "player:xpOverloadLevelChanged",
+    steamidChanged: "player:steamidChanged",
     teamChanged: "player:teamChanged",
     activityChanged: "player:activityChanged",
     observerSlotChanged: "player:observerSlotChanged",
@@ -191,6 +195,11 @@ export interface EventMap {
   "round:started": [];
   "round:ended": [{ winner: string | null | "unknown" }];
   "round:won": [comparisonDataString<string>];
+
+  "player:nameChanged": [comparisonDataString<string>];
+  "player:clanChanged": [comparisonDataString<string>];
+  "player:xpOverloadLevelChanged": [comparisonDataNumber<number>];
+  "player:steamidChanged": [comparisonDataString<STEAMID64>];
 
   "player:teamChanged": [comparisonDataEnum<Team>];
   "player:activityChanged": [comparisonDataEnum<Activity>];

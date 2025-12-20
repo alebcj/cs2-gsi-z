@@ -30,6 +30,10 @@ export class PlayerDiffer extends DifferBase<Player> {
     if (!prev?.player && !curr?.player) return;
 
     const fields = [
+      { path: 'player.name', event: EVENTS.player.nameChanged },
+      { path: 'player.clan', event: EVENTS.player.clanChanged },
+      { path: 'player.xpOverloadLevel', event: EVENTS.player.xpOverloadLevelChanged },
+      { path: 'player.steamid', event: EVENTS.player.steamidChanged },
       { path: 'player.team', event: EVENTS.player.teamChanged },
       { path: 'player.activity', event: EVENTS.player.activityChanged },
       { path: 'player.observerSlot', event: EVENTS.player.observerSlotChanged },

@@ -138,7 +138,7 @@ Each emitted event includes:
 
 **Round:** `phaseChanged`, `started`, `ended`, `won`
 
-**Player:** `teamChanged`, `activityChanged`, `observerSlotChanged`, `spectargetChanged`, `positionChanged`, `forwardDirectionChanged`, `hpChanged`, `armorChanged`, `helmetChanged`, `flashedChanged`, `smokedChanged`, `burningChanged`, `moneyChanged`, `equipmentValueChanged`, `weaponChanged`, `ammoClipChanged`, `ammoReserveChanged`, `killsChanged`, `deathsChanged`, `assistsChanged`, `scoreChanged`, `mvpsChanged`
+**Player:** `nameChanged`, `clanChanged`, `xpOverloadLevelChanged`, `steamidChanged`, `teamChanged`, `activityChanged`, `observerSlotChanged`, `spectargetChanged`, `positionChanged`, `forwardDirectionChanged`, `hpChanged`, `armorChanged`, `helmetChanged`, `flashedChanged`, `smokedChanged`, `burningChanged`, `moneyChanged`, `equipmentValueChanged`, `weaponChanged`, `ammoClipChanged`, `ammoReserveChanged`, `killsChanged`, `deathsChanged`, `assistsChanged`, `scoreChanged`, `mvpsChanged`
 
 **PhaseCountdowns:** `phaseChanged`, `phaseEndsInChanged`
 
