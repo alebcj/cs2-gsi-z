@@ -36,16 +36,28 @@ export class AllPlayersDiffer extends DifferBase<AllPlayers> {
     for (const steamid of prevSteamids) {
       if (!currSteamids.has(steamid)) {
         this.logger.log(`🔄 Player ${prev.allPlayers.getBySteamid(steamid)?.name} left the game.`);
-        this.emitWithContext(emitter, EVENTS.allPlayers.left, steamid);
-        this.emitWithContext(emitter, `${EVENTS.allPlayers.left}@${steamid}`);
+        this.emitWithContext(emitter, EVENTS.allPlayers.left, steamid, {
+          previous: prev.allPlayers.getBySteamid(steamid),
+          current: null
+        });
+        this.emitWithContext(emitter, `${EVENTS.allPlayers.left}@${steamid}`, {
+          previous: prev.allPlayers.getBySteamid(steamid),
+          current: null
+        });
       }
     }
 
     for (const steamid of currSteamids) {
       if (!prevSteamids.has(steamid)) {
         this.logger.log(`🔄 Player ${curr.allPlayers.getBySteamid(steamid)?.name} joined the game.`);
-        this.emitWithContext(emitter, EVENTS.allPlayers.joined, steamid);
-        this.emitWithContext(emitter, `${EVENTS.allPlayers.joined}@${steamid}`);
+        this.emitWithContext(emitter, EVENTS.allPlayers.joined, steamid, {
+          previous: null,
+          current: curr.allPlayers.getBySteamid(steamid)
+        });
+        this.emitWithContext(emitter, `${EVENTS.allPlayers.joined}@${steamid}`, {
+          previous: null,
+          current: curr.allPlayers.getBySteamid(steamid)
+        });
       }
     }
 

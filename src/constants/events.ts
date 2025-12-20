@@ -24,6 +24,7 @@
 import { GrenadeBase } from "../models/grenades/GrenadeBase";
 import { Vector3D } from "../models/helpers/Vector3D";
 import { ModelBase } from "../models/ModelBase";
+import { Player } from "../models/players/Player";
 import { Weapon } from "../models/Weapon";
 import { Activity, BombState, CountdownPhase, MapPhase, RoundPhase, RoundWinCondition, Team } from "./enums";
 import { GRENADEID, STEAMID64 } from "./types";
@@ -221,8 +222,8 @@ export interface EventMap {
   "phaseCountdowns:phaseChanged": [comparisonDataEnum<CountdownPhase>];
   "phaseCountdowns:phaseEndsInChanged": [comparisonDataString<string>];
 
-  "allPlayers:joined": [STEAMID64];
-  "allPlayers:left": [STEAMID64];
+  "allPlayers:joined": [STEAMID64, comparisonDataModel<Player>];
+  "allPlayers:left": [STEAMID64, comparisonDataModel<Player>];
 
   "allPlayers:teamChanged": [STEAMID64, comparisonDataEnum<Team>];
   "allPlayers:observerSlotChanged": [STEAMID64, comparisonDataNumber<number>];
@@ -248,8 +249,8 @@ export interface EventMap {
   "allPlayers:scoreChanged": [STEAMID64, comparisonDataNumber<number>];
   "allPlayers:mvpsChanged": [STEAMID64, comparisonDataNumber<number>];
 
-  [key: `allPlayers:joined@${STEAMID64}`]: [];
-  [key: `allPlayers:left@${STEAMID64}`]: [];
+  [key: `allPlayers:joined@${STEAMID64}`]: [comparisonDataModel<Player>];
+  [key: `allPlayers:left@${STEAMID64}`]: [comparisonDataModel<Player>];
 
   [key: `allPlayers:teamChanged@${STEAMID64}`]: [comparisonDataEnum<Team>];
   [key: `allPlayers:observerSlotChanged@${STEAMID64}`]: [comparisonDataNumber<number>];
