@@ -1,6 +1,7 @@
 // 📦 Constants and types
 export { EVENTS, type EventMap } from './constants/events';
 export type { STEAMID64, UNKNOWN } from './constants/types';
+export { WeaponData } from './data/WeaponData';
 export { isSteamId64 } from './constants/types';
 export { stringToTeam, Team } from './constants/enums';
 export { stringToActivity, Activity } from './constants/enums';
