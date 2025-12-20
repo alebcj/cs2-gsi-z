@@ -15,23 +15,23 @@ export { stringToGrenadeType, GrenadeType } from './constants/enums';
 export { comparisonDataString, comparisonDataModel, comparisonDataModelArray, comparisonDataNumber, comparisonDataEnum, comparisonDataVector3D } from './constants/events';
 
 // 🏗️ Models
-export type { ModelBase } from './models/ModelBase';
-export type { Player } from './models/players/Player';
-export type { PlayerState } from './models/players/PlayerState';
-export type { PlayerMatchStats } from './models/players/PlayerMatchStats';
-export type { WeaponsCollection } from './models/WeaponsCollection';
-export type { Weapon } from './models/Weapon';
+export { ModelBase } from './models/ModelBase';
+export { Player } from './models/players/Player';
+export { PlayerState } from './models/players/PlayerState';
+export { PlayerMatchStats } from './models/players/PlayerMatchStats';
+export { WeaponsCollection } from './models/WeaponsCollection';
+export { Weapon } from './models/Weapon';
 export { Vector3D } from './models/helpers/Vector3D';
-export type { AllPlayers } from './models/players/AllPlayers';
-export type { Bomb } from './models/Bomb';
-export type { Map } from './models/map/Map';
-export type { TeamInfo } from './models/map/TeamInfo';
-export type { Round } from './models/Round';
-export type { PhaseCountdowns } from './models/PhaseCountdowns';
-export type { Provider } from './models/Provider';
-export type { GrenadeBase } from './models/grenades/GrenadeBase';
-export type { FlameGrenade } from './models/grenades/FlameGrenade';
-export type { GrenadeList } from './models/grenades/GrenadeList';
+export { AllPlayers } from './models/players/AllPlayers';
+export { Bomb } from './models/Bomb';
+export { Map } from './models/map/Map';
+export { TeamInfo } from './models/map/TeamInfo';
+export { Round } from './models/Round';
+export { PhaseCountdowns } from './models/PhaseCountdowns';
+export { Provider } from './models/Provider';
+export { GrenadeBase } from './models/grenades/GrenadeBase';
+export { FlameGrenade } from './models/grenades/FlameGrenade';
+export { GrenadeList } from './models/grenades/GrenadeList';
 
 // 🛠️ Utilities
 export { Logger, LEVELS } from './utils/Logger';
