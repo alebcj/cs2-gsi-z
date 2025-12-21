@@ -18,7 +18,7 @@ export interface GsiServiceOptions {
 export class GsiService extends EventEmitter<EventMap> {
   private logger: Logger | Console;
   private httpPort: number;
-  private listener: GsiListener;
+  public readonly listener: GsiListener;
   private differManager: DifferManager;
   private updateHandler: GsiUpdateHandler;
 
