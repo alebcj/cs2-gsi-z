@@ -13,7 +13,7 @@ interface GsiUpdateHandlerOptions {
 export class GsiUpdateHandler {
   private logger: Logger | Console;
   private differManager: DifferManager;
-  private lastState: GameState = new GameState({});
+  public lastState: GameState = new GameState({});
   private emitter: EmitterContext;
 
   constructor({ logger, differManager, emitter }: GsiUpdateHandlerOptions) {
