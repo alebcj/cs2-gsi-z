@@ -46,6 +46,7 @@ export { default_differs } from './core/differs/default_differs';
 
 // 🚀 Core - Handlers
 export { GsiUpdateHandler } from './core/handlers/GsiUpdateHandler';
+export { GameState } from './core/gamestate/GameState';
 
 // 🌐 API
 export { GsiListener } from './api/GsiListener';

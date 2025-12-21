@@ -9,6 +9,12 @@ export interface GsiListenerOptions {
   enableUACheck?: boolean;
 }
 
+export interface GsiListenerEvents {
+  ready: (port: number) => void;
+  gsiUpdate: (json: any) => void;
+  error: (err: Error) => void;
+}
+
 export class GsiListener extends EventEmitter {
   private logger: Logger | Console;
   private port: number;
