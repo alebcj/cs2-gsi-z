@@ -1,16 +1,25 @@
 {
   "name": "cs2-gsi-z",
-  "version": "1.0.0",
-  "description": "A modular, event-driven Game State Integration (GSI) handler for Counter-Strike 2 built with Node.js.",
-  "main": "./src/index.js",
+  "version": "2.0.0",
+  "description": "A modern, modular, and event-driven Game State Integration (GSI) handler for **Counter-Strike 2**, built with bun.sh and intercompatible with Node.js.",
   "exports": {
-    ".": "./src/index.js"
+    "types": "./src/index.ts",
+    "import": "./dist/esm/index.js",
+    "require": "./dist/cjs/index.cjs"
   },
   "type": "module",
   "scripts": {
-    "test": "vitest",
-    "lint": "eslint ./src --ext .js",
-    "format": "prettier --write ./src"
+    "build": "concurrently \"bun run build-browser\" \"bun run build-node\" \"bun run build-bun\" \"bun run build:declaration\"",
+    "build-browser": "bun build ./src/index.ts --outdir ./dist/browser --target browser",
+    "build-node": "bun build ./src/index.ts --outdir ./dist/cjs --target node --packages external --format cjs",
+    "build-bun": "bun build ./src/index.ts --outdir ./dist/esm --target bun --packages external",
+    "dev": "concurrently \"bun run dev-browser\" \"bun run dev-node\" \"bun run dev-bun\" \"bun run dev:declaration\"",
+    "dev-browser": "bun build ./src/index.ts --outdir ./dist/browser --target browser --watch",
+    "dev-node": "bun build ./src/index.ts --outdir ./dist/cjs --target node --packages external --format cjs --watch",
+    "dev-bun": "bun build ./src/index.ts --outdir ./dist/esm --target bun --packages external --watch",
+    "build:declaration": "tsc ./src/index.ts --emitDeclarationOnly --declaration --esModuleInterop --target es2022 --moduleResolution bundler --module es2022 --outFile ./dist/ts/index.js",
+    "dev:declaration": "tsc ./src/index.ts --emitDeclarationOnly --declaration --esModuleInterop --target es2022 --moduleResolution bundler --module es2022 --outFile ./dist/ts/index.js --watch",
+    "demo": "bun ./demo/index.ts"
   },
   "keywords": [
     "cs2",
@@ -30,18 +39,24 @@
     "name": "Ale Z.",
     "url": "https://github.com/alebcj"
   },
+  "contributors": [
+    "Albin Hedwall <albin.hedwall@gmail.com> (https://github.com/wavpro)"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alebcj/cs2-gsi-z.git"
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/ws": "^8.18.1",
+    "concurrently": "^9.2.1",
     "eslint": "^9.25.1",
     "prettier": "^3.5.3",
-    "vitest": "^3.1.2",
-    "ws": "^8.18.1"
+    "vitest": "^3.1.2"
   },
   "dependencies": {
-    "chalk": "^5.4.1"
+    "chalk": "^5.4.1",
+    "typescript": "^5.9.3",
+    "ws": "^8.18.1"
   }
 }
