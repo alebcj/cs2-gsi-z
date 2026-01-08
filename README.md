@@ -93,7 +93,7 @@ console.log(`Config file created at: ${configPath}`);
 npm install cs2-gsi-z
 ```
 
-*⚠️ Note: This package is not yet published on npm. You can install it directly from GitHub for now.*
+
 
 ### Basic Usage
 
