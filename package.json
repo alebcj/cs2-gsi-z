@@ -17,7 +17,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "concurrently \"bun run build-cjs\" \"bun run build-esm\" \"bun run build:declaration\"",
+    "build": "concurrently \"bun run build-cjs\" \"bun run build-esm\"",
     "build-cjs": "bun build ./src/index.ts --outdir ./dist/cjs --target node --packages external --declaration --format cjs",
     "build-esm": "bun build ./src/index.ts --outdir ./dist/esm --target node --packages external --declaration",
     "build-esm:declaration": "tsc ./src/index.ts --emitDeclarationOnly --declaration --esModuleInterop --target es2022 --moduleResolution bundler --module es2022 --outFile ./dist/esm/index.js",
