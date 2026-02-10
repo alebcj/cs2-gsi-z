@@ -1,6 +1,8 @@
 # 🎯 CS2-GSI-Z
 
+![npm version](https://img.shields.io/npm/v/cs2-gsi-z)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)
 ![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 ![Status](https://img.shields.io/badge/status-active-blue)
 
@@ -90,8 +92,14 @@ console.log(`Config file created at: ${configPath}`);
 ### Installation
 
 ```bash
+# Using bun
 bun add cs2-gsi-z
+
+# Using npm
+npm install cs2-gsi-z
 ```
+
+Both ESM (`import`) and CommonJS (`require`) are supported.
 
 ### Basic Usage
 
@@ -148,9 +156,9 @@ Each emitted event includes:
 
 **Grenades:** `existenceChanged`, `positionChanged`, `velocityChanged`, `lifetimeChanged`, `effectTimeChanged`, `flamesChanged`
 
-You can further implement your own differs, with the below DifferBase class.
+You can further implement your own differs using the `DifferBase` class shown in the [Extending with Custom Differs](#-extending-with-custom-differs) section.
 
-You can also subscribe to specific players or grenades by using the `@` symbol in the event name followed by the players SteamID64/grenades ID.
+You can also subscribe to specific players or grenades by appending `@` followed by the player's SteamID64 or grenade ID.
 
 ---
 
@@ -205,6 +213,8 @@ gsiService.on('map:nameChanged', ({ previous, current }) => {
 
 ### Log bomb state changes
 ```ts
+import { BombState } from 'cs2-gsi-z';
+
 gsiService.on('bomb:stateChanged', ({ previous, current }) => {
   if (current === BombState.Defusing) {
     console.log(`Bomb is being defused!`);
