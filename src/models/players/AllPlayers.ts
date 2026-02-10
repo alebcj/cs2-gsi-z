@@ -1,0 +1,40 @@
+import { STEAMID64 } from "../../constants/types";
+import { ModelBase } from "../ModelBase";
+import { Player, PlayerInput } from "./Player";
+
+export type AllPlayersInput = Record<STEAMID64, PlayerInput>;
+
+/**
+ * List of all players. */
+export class AllPlayers extends ModelBase {
+  public readonly list: Record<STEAMID64, Player>;
+
+  constructor(data: AllPlayersInput = {}) {
+    super();
+
+    if (typeof data !== "object" || data === null) {
+      console.warn(
+        "⚠️ WeaponsCollection received invalid data, defaulting to empty object."
+      );
+
+      data = {};
+    }
+
+    const steamids = Object.keys(data) as STEAMID64[];
+    const values = Object.values(data);
+
+    this.list = Object.fromEntries(steamids.map((steamid, i) => [steamid, new Player({ ...values[i], steamid })])) as Record<STEAMID64, Player>;
+  }
+
+  getBySteamid(steamid: STEAMID64): Player | null {
+    return this.list[steamid] ?? null;
+  }
+
+  getAllSteamids() {
+    return new Set(Object.keys(this.list) as STEAMID64[]);
+  }
+
+  toSerializableObject(): AllPlayersInput {
+    return Object.fromEntries(Object.entries(this.list).map(([steamid, player]) => [steamid, player.toSerializableObject()]));
+  }
+}
