@@ -143,3 +143,23 @@ vite.config.ts.timestamp-*
 /demo
 /game_data_updater
 .npmrc
+
+# IDE and tooling
+.claude/
+.vscode/
+.idea/
+
+# Stray folders
+cleancs2-gsi-z/
+
+# Lockfiles
+bun.lock
+bun.lockb
+
+# OS artifacts
+nul
+Thumbs.db
+.DS_Store
+
+# Config
+tsconfig.json
