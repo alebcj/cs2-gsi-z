@@ -1,10 +1,11 @@
 # 🎯 CS2-GSI-Z
 
 ![npm version](https://img.shields.io/npm/v/cs2-gsi-z)
+![npm downloads](https://img.shields.io/npm/dm/cs2-gsi-z)
+![GitHub stars](https://img.shields.io/github/stars/alebcj/cs2-gsi-z)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)
 ![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
-![Status](https://img.shields.io/badge/status-active-blue)
 
 
 > A modern, modular, and event-driven Game State Integration (GSI) handler for **Counter-Strike 2**, built with bun.sh and intercompatible with Node.js.
